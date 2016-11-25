@@ -1,22 +1,16 @@
 package rsf2.android.tarc2day;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
@@ -33,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private List<Event> eventList = new ArrayList<Event>();
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
+    private TextView textViewViewAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +37,6 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         setSupportActionBar(toolbar);
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
-
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-
 
         HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
 
@@ -85,6 +77,15 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         recyclerView.setAdapter(eventAdapter);
 
         eventData();
+
+        textViewViewAll = (TextView) findViewById(R.id.textViewViewAll);
+        textViewViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,EventList.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void eventData() {
