@@ -1,5 +1,8 @@
 package rsf2.android.tarc2day;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +39,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.event_list_row, parent, false);
 
+
         return new MyViewHolder(itemView);
     }
 
@@ -43,10 +47,26 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
 
     @Override
     public void onBindViewHolder(EventAdapter.MyViewHolder holder, int position) {
-        Event event = eventList.get(position);
+        final Event event = eventList.get(position);
+        final Context context;
+        context = holder.itemView.getContext();
         holder.textViewName.setText(event.getTitle());
         holder.textViewDesc.setText(event.getEventDescription());
         holder.textViewPrice.setText("" + event.getPrice());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,EventInfo.class);
+                //Need to remember which event was clicked
+                //Pass in the position of the event from the arraylist
+                intent.putExtra("EVENT",event);
+                context.startActivity(intent);
+
+            }
+        });
+
+
     }
 
     @Override

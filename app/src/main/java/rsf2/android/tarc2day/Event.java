@@ -1,18 +1,21 @@
 package rsf2.android.tarc2day;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by MingKeat on 25/11/2016.
  */
 
-public class Event {
+public class Event implements Parcelable{
 
     private String title;
     private String eventDescription;
-    private Date startDate;
-    private Date endDate;
-    private Society society;
+    private String startDate;
+    private String endDate;
+    private String society;
     private double price;
     private String contactNo;
     private String email;
@@ -20,7 +23,7 @@ public class Event {
     public Event() {
 
     }
-    public Event(String title, String eventDescription, Date startDate, Date endDate, Society society, double price, String contactNo, String email) {
+    public Event(String title, String eventDescription, String startDate, String endDate, String society, double price, String contactNo, String email) {
         this.title = title;
         this.eventDescription = eventDescription;
         this.startDate = startDate;
@@ -48,27 +51,27 @@ public class Event {
         this.eventDescription = eventDescription;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public Society getSociety() {
+    public String getSociety() {
         return society;
     }
 
-    public void setSociety(Society society) {
+    public void setSociety(String society) {
         this.society = society;
     }
 
@@ -95,4 +98,45 @@ public class Event {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(eventDescription);
+        dest.writeString(startDate);
+        dest.writeString(endDate);
+        dest.writeString(society);
+        dest.writeDouble(price);
+        dest.writeString(contactNo);
+        dest.writeString(email);
+
+    }
+
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>(){
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
+    private Event(Parcel in){
+        title = in.readString();
+        eventDescription = in.readString();
+        startDate = in.readString();
+        endDate = in.readString();
+        society = in.readString();
+        price = in.readDouble();
+        contactNo = in.readString();
+        email = in.readString();
+    }
+
+
 }

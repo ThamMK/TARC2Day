@@ -91,16 +91,16 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private void eventData() {
 
         //Get event data from database
-        Date startDate = new Date();
-        Date endDate = new Date();
+        String startDate = new Date().toString();
+        String endDate = new Date().toString();
         Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
-        Event event = new Event("Computer Science Night", "Code", startDate,endDate,society,0,"012123","tmk@gmail.com");
+        Event event = new Event("Computer Science Night", "Code", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
         eventList.add(event);
 
-        event = new Event("Hackathon", "Coding", startDate,endDate,society,0,"012123","tmk@gmail.com");
+        event = new Event("Hackathon", "Coding", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
         eventList.add(event);
 
-        event = new Event("Ideathon", "Hacking", startDate,endDate,society,0,"012123","tmk@gmail.com");
+        event = new Event("Ideathon", "Hacking", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
         eventList.add(event);
 
     }

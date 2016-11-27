@@ -19,4 +19,5 @@
     <string name="view_all">View All ></string>
     <string name="title_activity_event_list">EventList</string>
     <string name="title_activity_promotion_list">PromotionList</string>
+    <string name="title_activity_event_info">EventInfo</string>
 </resources>

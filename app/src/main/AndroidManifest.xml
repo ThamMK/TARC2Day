@@ -37,6 +37,11 @@
             android:label="@string/title_activity_promotion_list"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".EventInfo"
+            android:label="@string/title_activity_event_info"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
