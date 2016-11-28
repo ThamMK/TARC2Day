@@ -1,17 +1,20 @@
 package rsf2.android.tarc2day;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by MingKeat on 26/11/2016.
  */
 
-public class Promotion {
+public class Promotion implements Parcelable{
 
     private String title;
     private String description;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private double price;
     private String contactNo;
     private String location;
@@ -20,7 +23,7 @@ public class Promotion {
 
     }
 
-    public Promotion(String title, String description, Date startDate, Date endDate, double price, String contactNo, String location) {
+    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location) {
         this.setTitle(title);
         this.setDescription(description);
         this.setStartDate(startDate);
@@ -46,19 +49,19 @@ public class Promotion {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -84,5 +87,42 @@ public class Promotion {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(startDate);
+        dest.writeString(endDate);
+        dest.writeDouble(price);
+        dest.writeString(contactNo);
+        dest.writeString(location);
+    }
+
+    public static final Parcelable.Creator<Promotion> CREATOR = new Parcelable.Creator<Promotion>(){
+        public Promotion createFromParcel(Parcel in) {
+            return new Promotion(in);
+        }
+
+        public Promotion[] newArray(int size) {
+            return new Promotion[size];
+        }
+    };
+
+    private Promotion(Parcel in){
+        title = in.readString();
+        description = in.readString();
+        startDate = in.readString();
+        endDate = in.readString();
+        price = in.readDouble();
+        contactNo = in.readString();
+        location = in.readString();
     }
 }

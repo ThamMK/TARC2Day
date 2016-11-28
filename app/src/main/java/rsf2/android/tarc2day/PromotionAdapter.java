@@ -1,5 +1,7 @@
 package rsf2.android.tarc2day;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import java.util.List;
 public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyViewHolder> {
 
     private List<Promotion> promotionList;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewDesc,textViewPrice;
@@ -43,10 +46,24 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
 
     @Override
     public void onBindViewHolder(PromotionAdapter.MyViewHolder holder, int position) {
-        Promotion promotion = promotionList.get(position);
+        final Promotion promotion = promotionList.get(position);
         holder.textViewName.setText(promotion.getTitle());
         holder.textViewDesc.setText(promotion.getDescription());
         holder.textViewPrice.setText("" + promotion.getPrice());
+
+        final Context context = holder.itemView.getContext();
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,PromotionInfo.class);
+                //Need to remember which event was clicked
+                //Pass in the position of the event from the arraylist
+                intent.putExtra("PROMOTION",promotion);
+                context.startActivity(intent);
+
+            }
+        });
     }
 
     @Override
