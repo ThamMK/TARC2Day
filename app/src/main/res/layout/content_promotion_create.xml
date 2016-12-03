@@ -24,7 +24,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/fileimage"
             android:id="@+id/imageViewPromotionCreate"
-            android:layout_weight="0.40"/>
+            android:layout_weight="0.40"
+            android:clickable="true"
+            android:onClick="onClickImageView"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

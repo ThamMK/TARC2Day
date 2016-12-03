@@ -4,21 +4,31 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import java.io.IOException;
+
+import static android.R.attr.data;
 
 public class PromotionCreate extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     public int selectedDateTextView; //Need to know which date to set
     public int selectedTimeTextView;
     public TextView textViewDate;
+    private int PICK_IMAGE_REQUEST = 1;
 
 
     @Override
@@ -29,6 +39,35 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         setSupportActionBar(toolbar);
 
 
+    }
+
+    protected void onClickImageView(View view) {
+        Intent intent = new Intent();
+        // Show only images, no videos or anything else
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        // Always show the chooser (if there are multiple options available)
+
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                ImageView imageView = (ImageView) findViewById(R.id.imageViewPromotionCreate);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     protected void onClickDateTextView(View view) {
@@ -87,4 +126,6 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
                 break;
         }
     }
+
+
 }
