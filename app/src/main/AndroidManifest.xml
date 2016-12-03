@@ -47,6 +47,11 @@
             android:label="@string/title_activity_promotion_info"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".PromotionCreate"
+            android:label="@string/title_activity_promotion_create"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

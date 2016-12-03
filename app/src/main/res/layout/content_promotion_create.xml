@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:id="@+id/content_promotion_create"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+    tools:context="rsf2.android.tarc2day.PromotionCreate"
+    tools:showIn="@layout/activity_promotion_create"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fileimage"
+            android:id="@+id/imageViewPromotionCreate"
+            android:layout_weight="0.40"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <EditText
+                android:id="@+id/editTextPromotionTitle"
+                android:background="@drawable/createevent"
+                android:paddingLeft="80dp"
+                android:paddingTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50"
+                android:hint="Promotion Title"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.10">
+
+            <TextView
+                android:text="Starting Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCreatePromoStartDate"
+                android:paddingTop="40dp"
+                android:paddingLeft="80dp"
+                android:background="@drawable/createeventdate"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="onClickDateTextView"/>
+
+            <TextView
+                android:text="Ending date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCreatePromoEndDate"
+                android:paddingTop="40dp"
+                android:paddingLeft="80dp"
+                android:background="@drawable/createeventdate"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="onClickDateTextView"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.10">
+
+            <TextView
+                android:text="Start time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCreatePromoStartTime"
+                android:background="@drawable/createeventtime"
+                android:paddingTop="40dp"
+                android:paddingLeft="80dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="onClickTimeTextView"/>
+
+            <TextView
+                android:text="End time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCreatePromoEndTime"
+                android:background="@drawable/createeventtime"
+                android:paddingTop="40dp"
+                android:paddingLeft="80dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="onClickTimeTextView"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/editTextCreatePromoEmail"
+            android:background="@drawable/createeventemail"
+            android:paddingLeft="80dp"
+            android:paddingTop="25dp"
+            android:layout_weight="1"
+            android:maxLength="35"
+            android:hint="Email address"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/editTextCreatePromoContact"
+            android:paddingLeft="80dp"
+            android:paddingTop="25dp"
+            android:background="@drawable/createeventphone"
+            android:layout_weight="1"
+            android:maxLength="20"
+            android:hint="Contact Number"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/emptyframe"
+
+            android:id="@+id/spinnerCreatePromo"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@drawable/createeventpayment"
+            android:paddingTop="25dp"
+            android:paddingLeft="80dp"
+            android:hint="Promotion price details"
+            android:maxLength="20"
+            android:id="@+id/editTextCreatePromoPrice"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editTextCreatePromoDetail"
+            android:background="@drawable/emptyframelarge"
+            android:hint="Short description"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:maxLength="150"
+            android:layout_weight="0.40"/>
+
+        <Button
+            android:text="Submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonCreatePromo"
+            android:layout_weight="1"
+            android:background="@color/tarPink"
+            />
+
+    </LinearLayout>
+</ScrollView>
