@@ -2,12 +2,17 @@ package rsf2.android.tarc2day;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -28,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     private TextView textViewViewAll;
+    private DrawerLayout drawerLayout;
+    private LinearLayout drawerLinearLayout;
+    private ListView drawerListView;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +95,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 startActivity(intent);
             }
         });
+
+
+        //Set the list view for the drawer
+        drawerLinearLayout = (LinearLayout) findViewById(R.id.drawerLinearLayout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
     }
 
     private void eventData() {
@@ -103,6 +118,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         event = new Event("Ideathon", "Hacking", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
         eventList.add(event);
 
+    }
+
+    private void addDrawerItems() {
+        String[] osArray = { "Android", "iOS", "Windows", "OS X", "Linux" };
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        drawerListView.setAdapter(adapter);
     }
 
     @Override
