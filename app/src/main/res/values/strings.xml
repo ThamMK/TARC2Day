@@ -25,4 +25,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_promotion_info">PromotionInfo</string>
     <string name="title_activity_promotion_create">PromotionCreate</string>
+
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+
 </resources>

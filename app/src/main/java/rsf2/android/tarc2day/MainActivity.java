@@ -3,17 +3,21 @@ package rsf2.android.tarc2day;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -37,13 +41,18 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private LinearLayout drawerLinearLayout;
     private ListView drawerListView;
     private ArrayAdapter<String> adapter;
-
+    private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
+    private Integer[] imageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
         setSupportActionBar(toolbar);
+
+
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
@@ -101,7 +110,36 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         drawerLinearLayout = (LinearLayout) findViewById(R.id.drawerLinearLayout);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerListView = (ListView) findViewById(R.id.navList);
-        addDrawerItems();
+
+
+        CustomListAdapter adapter=new CustomListAdapter(this, linkArray, imageId);
+
+        drawerListView.setAdapter(adapter);
+
+        drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                String selectedItem= linkArray[+position];
+                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+                Intent intent;
+                switch(selectedItem) {
+                    case "Events" :
+                        intent = new Intent (getApplicationContext(),EventList.class);
+                        startActivity(intent);
+                        break;
+                    case "Promotion" :
+                        intent = new Intent(getApplicationContext(),PromotionList.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
     }
 
     private void eventData() {
@@ -122,8 +160,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     }
 
     private void addDrawerItems() {
-        String[] osArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+
+        adapter = new ArrayAdapter<String>(this, R.layout.custom_list, linkArray);
         drawerListView.setAdapter(adapter);
     }
 
