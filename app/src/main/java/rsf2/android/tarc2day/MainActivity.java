@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         //Set the list view for the drawer
         drawerLinearLayout = (LinearLayout) findViewById(R.id.drawerLinearLayout);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        drawerListView = (ListView) findViewById(R.id.navList);
+        addDrawerItems();
     }
 
     private void eventData() {
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     }
 
     private void addDrawerItems() {
-        String[] osArray = { "Android", "iOS", "Windows", "OS X", "Linux" };
+        String[] osArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         drawerListView.setAdapter(adapter);
     }
