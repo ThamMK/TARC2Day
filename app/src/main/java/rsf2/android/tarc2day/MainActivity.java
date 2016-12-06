@@ -1,7 +1,10 @@
 package rsf2.android.tarc2day;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,9 +13,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -39,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private TextView textViewViewAll;
     private DrawerLayout drawerLayout;
     private LinearLayout drawerLinearLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private ImageView toolbarImage;
+    private ImageView navDrawerBack;
     private ListView drawerListView;
     private ArrayAdapter<String> adapter;
     private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
@@ -49,9 +57,37 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-
         setSupportActionBar(toolbar);
 
+        //Set the list view for the drawer
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerListView = (ListView) findViewById(R.id.navList);
+        drawerLinearLayout = (LinearLayout) findViewById(R.id.drawerLinearLayout);
+        toolbarImage = (ImageView) findViewById(R.id.toolbarImage);
+
+        //If burger button is clicked, then open nav drawer
+        toolbarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!drawerLayout.isDrawerOpen(drawerLinearLayout)) {
+                    drawerLayout.openDrawer(drawerLinearLayout);
+                }
+
+            }
+        });
+
+        navDrawerBack = (ImageView) findViewById(R.id.navDrawerBack);
+
+        navDrawerBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(drawerLayout.isDrawerOpen(drawerLinearLayout)) {
+                    drawerLayout.closeDrawer(drawerLinearLayout);
+                }
+            }
+        });
 
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
@@ -106,10 +142,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         });
 
 
-        //Set the list view for the drawer
-        drawerLinearLayout = (LinearLayout) findViewById(R.id.drawerLinearLayout);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerListView = (ListView) findViewById(R.id.navList);
+
 
 
         CustomListAdapter adapter=new CustomListAdapter(this, linkArray, imageId);
