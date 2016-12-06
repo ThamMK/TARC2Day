@@ -30,8 +30,40 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+
                     android:background="?attr/colorPrimary"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/toolbarImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/burgerbutton"
+                            android:layout_marginTop="10dp"
+                            android:layout_alignParentLeft="true"/>
+
+                        <TextView
+                            android:id="@+id/toolbarTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@id/toolbarImage"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="20dp"
+                            android:textSize="20dp"
+                            android:text="Homepage"/>
+
+                    </RelativeLayout>
+
+
+
+                </android.support.v7.widget.Toolbar>
+
+
 
             </android.support.design.widget.AppBarLayout>
 
@@ -58,17 +90,23 @@
             android:id="@+id/linearDrawerContent"
             >
 
-
+            <ImageView
+                android:id="@+id/navDrawerBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/keyboardbackspace"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/imageViewNavDrawer"
-                android:layout_width="146dp"
-                android:layout_height="146dp"
+                android:layout_width="136dp"
+                android:layout_height="136dp"
                 android:src="@drawable/tzuuprofilepic"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"
-                android:layout_marginTop="30dp"
+
                 android:layout_gravity="center"/>
 
             <TextView
