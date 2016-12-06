@@ -41,14 +41,6 @@ public class SocietyList extends AppCompatActivity {
 
     private void societyData() {
 
-        //Get event data from database
-        String startDate = new Date().toString();
-        String endDate = new Date().toString();
-        Society society = new Society("Computer Science Society","Ming Keat","testing","012-3456789","test@email.com");
-        societyList.add(society);
-        society = new Society("Accounting Society","Ming Keat","testing","012-3456789","test@email.com");
-        societyList.add(society);
-        society = new Society("Astronomy Society","Ming Keat","testing","012-3456789","test@email.com");
-        societyList.add(society);
+
     }
 }

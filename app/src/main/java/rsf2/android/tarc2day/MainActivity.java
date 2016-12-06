@@ -130,11 +130,13 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private void societyData() {
 
         //Get event data from database
-        Society society = new Society("Computer Science Society","Ming Keat","testing","012-3456789","test@email.com");
+        Society society = new Society("Computer Science Society","Ming Keat","This is society description part\n" +
+                "It may contain multiple lines of text","012-3456789","test@email.com");
         societyList.add(society);
-        society = new Society("Accounting Society","Ming Keat","testing","012-3456789","test@email.com");
+        society = new Society("Accounting Society","Ming Keat","This is society description part\nIt may contain multiple lines of text","012-3456789","test@email.com");
         societyList.add(society);
-        society = new Society("Astronomy Society","Ming Keat","testing","012-3456789","test@email.com");
+        society = new Society("Astronomy Society","Ming Keat","This is society description part\n" +
+                "It may contain multiple lines text","012-3456789","test@email.com");
         societyList.add(society);
 
     }
