@@ -25,9 +25,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
     private SliderLayout mDemoSlider;
     private List<Event> eventList = new ArrayList<Event>();
-    private RecyclerView recyclerView;
+    private List<Society> societyList = new ArrayList<Society>();
+    private RecyclerView recyclerView, recyclerView2;
     private EventAdapter eventAdapter;
+    private SocietyAdapter societyAdapter;
     private TextView textViewViewAll;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,25 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 startActivity(intent);
             }
         });
+
+        recyclerView2 = (RecyclerView) findViewById(R.id.recyclerViewSociety);
+
+        societyAdapter = new SocietyAdapter(societyList);
+        RecyclerView.LayoutManager societyLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView2.setLayoutManager(societyLayoutManager);
+        recyclerView2.setItemAnimator(new DefaultItemAnimator());
+        recyclerView2.setAdapter(societyAdapter);
+
+        societyData();
+
+        textViewViewAll = (TextView) findViewById(R.id.textViewViewAllSociety);
+        textViewViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,SocietyList.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void eventData() {
@@ -102,6 +124,18 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
         event = new Event("Ideathon", "Hacking", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
         eventList.add(event);
+
+    }
+
+    private void societyData() {
+
+        //Get event data from database
+        Society society = new Society("Computer Science Society","Ming Keat","testing","012-3456789","test@email.com");
+        societyList.add(society);
+        society = new Society("Accounting Society","Ming Keat","testing","012-3456789","test@email.com");
+        societyList.add(society);
+        society = new Society("Astronomy Society","Ming Keat","testing","012-3456789","test@email.com");
+        societyList.add(society);
 
     }
 
