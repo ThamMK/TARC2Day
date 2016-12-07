@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,8 +45,12 @@ public class PromotionList extends AppCompatActivity {
 
         //Get event data from database
         //The activity will then populate here onwards.
-        String startDate = new Date().toString();
-        String endDate = new Date().toString();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMM yyyy");
+        //simpleDateFormat.applyPattern("d MMM yyyy");
+        Date date = new Date();
+
+        String startDate = simpleDateFormat.format(date);
+        String endDate = simpleDateFormat.format(date);
         Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
         Promotion promotion = new Promotion("Promotion 1", "Very fun", startDate, endDate, 0.0, "012", "Test-Location");
         promotionList.add(promotion);
