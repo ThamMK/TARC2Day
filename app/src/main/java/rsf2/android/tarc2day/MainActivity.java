@@ -30,6 +30,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -178,16 +179,23 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private void eventData() {
 
         //Get event data from database
-        String startDate = new Date().toString();
-        String endDate = new Date().toString();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMM yyyy");
+        //simpleDateFormat.applyPattern("d MMM yyyy");
+        Date date = new Date();
+
+        String startDate = simpleDateFormat.format(date);
+        String endDate = simpleDateFormat.format(date);
+
+
         Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
         Event event = new Event("Computer Science Night", "Code", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
         eventList.add(event);
 
-        event = new Event("Hackathon", "Coding", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
+        event = new Event("Hackathon", "Coding", startDate,endDate,society.getName(),0,"4","tmk@gmail.com");
         eventList.add(event);
 
-        event = new Event("Ideathon", "Hacking", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
+        event = new Event("Idea", "Hacking", startDate,endDate,society.getName(),0,"123","tmk@gmail.com");
         eventList.add(event);
 
     }
