@@ -27,4 +27,17 @@
     <string name="action_join">JOIN</string>
     <string name="title_activity_society_info">Society info</string>
     <string name="title_activity_society_list">society list</string>
+    =======
+    <string name="title_activity_promotion_create">PromotionCreate</string>
+
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    >>>>>>> 706d56c5304263f3f5bd9c4d179d254ce3bcdef7
 </resources>
