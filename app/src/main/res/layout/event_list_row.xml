@@ -27,8 +27,7 @@
         android:layout_alignParentLeft="true"
         android:background="#6FFF"
         android:orientation="vertical"
-        android:paddingTop="15dp" >
-        >
+        android:paddingTop="15dp" />
 
         <TextView
             android:id="@+id/textViewEventName"
@@ -63,7 +62,4 @@
                 android:text="PRICE"
                 />
         </LinearLayout>
-
-
-    </LinearLayout>
 </RelativeLayout>

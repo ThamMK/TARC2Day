@@ -40,9 +40,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
     private SliderLayout mDemoSlider;
     private List<Event> eventList = new ArrayList<Event>();
-    private RecyclerView recyclerView;
+    private List<Society> societyList = new ArrayList<Society>();
+    private RecyclerView recyclerView, recyclerView2;
     private EventAdapter eventAdapter;
+    private SocietyAdapter societyAdapter;
     private TextView textViewViewAll;
+<<<<<<< HEAD
     private DrawerLayout drawerLayout;
     private LinearLayout drawerLinearLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -52,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private ArrayAdapter<String> adapter;
     private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
     private Integer[] imageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage};
+=======
+
+
+>>>>>>> origin/SocietyBranch
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             }
         });
 
+<<<<<<< HEAD
 
 
 
@@ -174,6 +182,26 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             }
         });
 
+=======
+        recyclerView2 = (RecyclerView) findViewById(R.id.recyclerViewSociety);
+
+        societyAdapter = new SocietyAdapter(societyList);
+        RecyclerView.LayoutManager societyLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView2.setLayoutManager(societyLayoutManager);
+        recyclerView2.setItemAnimator(new DefaultItemAnimator());
+        recyclerView2.setAdapter(societyAdapter);
+
+        societyData();
+
+        textViewViewAll = (TextView) findViewById(R.id.textViewViewAllSociety);
+        textViewViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,SocietyList.class);
+                startActivity(intent);
+            }
+        });
+>>>>>>> origin/SocietyBranch
     }
 
     private void eventData() {
@@ -200,10 +228,25 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
     }
 
+<<<<<<< HEAD
     private void addDrawerItems() {
 
         adapter = new ArrayAdapter<String>(this, R.layout.custom_list, linkArray);
         drawerListView.setAdapter(adapter);
+=======
+    private void societyData() {
+
+        //Get event data from database
+        Society society = new Society("Computer Science Society","Ming Keat","This is society description part\n" +
+                "It may contain multiple lines of text","012-3456789","test@email.com");
+        societyList.add(society);
+        society = new Society("Accounting Society","Ming Keat","This is society description part\nIt may contain multiple lines of text","012-3456789","test@email.com");
+        societyList.add(society);
+        society = new Society("Astronomy Society","Ming Keat","This is society description part\n" +
+                "It may contain multiple lines text","012-3456789","test@email.com");
+        societyList.add(society);
+
+>>>>>>> origin/SocietyBranch
     }
 
     @Override

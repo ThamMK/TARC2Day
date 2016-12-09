@@ -25,11 +25,23 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+<<<<<<< HEAD
             android:theme="@style/AppTheme.NoActionBar" />
+=======
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true"/>
+>>>>>>> origin/SocietyBranch
         <activity
             android:name=".EventList"
             android:label="@string/title_activity_event_list"
             android:theme="@style/AppTheme.NoActionBar" />
+<<<<<<< HEAD
+=======
+        <activity
+            android:name=".SocietyList"
+            android:label="@string/title_activity_society_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+>>>>>>> origin/SocietyBranch
         <activity
             android:name=".PromotionList"
             android:label="@string/title_activity_promotion_list"
@@ -38,6 +50,13 @@
             android:name=".EventInfo"
             android:label="@string/title_activity_event_info"
             android:theme="@style/AppTheme.NoActionBar" />
+<<<<<<< HEAD
+=======
+        <activity
+            android:name=".SocietyInfo"
+            android:label="@string/title_activity_society_info"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+>>>>>>> origin/SocietyBranch
         <activity
             android:name=".PromotionInfo"
             android:label="@string/title_activity_promotion_info"
@@ -47,7 +66,12 @@
             android:label="@string/title_activity_promotion_create"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CreateEvent" />
+<<<<<<< HEAD
         <activity android:name=".GenerateQR"></activity>
+=======
+        <activity android:name=".GenerateQR" />
+        <activity android:name=".CreateSociety"></activity>
+>>>>>>> origin/SocietyBranch
     </application>
 
 </manifest>

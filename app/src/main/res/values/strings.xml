@@ -24,6 +24,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_promotion_info">PromotionInfo</string>
+<<<<<<< HEAD
+=======
+    <string name="action_join">JOIN</string>
+    <string name="title_activity_society_info">Society info</string>
+    <string name="title_activity_society_list">society list</string>
+    =======
+>>>>>>> origin/SocietyBranch
     <string name="title_activity_promotion_create">PromotionCreate</string>
 
     <string name="drawer_open">Drawer Open</string>
@@ -35,4 +42,8 @@
 
     <string name="action_settings">Settings</string>
 
+<<<<<<< HEAD
+=======
+    >>>>>>> 706d56c5304263f3f5bd9c4d179d254ce3bcdef7
+>>>>>>> origin/SocietyBranch
 </resources>
