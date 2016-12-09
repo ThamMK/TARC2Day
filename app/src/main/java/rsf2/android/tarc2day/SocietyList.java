@@ -40,7 +40,7 @@ public class SocietyList extends AppCompatActivity {
     }
 
     private void societyData() {
-
+        societyList.add(new Society("Android Team", "Soon Phing", "test","012-3345","soonphing@gmail.com"));
 
     }
 }

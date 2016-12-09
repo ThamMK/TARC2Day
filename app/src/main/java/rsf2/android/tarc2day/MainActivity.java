@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private EventAdapter eventAdapter;
     private SocietyAdapter societyAdapter;
     private TextView textViewViewAll;
-<<<<<<< HEAD
+
     private DrawerLayout drawerLayout;
     private LinearLayout drawerLinearLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private ArrayAdapter<String> adapter;
     private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
     private Integer[] imageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage};
-=======
 
 
->>>>>>> origin/SocietyBranch
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             }
         });
 
-<<<<<<< HEAD
+
 
 
 
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             }
         });
 
-=======
+
         recyclerView2 = (RecyclerView) findViewById(R.id.recyclerViewSociety);
 
         societyAdapter = new SocietyAdapter(societyList);
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 startActivity(intent);
             }
         });
->>>>>>> origin/SocietyBranch
+
     }
 
     private void eventData() {
@@ -228,12 +228,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
     }
 
-<<<<<<< HEAD
+
     private void addDrawerItems() {
 
         adapter = new ArrayAdapter<String>(this, R.layout.custom_list, linkArray);
         drawerListView.setAdapter(adapter);
-=======
+    }
     private void societyData() {
 
         //Get event data from database
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 "It may contain multiple lines text","012-3456789","test@email.com");
         societyList.add(society);
 
->>>>>>> origin/SocietyBranch
+
     }
 
     @Override
