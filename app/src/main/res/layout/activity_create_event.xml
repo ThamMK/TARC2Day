@@ -81,28 +81,28 @@
             android:layout_weight="0.10">
 
             <TextView
-                android:text="Starting Date"
+                android:text="Starting Time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewCreateEventStartingTime"
                 android:paddingTop="40dp"
                 android:paddingLeft="80dp"
-                android:background="@drawable/createeventdate"
+                android:background="@drawable/createeventtime"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="onClickDateTextView"/>
+                android:onClick="onClickTimeTextView"/>
 
             <TextView
-                android:text="Ending date"
+                android:text="Ending Time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewCreateEventEndTime"
                 android:paddingTop="40dp"
                 android:paddingLeft="80dp"
-                android:background="@drawable/createeventdate"
+                android:background="@drawable/createeventtime"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:onClick="onClickDateTextView"/>
+                android:onClick="onClickTimeTextView"/>
 
         </LinearLayout>
 

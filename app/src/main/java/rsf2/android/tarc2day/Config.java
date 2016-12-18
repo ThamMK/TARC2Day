@@ -24,11 +24,11 @@ public class Config {
 
 
     //JSON Tags
-    public static final String TAG_JSON_ARRAY="result";
-    public static final String TAG_ID = "id";
-    public static final String TAG_NAME = "name";
-    public static final String TAG_DESG = "desg";
-    public static final String TAG_SAL = "salary";
+    public static final String TAG_USERNAME = "Username";
+    public static final String TAG_NAME = "Name";
+    public static final String TAG_EMAIL = "Email";
+    public static final String TAG_DOB = "DateofBirth";
+    public static final String TAG_CONTACT = "ContactNumber";
 
     //employee id to pass with intent
     public static final String USER_USERNAME = "username";

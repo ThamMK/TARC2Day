@@ -341,9 +341,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
             if(!resp.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_LONG).show();
+                try {
+                    //Parse the response into a json object
+                    //Get the data from the json object and add it into the user object
+                    //Need to save user into shared preference as a global logged in
+                    JSONObject jsonObject = new JSONObject(resp);
+                    user = new User();
+                    //Tags are used to reference what data to retrieve
+                    user.setUsername(jsonObject.getString(Config.TAG_USERNAME));
+                    user.setName(jsonObject.getString(Config.TAG_NAME));
+                    user.setEmail(jsonObject.getString(Config.TAG_EMAIL));
+                    user.setContactNo(jsonObject.getString(Config.TAG_CONTACT));
+                    user.setDateOfBirth(jsonObject.getString(Config.TAG_DOB));
+                    Toast.makeText(LoginActivity.this,user.getUsername(), Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //Toast.makeText(LoginActivity.this, resp, Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(LoginActivity.this, CreateEvent.class);
                 startActivity(intent);
 
             } else {

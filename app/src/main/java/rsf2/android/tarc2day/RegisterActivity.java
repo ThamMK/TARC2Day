@@ -1,5 +1,6 @@
 package rsf2.android.tarc2day;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -65,7 +66,18 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String s) {
+                editTextUsername.setText("");
+                editTextContactNumber.setText("");
+                editTextPassword.setText("");
+                editTextReenterPassword.setText("");
+                editTextName.setText("");
+                editTextDate.setText("");
+                editTextEmail.setText("");
 
+                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(intent);
+
+                Toast.makeText(RegisterActivity.this,"Registered Successfully!", Toast.LENGTH_LONG).show();
             }
 
 

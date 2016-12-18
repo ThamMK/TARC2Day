@@ -8,9 +8,9 @@ public class User {
 
     private String username;
     private String name;
-    private String dateOfBirth;
-    private String contactNo;
     private String email;
+    private String dateOfBirth;
+    private String contactNumber;
 
     public User() {
 
@@ -20,7 +20,7 @@ public class User {
         this.username = username;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
-        this.contactNo = contactNo;
+        this.contactNumber = contactNo;
         this.email = email;
     }
 
@@ -49,11 +49,11 @@ public class User {
     }
 
     public String getContactNo() {
-        return contactNo;
+        return contactNumber;
     }
 
     public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
+        this.contactNumber = contactNo;
     }
 
     public String getEmail() {
