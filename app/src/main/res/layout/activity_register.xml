@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/activity_register"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="rsf2.android.tarc2day.RegisterActivity">
+
+    <EditText
+        android:id="@+id/editTextRegisterUsername"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/editTextRegisterPassword"/>
+
+    <EditText
+        android:id="@id/editTextRegisterPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/editTextRegisterReenterPassword"/>
+
+    <EditText
+        android:id="@id/editTextRegisterReenterPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="Reenter Password"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/editTextRegisterName"/>
+
+    <EditText
+        android:id="@id/editTextRegisterName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Name"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/editTextRegisterEmail"
+        android:maxLines="1" />
+
+    <EditText
+        android:id="@id/editTextRegisterEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:nextFocusForward="@+id/editTextRegisterDate"
+        android:imeOptions="actionNext"
+        android:maxLines="1"/>
+
+    <EditText
+        android:id="@id/editTextRegisterDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date of Birth"
+        android:maxLines="1"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/editTextRegisterContactNumber"/>
+
+    <EditText
+        android:id="@id/editTextRegisterContactNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contact Number"
+        android:inputType="phone"
+        android:maxLines="1"/>
+
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:maxLines="1"/>
+
+
+</LinearLayout>
