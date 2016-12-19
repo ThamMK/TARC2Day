@@ -216,15 +216,15 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         String endDate = simpleDateFormat.format(date);
 
 
-        Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
-        Event event = new Event("Computer Science Night", "Code", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
-        eventList.add(event);
+        //Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
+        //Event event = new Event("Computer Science Night", "Code", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
+        //eventList.add(event);
 
-        event = new Event("Hackathon", "Coding", startDate,endDate,society.getName(),0,"4","tmk@gmail.com");
-        eventList.add(event);
+        //event = new Event("Hackathon", "Coding", startDate,endDate,society.getName(),0,"4","tmk@gmail.com");
+        //eventList.add(event);
 
-        event = new Event("Idea", "Hacking", startDate,endDate,society.getName(),0,"123","tmk@gmail.com");
-        eventList.add(event);
+        //event = new Event("Idea", "Hacking", startDate,endDate,society.getName(),0,"123","tmk@gmail.com");
+        //eventList.add(event);
 
     }
 

@@ -15,6 +15,8 @@ public class Event implements Parcelable{
     private String eventDescription;
     private String startDate;
     private String endDate;
+    private String startTime;
+    private String endTime;
     private String society;
     private double price;
     private String contactNo;
@@ -23,17 +25,19 @@ public class Event implements Parcelable{
     public Event() {
 
     }
-    public Event(String title, String eventDescription, String startDate, String endDate, String society, double price, String contactNo, String email) {
+
+    public Event(String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email) {
         this.title = title;
         this.eventDescription = eventDescription;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.society = society;
         this.price = price;
         this.contactNo = contactNo;
         this.email = email;
     }
-
 
     public String getTitle() {
         return title;
@@ -65,6 +69,22 @@ public class Event implements Parcelable{
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getSociety() {
