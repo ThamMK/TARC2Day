@@ -1,9 +1,9 @@
 package rsf2.android.tarc2day;
 
-/**
- * Created by MingKeat on 25/11/2016.
- */
-public class Society {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Society implements Parcelable{
 
     private String name;
     private String personInCharge;
@@ -58,4 +58,38 @@ public class Society {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(personInCharge);
+        dest.writeString(description);
+        dest.writeString(contactNo);
+        dest.writeString(email);
+
+    }
+
+    public static final Parcelable.Creator<Society> CREATOR = new Parcelable.Creator<Society>(){
+        public Society createFromParcel(Parcel in) {
+            return new Society(in);
+        }
+
+        public Society[] newArray(int size) {
+            return new Society[size];
+        }
+    };
+
+    private Society(Parcel in){
+        name = in.readString();
+        personInCharge = in.readString();
+        description = in.readString();
+        contactNo = in.readString();
+        email = in.readString();
+    }
+
 }

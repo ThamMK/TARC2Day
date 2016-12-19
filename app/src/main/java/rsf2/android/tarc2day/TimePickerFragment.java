@@ -22,7 +22,7 @@ public class TimePickerFragment extends DialogFragment{
         int hours = date.getHours();
         int minutes = date.getMinutes();
 
-        return new TimePickerDialog(getActivity(),(PromotionCreate) getActivity(), hours,minutes,true);
+        return new TimePickerDialog(getActivity(), (TimePickerDialog.OnTimeSetListener) getActivity(), hours,minutes,true);
     }
 
 }
