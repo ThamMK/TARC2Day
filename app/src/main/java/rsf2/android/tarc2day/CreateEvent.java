@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +15,20 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 
 public class CreateEvent extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
@@ -23,12 +36,17 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
     public int selectedTimeTextView;
     public TextView textViewDate;
     private int PICK_IMAGE_REQUEST = 1;
-
+    private String[] location;
+    private String[] society;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        BackgroundLocationTask backgroundLocationTask = new BackgroundLocationTask();
+        backgroundLocationTask.execute();
+
     }
 
     protected void onClickImageView(View view) {
@@ -134,6 +152,115 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
             default:
                 break;
         }
+    }
+
+
+
+    class BackgroundLocationTask extends AsyncTask<Void,Void,String>{
+
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return getLocation();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //Returns response based on php script
+            //Need to change it to return the location name
+            JSONObject jsonObject = null;
+            JSONArray jsonArray = null;
+            try {
+                jsonObject = new JSONObject(result);
+
+                String locationName = "locationName";
+                location = new String[jsonObject.length()];
+                for(int i = 0; i < jsonObject.length()-1; i++) {
+                    //{"0":{"locationName":"CITC"},"1":{"locationName":"Tun Tan Siew Sin Building"},"success":1}
+                    //i because the name of each location starts with a number
+                    JSONObject jsonLocation = jsonObject.getJSONObject("" + i);
+                    //Get key is locationName for each jsonLocation
+                    //Value is the location name
+                    location[i] = jsonLocation.getString(locationName);
+                    Toast.makeText(CreateEvent.this,location[i],Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    class BackgroundSocietyTask extends AsyncTask<Void,Void,String>{
+
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return getSociety();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //Returns response based on php script
+            //Need to change it to return the location name
+            JSONObject jsonObject = null;
+            JSONArray jsonArray = null;
+            try {
+                jsonObject = new JSONObject(result);
+
+                String societyName = "societyName";
+                society = new String[jsonObject.length()];
+                for(int i = 0; i < jsonObject.length()-1; i++) {
+                    JSONObject jsonSociety = jsonObject.getJSONObject("" + i);
+
+                    location[i] = jsonSociety.getString(societyName);
+                    Toast.makeText(CreateEvent.this,location[i],Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+
+    protected String getLocation() {
+
+            //Send a get request
+            RequestHandler requestHandler = new RequestHandler();
+            String response = requestHandler.sendGetRequest(Config.URL_GET_LOCATION_NAME);
+
+
+
+        return response;
+    }
+
+    protected String getSociety() {
+
+        RequestHandler requestHandler = new RequestHandler();
+        String response = requestHandler.sendGetRequest(Config.URL_GET_SOCIETY_NAME);
+
+        return response;
     }
 
 }

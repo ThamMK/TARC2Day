@@ -1,6 +1,7 @@
 package rsf2.android.tarc2day;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
     private Integer[] imageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage};
 
-
-
+    private User user;
+    private TextView textViewUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             }
         });
 
+
+
         navDrawerBack = (ImageView) findViewById(R.id.navDrawerBack);
 
         navDrawerBack.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 }
             }
         });
+
+
+        textViewUsername = (TextView) findViewById(R.id.textViewUsername);
+
+        //Get the user data from shared preference
+        user = getUserData();
+        textViewUsername.setText(user.getUsername());
 
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
@@ -226,6 +237,16 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         //event = new Event("Idea", "Hacking", startDate,endDate,society.getName(),0,"123","tmk@gmail.com");
         //eventList.add(event);
 
+    }
+
+    //This method will return the user data from shared preferences
+    protected User getUserData() {
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
+        String json = sharedPreferences.getString(Config.TAG_USER, "");
+        user = gson.fromJson(json,User.class);
+        return user;
     }
 
 

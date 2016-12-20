@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -32,6 +33,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -353,6 +356,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     user.setEmail(jsonObject.getString(Config.TAG_EMAIL));
                     user.setContactNo(jsonObject.getString(Config.TAG_CONTACT));
                     user.setDateOfBirth(jsonObject.getString(Config.TAG_DOB));
+
+                    //Create a shared preference to pass the user logged in data around the app
+                    SharedPreferences preference = getSharedPreferences("MyPreferences",MODE_PRIVATE);
+                    SharedPreferences.Editor preferenceEditor = preference.edit();
+
+                    //use google's gson to convert the object back into a json string
+                    //store the json into the shared preference to be passed around
+                    Gson gson = new Gson();
+                    String json = gson.toJson(user);
+                    preferenceEditor.putString(Config.TAG_USER,json);
+                    preferenceEditor.commit();
+
+
                     Toast.makeText(LoginActivity.this,user.getUsername(), Toast.LENGTH_LONG).show();
 
                 } catch (JSONException e) {

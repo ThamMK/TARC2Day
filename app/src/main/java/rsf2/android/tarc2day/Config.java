@@ -8,6 +8,8 @@ public class Config {
 
     public static final String URL_ADD_USER = "http://thammingkeat.esy.es/AddUser.php";
     public static final String URL_LOGIN = "http://thammingkeat.esy.es/login.php";
+    public static final String URL_GET_LOCATION_NAME = "http://thammingkeat.esy.es/getLocationName.php";
+    public static final String URL_GET_SOCIETY_NAME = "http://thammingkeat.esy.es/getSocietyName.php";
 
     //Keys that will be used to send the request to php scripts
     //VALUE MUST BE SAME WITH THE PHP SCRIPT VALUES
@@ -24,6 +26,7 @@ public class Config {
 
 
     //JSON Tags
+    public static final String TAG_USER = "USER"; //Store the user data
     public static final String TAG_USERNAME = "Username";
     public static final String TAG_NAME = "Name";
     public static final String TAG_EMAIL = "Email";
