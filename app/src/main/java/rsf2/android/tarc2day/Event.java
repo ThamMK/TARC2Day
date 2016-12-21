@@ -1,7 +1,10 @@
 package rsf2.android.tarc2day;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
 import java.util.Date;
 
@@ -21,12 +24,14 @@ public class Event implements Parcelable{
     private double price;
     private String contactNo;
     private String email;
+    private String location;
+    private Bitmap image;
 
     public Event() {
 
     }
 
-    public Event(String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email) {
+    public Event(String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email,String location,Bitmap image) {
         this.title = title;
         this.eventDescription = eventDescription;
         this.startDate = startDate;
@@ -37,6 +42,24 @@ public class Event implements Parcelable{
         this.price = price;
         this.contactNo = contactNo;
         this.email = email;
+        this.location = location;
+        this.image = image;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public String getTitle() {
@@ -156,6 +179,12 @@ public class Event implements Parcelable{
         price = in.readDouble();
         contactNo = in.readString();
         email = in.readString();
+    }
+
+    public static Bitmap decodeBase64(String input)
+    {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
 

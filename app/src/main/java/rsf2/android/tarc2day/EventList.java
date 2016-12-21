@@ -53,42 +53,6 @@ public class EventList extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(eventAdapter);
         new BackgroundTask().execute();
-        try {
-            jsonObject = new JSONObject(json_string);
-            jsonArray = jsonObject.getJSONArray("0");
-            int count = 0;
-            String eventId, name, description, startDate, endDate, startTime, endTime,email, contactNumber, societyId, societyName;
-            Double price;
-            while(count<jsonObject.length())
-            {
-                JSONObject JO = jsonArray.getJSONObject(count);
-                eventId = JO.getString("eventId");
-                name = JO.getString("name");
-                description = JO.getString("description");
-                startDate = JO.getString("startDate");
-                endDate = JO.getString("endDate");
-                startTime = JO.getString("startTime");
-                endTime = JO.getString("endTime");
-                price = Double.parseDouble(JO.getString("price"));
-                email = JO.getString("email");
-                contactNumber = JO.getString("contactNumber");
-                societyId = JO.getString("societyId");
-                societyName = JO.getString("societyName");
-
-                Event event = new Event(name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email);
-                eventList.add(event);
-
-                count++;
-            }
-        }
-        catch(JSONException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void getJSON(View view)
-    {
-        new BackgroundTask().execute();
     }
 
     class BackgroundTask extends AsyncTask<Void,Void,String>{
@@ -128,7 +92,34 @@ public class EventList extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            json_string = result;
+            try {
+                jsonArray = jsonObject.getJSONArray(result);
+                String eventId, name, description, startDate, endDate, startTime, endTime,email, contactNumber, societyId, societyName,locationName,encodedImage;
+                Double price;
+                for(int i=0;i<jsonArray.length();i++){
+                    JSONObject JO = jsonArray.getJSONObject(i);
+                    eventId = JO.getString("eventId");
+                    name = JO.getString("name");
+                    description = JO.getString("description");
+                    startDate = JO.getString("startDate");
+                    endDate = JO.getString("endDate");
+                    startTime = JO.getString("startTime");
+                    endTime = JO.getString("endTime");
+                    price = Double.parseDouble(JO.getString("price"));
+                    email = JO.getString("email");
+                    contactNumber = JO.getString("contactNumber");
+                    societyId = JO.getString("societyId");
+                    societyName = JO.getString("societyName");
+                    locationName = JO.getString("locationName");
+                    encodedImage = JO.getString("image");
+
+                    Event event = new Event(name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,Event.decodeBase64(encodedImage));
+                    eventList.add(event);
+                }
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
         }
 
         @Override
