@@ -3,16 +3,23 @@ package rsf2.android.tarc2day;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,31 +28,59 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
-public class CreateEvent extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+
+public class CreateEvent extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
 
     public int selectedDateTextView; //Need to know which date to set
     public int selectedTimeTextView;
     public TextView textViewDate;
+    Spinner spinnerLocation;
+    Spinner spinnerSociety;
+    ImageView eventsImage;
+    EditText editTextEventName,editTextEmail,editTextContactNum,editTextPrice,editTextDescription;
+    TextView textViewStartDate,textViewEndDate,textViewStartTime,textViewEndTime;
+
+
     private int PICK_IMAGE_REQUEST = 1;
-    private String[] location;
-    private String[] society;
+    private ArrayList<String> location;
+    private ArrayList<String> society;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
-        BackgroundLocationTask backgroundLocationTask = new BackgroundLocationTask();
-        backgroundLocationTask.execute();
+        //Declaration of resources
+        spinnerLocation = (Spinner)findViewById(R.id.spinnerLocation);
+        spinnerSociety = (Spinner)findViewById(R.id.spinnerSociety);
+        eventsImage = (ImageView)findViewById(R.id.createEventImageFile);
+        editTextEventName = (EditText)findViewById(R.id.editTextEventTitle);
+        editTextEmail = (EditText)findViewById(R.id.editTextCreateEventEmail);
+        editTextContactNum = (EditText)findViewById(R.id.editTextCreateEventContact);
+        editTextPrice = (EditText)findViewById(R.id.editTextCreateEventTicketPrice);
+        editTextDescription = (EditText)findViewById(R.id.editTextCreateEventDetails);
+        textViewStartDate = (TextView)findViewById(R.id.textViewCreateEventStartingDate);
+        textViewEndDate = (TextView)findViewById(R.id.textViewCreateEventEndDate);
+        textViewStartTime = (TextView)findViewById(R.id.textViewCreateEventStartingTime);
+        textViewEndTime = (TextView)findViewById(R.id.textViewCreateEventEndTime);
+
+        spinnerSociety.setOnItemSelectedListener(this);
+        spinnerLocation.setOnItemSelectedListener(this);
+
+        new BackgroundLocationTask().execute();
+        new BackgroundSocietyTask().execute();
 
     }
 
@@ -77,7 +112,6 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
             }
         }
     }
-
 
     protected void onClickDateTextView(View view) {
         //Get the id of the selected text view
@@ -154,7 +188,15 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         }
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 
     class BackgroundLocationTask extends AsyncTask<Void,Void,String>{
 
@@ -170,29 +212,21 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
         @Override
         protected void onPostExecute(String result) {
-            //Returns response based on php script
-            //Need to change it to return the location name
-            JSONObject jsonObject = null;
-            JSONArray jsonArray = null;
+            location = new ArrayList<>();
             try {
-                jsonObject = new JSONObject(result);
+                JSONArray jsonArray = new JSONArray(result);
 
-                String locationName = "locationName";
-                location = new String[jsonObject.length()];
-                for(int i = 0; i < jsonObject.length()-1; i++) {
-                    //{"0":{"locationName":"CITC"},"1":{"locationName":"Tun Tan Siew Sin Building"},"success":1}
-                    //i because the name of each location starts with a number
-                    JSONObject jsonLocation = jsonObject.getJSONObject("" + i);
-                    //Get key is locationName for each jsonLocation
-                    //Value is the location name
-                    location[i] = jsonLocation.getString(locationName);
-                    Toast.makeText(CreateEvent.this,location[i],Toast.LENGTH_LONG).show();
+                for(int i = 0; i < jsonArray.length(); i++) {
+                    String locationName = jsonArray.getJSONObject(i).getString("locationName");
+                    location.add(locationName);
                 }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(CreateEvent.this,android.R.layout.simple_spinner_item,location);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerLocation.setAdapter(adapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         }
 
         @Override
@@ -215,26 +249,24 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
         @Override
         protected void onPostExecute(String result) {
-            //Returns response based on php script
-            //Need to change it to return the location name
-            JSONObject jsonObject = null;
-            JSONArray jsonArray = null;
+            society = new ArrayList<>();
+
             try {
-                jsonObject = new JSONObject(result);
-
-                String societyName = "societyName";
-                society = new String[jsonObject.length()];
-                for(int i = 0; i < jsonObject.length()-1; i++) {
-                    JSONObject jsonSociety = jsonObject.getJSONObject("" + i);
-
-                    location[i] = jsonSociety.getString(societyName);
-                    Toast.makeText(CreateEvent.this,location[i],Toast.LENGTH_LONG).show();
+                JSONArray jsonArray = new JSONArray(result);
+                for(int i = 0; i < jsonArray.length(); i++) {
+                    String societyName = jsonArray.getJSONObject(i).getString("societyName");
+                    TextView textView = (TextView)findViewById(R.id.textView);
+                    textView.setText(societyName);
+                    society.add(societyName);
                 }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(CreateEvent.this,android.R.layout.simple_spinner_item,society);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerSociety.setAdapter(adapter);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         }
 
         @Override
@@ -243,6 +275,73 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         }
     }
 
+    class BackgroundInsertEventTask extends AsyncTask<String,Void,String>{
+        Context ctx;
+
+        BackgroundInsertEventTask(Context context){
+            this.ctx = context;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String insert_url = "http://thammingkeat.esy.es/AddEvent.php";
+
+            String eventTitle = params[0];
+            String startDate = params[1];
+            String endDate = params[2];
+            String startTime = params[3];
+            String endTime = params[4];
+            String email = params[5];
+            String contactNum = params[6];
+            String society = params[7];
+            String location = params[8];
+            String price = params[9];
+            String description = params[10];
+            String encodedEventImage = params[11];
+
+            /*try {
+                URL url = new URL(insert_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                String data = URLEncoder.encode("name","UTF-8") + "=" + URLEncoder.encode(eventTitle,"UTF-8") + "&" +
+                        URLEncoder.encode("location","UTF-8") + "=" + URLEncoder.encode(location,"UTF-8") + "&" +
+                        URLEncoder.encode("startDate","UTF-8") + "=" + URLEncoder.encode(startDate,"UTF-8") + "&" +
+                        URLEncoder.encode("endDate","UTF-8") + "=" + URLEncoder.encode(endDate,"UTF-8") + "&" +
+                        URLEncoder.encode("startTime","UTF-8") + "=" + URLEncoder.encode(startTime,"UTF-8") + "&" +
+                        URLEncoder.encode("endTime","UTF-8") + "=" + URLEncoder.encode(endTime,"UTF-8") + "&" +
+                        URLEncoder.encode("email","UTF-8") + "=" + URLEncoder.encode(email,"UTF-8") + "&" +
+                        URLEncoder.encode("contactnumber","UTF-8") + "=" + URLEncoder.encode(contactNum,"UTF-8") + "&" +
+                        URLEncoder.encode("price","UTF-8") + "=" + URLEncoder.encode(price,"UTF-8") + "&" +
+                        URLEncoder.encode("description","UTF-8") + "=" + URLEncoder.encode(description,"UTF-8") + "&" +
+                        URLEncoder.encode("society","UTF-8") + "=" + URLEncoder.encode(society,"UTF-8") + "&" +
+                        URLEncoder.encode("image","UTF-8") + "=" + URLEncoder.encode(encodedEventImage,"UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                inputStream.close();
+                return "Registration Success";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+`           */
+            return null;
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            Toast.makeText(ctx,s,Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     protected String getLocation() {
 
@@ -261,6 +360,32 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         String response = requestHandler.sendGetRequest(Config.URL_GET_SOCIETY_NAME);
 
         return response;
+    }
+
+    public void submitEvent(View view){
+        String eventTitle,startDate,endDate,startTime,endTime,email,contactNum,society,location,price,description;
+
+        eventTitle = editTextEventName.getText().toString();
+        startDate = textViewStartDate.getText().toString();
+        endDate = textViewEndDate.getText().toString();
+        startTime = textViewStartTime.getText().toString();
+        endTime = textViewEndTime.getText().toString();
+        email = editTextEmail.getText().toString();
+        contactNum = editTextContactNum.getText().toString();
+        society = spinnerSociety.getSelectedItem().toString();
+        location = spinnerLocation.getSelectedItem().toString();
+        price = editTextPrice.getText().toString();
+        description = editTextDescription.getText().toString();
+
+        Bitmap bitmapEventImage = ((BitmapDrawable)eventsImage.getDrawable()).getBitmap();
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmapEventImage.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+        byte[] b = bytes.toByteArray();
+
+        String encodedImage = Base64.encodeToString(b , Base64.DEFAULT);
+
+        BackgroundInsertEventTask backgroundInsertEventTask = new BackgroundInsertEventTask(this);
+        backgroundInsertEventTask.execute(eventTitle,startDate,endDate,startTime,endTime,email,contactNum,society,location,price,description,encodedImage);
     }
 
 }
