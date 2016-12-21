@@ -39,6 +39,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class CreateEvent extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
@@ -284,7 +285,7 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
         @Override
         protected String doInBackground(String... params) {
-            String insert_url = "http://thammingkeat.esy.es/AddEvent.php";
+
 
             String eventTitle = params[0];
             String startDate = params[1];
@@ -298,6 +299,26 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
             String price = params[9];
             String description = params[10];
             String encodedEventImage = params[11];
+
+
+            HashMap<String,String> parameter = new HashMap<>();
+            parameter.put(Config.KEY_EVENT_NAME,eventTitle);
+            parameter.put(Config.KEY_EVENT_DESCRIPTION,description);
+            parameter.put(Config.KEY_EVENT_START_DATE,startDate);
+            parameter.put(Config.KEY_EVENT_END_DATE,endDate);
+            parameter.put(Config.KEY_EVENT_START_TIME,startTime);
+            parameter.put(Config.KEY_EVENT_END_TIME,endTime);
+            parameter.put(Config.KEY_EVENT_EMAIL,email);
+            parameter.put(Config.KEY_EVENT_CONTACT_NUMBER,contactNum);
+            parameter.put(Config.KEY_EVENT_LOCATION,location);
+            parameter.put(Config.KEY_EVENT_PRICE,price);
+            parameter.put(Config.KEY_EVENT_IMAGE,encodedEventImage);
+            parameter.put(Config.KEY_EVENT_SOCIETY,society);
+
+
+            RequestHandler rh = new RequestHandler();
+            String res = rh.sendPostRequest(Config.URL_ADD_EVENT, parameter);
+            return res;
 
             /*try {
                 URL url = new URL(insert_url);
@@ -331,7 +352,6 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 e.printStackTrace();
             }
 `           */
-            return null;
 
         }
 
