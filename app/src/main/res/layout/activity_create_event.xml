@@ -16,6 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_weight="0.40" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -124,7 +131,7 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
-            android:id="@+id/editTextCreatePromoContact"
+            android:id="@+id/editTextCreateEventContact"
             android:paddingLeft="80dp"
             android:paddingTop="25dp"
             android:background="@drawable/createeventphone"
@@ -136,6 +143,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerSociety"
+            android:background="@drawable/emptyframe"
+            android:layout_weight="1"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerLocation"
             android:background="@drawable/emptyframe"
             android:layout_weight="1"/>
 
@@ -172,6 +186,7 @@
             android:id="@+id/buttonCreatePromo"
             android:layout_weight="1"
             android:background="@color/tarPink"
+            android:onClick="submitEvent"
             />
 
     </LinearLayout>

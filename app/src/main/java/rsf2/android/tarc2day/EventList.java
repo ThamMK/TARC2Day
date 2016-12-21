@@ -98,7 +98,7 @@ public class EventList extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            json_url = ""; //th php url
+            json_url = "http://thammingkeat.esy.es/GetEvent.php"; //th php url
         }
 
         @Override
