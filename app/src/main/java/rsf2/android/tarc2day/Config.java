@@ -29,7 +29,7 @@ public class Config {
     public static final String KEY_EVENT_START_TIME = "startTime";
     public static final String KEY_EVENT_END_TIME= "endTime";
     public static final String KEY_EVENT_EMAIL = "email";
-    public static final String KEY_EVENT_CONTACT_NUMBER = "contactnumber";
+    public static final String KEY_EVENT_CONTACT_NUMBER = "contactNumber";
     public static final String KEY_EVENT_LOCATION = "location";
     public static final String KEY_EVENT_PRICE = "price";
     public static final String KEY_EVENT_IMAGE = "image";

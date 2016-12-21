@@ -38,7 +38,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -139,20 +142,20 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         switch(selectedDateTextView) {
             case R.id.textViewCreatePromoStartDate :
                 textViewDate = (TextView) findViewById(R.id.textViewCreatePromoStartDate);
-                textViewDate.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year );
+                textViewDate.setText("" + dayOfMonth + "/" + (monthOfYear+1) + "/" + year );
 
                 break;
             case R.id.textViewCreatePromoEndDate :
                 textViewDate = (TextView) findViewById(R.id.textViewCreatePromoEndDate);
-                textViewDate.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year );
+                textViewDate.setText("" + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year );
                 break;
             case R.id.textViewCreateEventStartingDate :
                 textViewDate = (TextView) findViewById(R.id.textViewCreateEventStartingDate);
-                textViewDate.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year );
+                textViewDate.setText("" + dayOfMonth + "/" + (monthOfYear+1) + "/" + year );
                 break;
             case R.id.textViewCreateEventEndDate :
                 textViewDate = (TextView) findViewById(R.id.textViewCreateEventEndDate);
-                textViewDate.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year );
+                textViewDate.setText("" + dayOfMonth + "/" + (monthOfYear+1) + "/" + year );
                 break;
 
             default:
@@ -278,6 +281,7 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
     class BackgroundInsertEventTask extends AsyncTask<String,Void,String>{
         Context ctx;
+        String date;
 
         BackgroundInsertEventTask(Context context){
             this.ctx = context;
@@ -293,27 +297,45 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
             String startTime = params[3];
             String endTime = params[4];
             String email = params[5];
-            String contactNum = params[6];
+            String contactNumber = params[6];
             String society = params[7];
             String location = params[8];
             String price = params[9];
             String description = params[10];
             String encodedEventImage = params[11];
 
+            date = startDate;
+
+            //Parse the input date
+            SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+            Date inputDate = null;
+            Date inputDate2 = null;
+            try {
+                inputDate = fmt.parse(startDate);
+                inputDate2 = fmt.parse(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            // Create the MySQL datetime string
+            fmt = new SimpleDateFormat("yyyy-MM-dd");
+            String startDateFormat = fmt.format(inputDate);
+            String endDateFormat = fmt.format(inputDate2);
 
             HashMap<String,String> parameter = new HashMap<>();
             parameter.put(Config.KEY_EVENT_NAME,eventTitle);
             parameter.put(Config.KEY_EVENT_DESCRIPTION,description);
-            parameter.put(Config.KEY_EVENT_START_DATE,startDate);
-            parameter.put(Config.KEY_EVENT_END_DATE,endDate);
+            parameter.put(Config.KEY_EVENT_START_DATE,startDateFormat);
+            parameter.put(Config.KEY_EVENT_END_DATE,endDateFormat);
             parameter.put(Config.KEY_EVENT_START_TIME,startTime);
             parameter.put(Config.KEY_EVENT_END_TIME,endTime);
             parameter.put(Config.KEY_EVENT_EMAIL,email);
-            parameter.put(Config.KEY_EVENT_CONTACT_NUMBER,contactNum);
+            parameter.put(Config.KEY_EVENT_CONTACT_NUMBER,contactNumber);
             parameter.put(Config.KEY_EVENT_LOCATION,location);
             parameter.put(Config.KEY_EVENT_PRICE,price);
             parameter.put(Config.KEY_EVENT_IMAGE,encodedEventImage);
             parameter.put(Config.KEY_EVENT_SOCIETY,society);
+
 
 
             RequestHandler rh = new RequestHandler();
@@ -359,6 +381,9 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         @Override
         protected void onPostExecute(String s) {
             Toast.makeText(ctx,s,Toast.LENGTH_SHORT).show();
+            TextView textView = (TextView)findViewById(R.id.textView);
+            textView.setText(date);
+
         }
 
     }
