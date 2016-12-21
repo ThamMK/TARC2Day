@@ -142,6 +142,7 @@ public class Event implements Parcelable{
         this.email = email;
     }
 
+
     @Override
     public int describeContents() {
         return 0;

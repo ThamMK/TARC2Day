@@ -2,11 +2,13 @@ package rsf2.android.tarc2day;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,12 +23,14 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewDesc,textViewPrice;
+        public ImageView imageView;
 
         public MyViewHolder(View view) {
             super(view);
             textViewName = (TextView) view.findViewById(R.id.textViewEventName);
             textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
             textViewPrice = (TextView) view.findViewById(R.id.textViewEventPrice);
+            imageView = (ImageView) view.findViewById(R.id.imageViewEvent);
         }
     }
 
@@ -53,6 +57,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
         holder.textViewName.setText(event.getTitle());
         holder.textViewDesc.setText(event.getEventDescription());
         holder.textViewPrice.setText("" + event.getPrice());
+        holder.imageView.setImageBitmap(event.getImage());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

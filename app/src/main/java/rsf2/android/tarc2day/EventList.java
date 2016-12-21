@@ -46,13 +46,13 @@ public class EventList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewEventList);
-        eventData();
+
         eventAdapter = new EventAdapter(eventList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(eventAdapter);
-        new BackgroundTask().execute();
+        eventData();
     }
 
     class BackgroundTask extends AsyncTask<Void,Void,String>{
@@ -139,7 +139,7 @@ public class EventList extends AppCompatActivity {
         String startDate = simpleDateFormat.format(date);
         String endDate = simpleDateFormat.format(date);
 
-
+        new BackgroundTask().execute();
         //Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
         //Event event = new Event("Computer Science Night", "Code", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
         //eventList.add(event);
