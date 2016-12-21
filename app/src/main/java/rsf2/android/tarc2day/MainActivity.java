@@ -249,12 +249,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         return user;
     }
 
-
     private void addDrawerItems() {
 
         adapter = new ArrayAdapter<String>(this, R.layout.custom_list, linkArray);
         drawerListView.setAdapter(adapter);
     }
+
     private void societyData() {
 
         //Get event data from database

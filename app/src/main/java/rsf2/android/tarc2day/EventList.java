@@ -93,7 +93,7 @@ public class EventList extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
-                jsonArray = jsonObject.getJSONArray(result);
+                jsonArray = new JSONArray (result);
                 String eventId, name, description, startDate, endDate, startTime, endTime,email, contactNumber, societyId, societyName,locationName,encodedImage;
                 Double price;
                 for(int i=0;i<jsonArray.length();i++){

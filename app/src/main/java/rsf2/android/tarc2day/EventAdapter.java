@@ -47,8 +47,6 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
         return new MyViewHolder(itemView);
     }
 
-
-
     @Override
     public void onBindViewHolder(EventAdapter.MyViewHolder holder, int position) {
         final Event event = eventList.get(position);
