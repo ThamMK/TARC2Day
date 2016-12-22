@@ -422,12 +422,8 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         price = editTextPrice.getText().toString();
         description = editTextDescription.getText().toString();
 
-        Bitmap bitmapEventImage = ((BitmapDrawable)eventsImage.getDrawable()).getBitmap();
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmapEventImage.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-        byte[] b = bytes.toByteArray();
-
-        String encodedImage = Base64.encodeToString(b , Base64.DEFAULT);
+        Bitmap bitmap = ((BitmapDrawable)eventsImage.getDrawable()).getBitmap();
+        String encodedImage = Event.bitmapToBase64(bitmap);
 
         BackgroundInsertEventTask backgroundInsertEventTask = new BackgroundInsertEventTask(this);
         backgroundInsertEventTask.execute(eventTitle,startDate,endDate,startTime,endTime,email,contactNum,society,location,price,description,encodedImage);

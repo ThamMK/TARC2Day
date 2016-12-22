@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -36,6 +37,7 @@ public class EventList extends AppCompatActivity {
     private EventAdapter eventAdapter;
     String json_string;
     JSONObject jsonObject;
+    TextView textViewShowData;
     JSONArray jsonArray;
 
     @Override
@@ -46,13 +48,9 @@ public class EventList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewEventList);
+        textViewShowData = (TextView) findViewById(R.id.textViewShowRecords);
 
-        eventAdapter = new EventAdapter(eventList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(eventAdapter);
-        eventData();
+        new BackgroundTask().execute();
     }
 
     class BackgroundTask extends AsyncTask<Void,Void,String>{
@@ -113,9 +111,18 @@ public class EventList extends AppCompatActivity {
                     locationName = JO.getString("locationName");
                     encodedImage = JO.getString("image");
 
-                    Event event = new Event(name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,Event.decodeBase64(encodedImage));
+                    Event event = new Event(name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,Event.base64ToBitmap(encodedImage));
                     eventList.add(event);
+
+                    textViewShowData.setText(event.getEventDescription());
                 }
+                eventAdapter = new EventAdapter(eventList);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setAdapter(eventAdapter);
+
+
             }
             catch(JSONException e){
                 e.printStackTrace();

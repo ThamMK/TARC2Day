@@ -24,5 +24,12 @@
 
     <include layout="@layout/content_event_list"/>
 
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewShowRecords"
+        android:layout_marginTop="700px"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

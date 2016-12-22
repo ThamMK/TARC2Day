@@ -20,6 +20,7 @@ import java.util.List;
 public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {
 
     private List<Event> eventList;
+    TextView textViewShowData;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewDesc,textViewPrice;
@@ -31,6 +32,8 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
             textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
             textViewPrice = (TextView) view.findViewById(R.id.textViewEventPrice);
             imageView = (ImageView) view.findViewById(R.id.imageViewEvent);
+
+
         }
     }
 
@@ -51,11 +54,14 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
     public void onBindViewHolder(EventAdapter.MyViewHolder holder, int position) {
         final Event event = eventList.get(position);
         final Context context;
+
         context = holder.itemView.getContext();
         holder.textViewName.setText(event.getTitle());
         holder.textViewDesc.setText(event.getEventDescription());
         holder.textViewPrice.setText("" + event.getPrice());
         holder.imageView.setImageBitmap(event.getImage());
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
