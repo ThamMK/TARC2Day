@@ -501,13 +501,13 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
     public void doCrop(Uri imageUri){
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
-                //.setMinCropResultSize(480,480)
+                .setMinCropResultSize(600,600)
                 //.setMaxCropResultSize(1000,480)
                 .start(this);
     }
 
     private Bitmap scale(Bitmap b) {
         ScrollView scrollView = (ScrollView)findViewById(R.id.activity_create_event);
-        return Bitmap.createScaledBitmap(b, (scrollView.getWidth()-40), (480), false);
+        return Bitmap.createScaledBitmap(b, (scrollView.getWidth()-40),600, false);
     }
  }

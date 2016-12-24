@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +25,13 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
 
     private List<Event> eventList;
     TextView textViewShowData;
+    int width;
+    int height;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewDesc,textViewPrice;
         public ImageView imageView;
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -34,11 +39,18 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
             textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
             textViewPrice = (TextView) view.findViewById(R.id.textViewEventPrice);
             imageView = (ImageView) view.findViewById(R.id.imageViewEvent);
+
         }
     }
 
     public EventAdapter(List<Event> eventList) {
+        this(eventList,1000,600);
+    }
+
+    public EventAdapter(List<Event> eventList,int width,int height){
         this.eventList = eventList;
+        this.width = width;
+        this.height = height;
     }
 
     @Override
@@ -60,7 +72,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
         holder.textViewDesc.setText(event.getEventDescription());
         holder.textViewPrice.setText("" + event.getPrice());
 
-        Picasso.with(context).load(event.getImageUrl()).placeholder( R.drawable.progress_animation ).into(holder.imageView);
+        Picasso.with(context).load(event.getImageUrl()).placeholder( R.drawable.progress_animation ).resize(width,height).into(holder.imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +93,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
     public int getItemCount() {
         return eventList.size();
     }
+
 
 
 }

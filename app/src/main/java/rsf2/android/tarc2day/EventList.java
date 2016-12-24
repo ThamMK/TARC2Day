@@ -1,6 +1,7 @@
 package rsf2.android.tarc2day;
 
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -15,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -121,7 +123,11 @@ public class EventList extends AppCompatActivity {
                     eventList.add(event);
 
                 }
-                eventAdapter = new EventAdapter(eventList);
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                int width = displaymetrics.widthPixels;
+                int height = dpToPx(180);
+                eventAdapter = new EventAdapter(eventList,width,height);
 
             }
             catch(JSONException e){
@@ -195,8 +201,9 @@ public class EventList extends AppCompatActivity {
     }*/
 
     public int dpToPx(int dp) {
-        DisplayMetrics displayMetrics = recyclerView.getResources().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
     }
 
 }
