@@ -15,8 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -85,14 +88,29 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         @Override
         protected Bitmap doInBackground(String... params) {
             //Pass in the event id
-            return getBitmapFromURL(params[0]);
+            //return getBitmapFromURL(params[0]);
+            try {
+                return Picasso.with(EventInfo.this).load(params[0]).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            imageView = (ImageView) findViewById(R.id.imageViewEventInfo);
-            imageView.setImageBitmap(bitmap);
 
+
+            imageView = (ImageView) findViewById(R.id.imageViewEventInfo);
+
+            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(1600, 1600);
+            //imageView.setLayoutParams(layoutParams);
+
+           // imageView.getLayoutParams().height = 450;
+
+            imageView.setImageBitmap(bitmap);
+            //imageView.requestLayout();
         }
     }
 
