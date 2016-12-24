@@ -124,7 +124,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="250dp"
-                android:text="@string/action_register"/>
+                android:text="@string/action_register"
+                android:onClick="registerEvent"
+                android:id="@+id/buttonRegisterEvent" />
 
 
 

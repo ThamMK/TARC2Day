@@ -211,7 +211,7 @@ public class Event implements Parcelable{
         dest.writeString(contactNo);
         dest.writeString(email);
         dest.writeString(imageUrl);
-
+        dest.writeString(location);
     }
 
     public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>(){
@@ -237,6 +237,7 @@ public class Event implements Parcelable{
         contactNo = in.readString();
         email = in.readString();
         imageUrl = in.readString();
+        location = in.readString();
     }
 
     public static Bitmap base64ToBitmap(String b64) {
@@ -255,8 +256,5 @@ public class Event implements Parcelable{
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
-
-
-
 
 }

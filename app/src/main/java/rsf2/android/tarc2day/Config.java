@@ -40,7 +40,9 @@ public class Config {
     public static final String KEY_LOGIN_USERNAME = "username";
     public static final String KEY_LOGIN_PASSWORD = "password";
 
-
+    public static  final String KEY_REGISTEREVENT_TITLE = "eventTitle";
+    public  static final String KEY_REGISTEREVENT_USERNAME = "username";
+    public static final  String KEY_REGISTEREVENT_QRCODE = "qrCode";
 
     //JSON Tags
     public static final String TAG_USER = "USER"; //Store the user data

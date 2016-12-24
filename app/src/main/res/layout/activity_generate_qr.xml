@@ -28,8 +28,10 @@
             android:drawableLeft="@drawable/ic_eventtime"
             android:drawablePadding="10dp"
             android:text="8.00am - 10.00am"
+            android:gravity="center_vertical"
+            android:id="@+id/textQRTime"
             android:textColor="@color/white"
-            android:gravity="center_vertical" />
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,8 +41,10 @@
             android:drawableLeft="@drawable/ic_eventtime"
             android:drawablePadding="10dp"
             android:text="12/06/2016 - 18/06/2016"
+            android:gravity="center_vertical"
+            android:id="@+id/textQRDate"
             android:textColor="@color/white"
-            android:gravity="center_vertical" />
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,8 +54,10 @@
             android:drawableLeft="@drawable/ic_eventtime"
             android:drawablePadding="10dp"
             android:text="RM 60"
+            android:gravity="center_vertical"
+            android:id="@+id/textQRPrice"
             android:textColor="@color/white"
-            android:gravity="center_vertical" />
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,8 +67,10 @@
             android:drawableLeft="@drawable/ic_eventtime"
             android:drawablePadding="10dp"
             android:text="016-2123206"
+            android:gravity="center_vertical"
+            android:id="@+id/textQRConctact"
             android:textColor="@color/white"
-            android:gravity="center_vertical" />
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,9 +80,11 @@
             android:drawableLeft="@drawable/ic_eventtime"
             android:drawablePadding="10dp"
             android:text="DK ABA"
-            android:textColor="@color/white"
             android:gravity="center_vertical"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:id="@+id/textQRLocation"
+            android:textColor="@color/white"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
     </LinearLayout>
 

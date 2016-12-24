@@ -140,7 +140,7 @@ public class EventList extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            textViewShowData.setText(eventList.get(0).getTitle());
+            textViewShowData.setText(eventList.get(0).getLocation());
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             recyclerView.setLayoutManager(mLayoutManager);
