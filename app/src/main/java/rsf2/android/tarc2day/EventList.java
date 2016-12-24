@@ -1,5 +1,10 @@
 package rsf2.android.tarc2day;
 
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,14 +63,17 @@ public class EventList extends AppCompatActivity {
 
         String json_url;
         String JSON_STRING;
+        ProgressDialog loading;
 
         @Override
         protected void onPreExecute() {
             json_url = "http://thammingkeat.esy.es/GetEvent.php"; //th php url
+            loading = ProgressDialog.show(EventList.this, "Loading Events", "Please wait...",true,true);
         }
 
         @Override
         protected String doInBackground(Void... params) {
+            String result="";
             try {
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -78,21 +87,17 @@ public class EventList extends AppCompatActivity {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
-                return  stringBuilder.toString().trim();
+                result = stringBuilder.toString().trim();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
             try {
                 jsonArray = new JSONArray (result);
                 String eventId, name, description, startDate, endDate, startTime, endTime,email, contactNumber, societyId, societyName,locationName,encodedImage;
+                String uri;
                 Double price;
                 for(int i=0;i<jsonArray.length();i++){
                     JSONObject JO = jsonArray.getJSONObject(i);
@@ -110,23 +115,35 @@ public class EventList extends AppCompatActivity {
                     societyName = JO.getString("societyName");
                     locationName = JO.getString("locationName");
                     encodedImage = JO.getString("image");
+                    uri = JO.getString("imageUrl");
+                    Bitmap image = scale(getBitmapFromURL(uri));
 
-                    Event event = new Event(name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,Event.base64ToBitmap(encodedImage));
+                    Event event = new Event(name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,image);
                     eventList.add(event);
 
-                    textViewShowData.setText(event.getEventDescription());
                 }
                 eventAdapter = new EventAdapter(eventList);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                recyclerView.setLayoutManager(mLayoutManager);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(eventAdapter);
-
 
             }
             catch(JSONException e){
                 e.printStackTrace();
             }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            textViewShowData.setText(eventList.get(0).getTitle());
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(eventAdapter);
+
+            loading.dismiss();
+
         }
 
         @Override
@@ -158,4 +175,29 @@ public class EventList extends AppCompatActivity {
         //eventList.add(event);
 
     }
+
+    private Bitmap scale(Bitmap b) {
+        return Bitmap.createScaledBitmap(b, recyclerView.getWidth(), dpToPx(120) , false);
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
+    }
+
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = recyclerView.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
 }

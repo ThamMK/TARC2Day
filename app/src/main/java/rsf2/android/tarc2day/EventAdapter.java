@@ -32,8 +32,6 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
             textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
             textViewPrice = (TextView) view.findViewById(R.id.textViewEventPrice);
             imageView = (ImageView) view.findViewById(R.id.imageViewEvent);
-
-
         }
     }
 
@@ -82,4 +80,6 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
     public int getItemCount() {
         return eventList.size();
     }
+
+
 }

@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textViewShowRecords"
-        android:layout_marginTop="700px"/>
+        android:layout_marginTop="500dp"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

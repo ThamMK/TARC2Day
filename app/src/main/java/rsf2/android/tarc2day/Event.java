@@ -2,6 +2,8 @@ package rsf2.android.tarc2day;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Base64;
@@ -194,6 +196,8 @@ public class Event implements Parcelable{
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
+
+
 
 
 }
