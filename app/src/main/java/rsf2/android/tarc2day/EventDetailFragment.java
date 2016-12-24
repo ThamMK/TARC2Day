@@ -28,7 +28,7 @@ public class EventDetailFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private String testing;
     private OnFragmentInteractionListener mListener;
 
     private TextView textViewDescription;
@@ -84,11 +84,10 @@ public class EventDetailFragment extends Fragment {
         textViewDescription = (TextView) getView().findViewById(R.id.textViewDescriptionTab);
 
         Bundle bundle = getArguments();
-        if(bundle != null) {
+        testing = bundle.getString("Description");
 
-            textViewDescription.setText(bundle.getString("testing"));
+        textViewDescription.setText(testing);
 
-        }
 
 
 

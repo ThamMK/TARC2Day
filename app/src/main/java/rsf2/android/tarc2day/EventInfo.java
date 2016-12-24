@@ -57,7 +57,7 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPagerEventInfo);
         final EventInfoAdapter adapter = new EventInfoAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
+                (getSupportFragmentManager(), tabLayout.getTabCount(), event);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

@@ -12,11 +12,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class EventInfoAdapter extends FragmentStatePagerAdapter{
 
     int numTabs;
+    Event event;
 
-    public EventInfoAdapter(FragmentManager fm, int numTabs) {
+
+    public EventInfoAdapter(FragmentManager fm, int numTabs, Event event) {
         super(fm);
         this.numTabs = numTabs;
-
+        this.event = event;
     }
 
 
@@ -27,7 +29,7 @@ public class EventInfoAdapter extends FragmentStatePagerAdapter{
                 EventDetailFragment eventDetailFragment = new EventDetailFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("Testing","Testing");
+                bundle.putString("Description",event.getEventDescription());
                 eventDetailFragment.setArguments(bundle);
                 return eventDetailFragment;
             case 1:
