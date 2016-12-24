@@ -68,6 +68,22 @@ public class Event implements Parcelable{
         this.imageUrl = imageUrl;
     }
 
+    public Event(String id, String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email, String location, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.eventDescription = eventDescription;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.society = society;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.location = location;
+        this.imageUrl = imageUrl;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }

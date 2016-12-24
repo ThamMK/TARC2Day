@@ -114,11 +114,10 @@ public class EventList extends AppCompatActivity {
                     societyId = JO.getString("societyId");
                     societyName = JO.getString("societyName");
                     locationName = JO.getString("locationName");
-                    encodedImage = JO.getString("image");
+                    //encodedImage = JO.getString("image");
                     uri = JO.getString("imageUrl");
-                    Bitmap image = scale(getBitmapFromURL(uri));
 
-                    Event event = new Event(eventId,name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,image,uri);
+                    Event event = new Event(eventId,name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,uri);
                     eventList.add(event);
 
                 }
@@ -180,7 +179,7 @@ public class EventList extends AppCompatActivity {
         return Bitmap.createScaledBitmap(b, recyclerView.getWidth(), dpToPx(120) , false);
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
+    /*public static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -193,7 +192,7 @@ public class EventList extends AppCompatActivity {
             // Log exception
             return null;
         }
-    }
+    }*/
 
     public int dpToPx(int dp) {
         DisplayMetrics displayMetrics = recyclerView.getResources().getDisplayMetrics();

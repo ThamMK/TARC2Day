@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
@@ -57,9 +59,8 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
         holder.textViewName.setText(event.getTitle());
         holder.textViewDesc.setText(event.getEventDescription());
         holder.textViewPrice.setText("" + event.getPrice());
-        holder.imageView.setImageBitmap(event.getImage());
 
-
+        Picasso.with(context).load(event.getImageUrl()).placeholder( R.drawable.progress_animation ).into(holder.imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
