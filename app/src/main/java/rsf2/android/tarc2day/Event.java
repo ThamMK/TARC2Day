@@ -157,6 +157,8 @@ public class Event implements Parcelable{
         dest.writeString(eventDescription);
         dest.writeString(startDate);
         dest.writeString(endDate);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
         dest.writeString(society);
         dest.writeDouble(price);
         dest.writeString(contactNo);
@@ -179,6 +181,8 @@ public class Event implements Parcelable{
         eventDescription = in.readString();
         startDate = in.readString();
         endDate = in.readString();
+        startTime = in.readString();
+        endTime = in.readString();
         society = in.readString();
         price = in.readDouble();
         contactNo = in.readString();

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:focusable="true"
 
                 android:clickable="true"
@@ -20,46 +20,51 @@
         android:layout_alignParentTop="true"
         />
 
-    <LinearLayout
+
+    <RelativeLayout
+        android:background="#6FFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageViewEvent"
-        android:layout_alignParentLeft="true"
-        android:background="#6FFF"
-        android:orientation="vertical"
-        android:paddingTop="15dp" />
+        android:layout_marginTop="105dp">
+
 
         <TextView
             android:id="@+id/textViewEventName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:text="Testing"
             android:gravity="top"
 
-            />
-        <LinearLayout
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+
+        <TextView
+            android:id="@+id/textViewEventPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:gravity="right"
+            android:textColor="@color/black"
+            android:text="PRICE"
+            android:layout_below="@+id/textViewEventName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
 
-            <TextView
-                android:id="@+id/textViewEventDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="More details"
-                android:textColor="@color/black"
-                />
+        <TextView
+            android:id="@+id/textViewEventDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="More details"
+            android:textColor="@color/black"
+            android:paddingTop="10dp"
+            android:layout_alignBaseline="@+id/textViewEventPrice"
+            android:layout_alignBottom="@+id/textViewEventPrice"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
 
-            <TextView
-                android:id="@+id/textViewEventPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textColor="@color/black"
-                android:text="PRICE"
-                />
-        </LinearLayout>
+    </RelativeLayout>
+
 </RelativeLayout>

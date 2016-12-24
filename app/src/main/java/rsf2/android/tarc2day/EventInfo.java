@@ -75,6 +75,9 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         textViewTitle = (TextView) findViewById(R.id.textViewEventInfoName);
         textViewTitle.setText(event.getTitle());
 
+        textViewTime = (TextView) findViewById(R.id.textViewEventInfoTime);
+        textViewTime.setText(event.getStartTime() + " - " + event.getEndTime());
+
         textViewDate = (TextView) findViewById(R.id.textViewEventInfoDate);
         textViewDate.setText(event.getStartDate() + " - " + event.getEndDate());
 
