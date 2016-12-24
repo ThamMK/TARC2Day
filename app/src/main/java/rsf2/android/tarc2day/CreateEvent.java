@@ -109,7 +109,6 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         // Always show the chooser (if there are multiple options available)
-
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);*/
 
         try{
@@ -125,13 +124,10 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         /*if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
             Uri uri = data.getData();
-
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
-
                 ImageView imageView = (ImageView) findViewById(R.id.createEventImageFile);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -146,13 +142,10 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
             doCrop(uri);
                         /*
             try {
-
               Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
-
                 ImageView imageView = (ImageView) findViewById(R.id.createEventImageFile);
                 imageView.setImageBitmap(bitmap);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }*/
@@ -459,9 +452,9 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
     protected String getLocation() {
 
-            //Send a get request
-            RequestHandler requestHandler = new RequestHandler();
-            String response = requestHandler.sendGetRequest(Config.URL_GET_LOCATION_NAME);
+        //Send a get request
+        RequestHandler requestHandler = new RequestHandler();
+        String response = requestHandler.sendGetRequest(Config.URL_GET_LOCATION_NAME);
 
 
 
@@ -510,4 +503,4 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         ScrollView scrollView = (ScrollView)findViewById(R.id.activity_create_event);
         return Bitmap.createScaledBitmap(b, (scrollView.getWidth()-40),600, false);
     }
- }
+}

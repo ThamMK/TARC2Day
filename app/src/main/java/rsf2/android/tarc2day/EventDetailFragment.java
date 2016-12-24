@@ -3,10 +3,12 @@ package rsf2.android.tarc2day;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -28,6 +30,8 @@ public class EventDetailFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private TextView textViewDescription;
 
     public EventDetailFragment() {
         // Required empty public constructor
@@ -58,13 +62,36 @@ public class EventDetailFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_event_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
+
+
+        return view;
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        textViewDescription = (TextView) getView().findViewById(R.id.textViewDescriptionTab);
+
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+
+            textViewDescription.setText(bundle.getString("testing"));
+
+        }
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

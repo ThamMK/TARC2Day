@@ -1,5 +1,6 @@
 package rsf2.android.tarc2day;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -24,6 +25,10 @@ public class EventInfoAdapter extends FragmentStatePagerAdapter{
         switch (position) {
             case 0:
                 EventDetailFragment eventDetailFragment = new EventDetailFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("Testing","Testing");
+                eventDetailFragment.setArguments(bundle);
                 return eventDetailFragment;
             case 1:
                 EventLocationFragment eventLocationFragment = new EventLocationFragment();
