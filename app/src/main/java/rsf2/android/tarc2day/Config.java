@@ -11,6 +11,7 @@ public class Config {
     public static final String URL_ADD_EVENT = "http://thammingkeat.esy.es/AddEvent.php";
     public static final String URL_GET_LOCATION_NAME = "http://thammingkeat.esy.es/getLocationName.php";
     public static final String URL_GET_SOCIETY_NAME = "http://thammingkeat.esy.es/getSocietyName.php";
+    public static final String URL_GET_EVENT_IMAGE = "http://thammingkeat.esy.es/getImageEvent.php";
 
     //Keys that will be used to send the request to php scripts
     //VALUE MUST BE SAME WITH THE PHP SCRIPT VALUES

@@ -118,7 +118,7 @@ public class EventList extends AppCompatActivity {
                     uri = JO.getString("imageUrl");
                     Bitmap image = scale(getBitmapFromURL(uri));
 
-                    Event event = new Event(name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,image);
+                    Event event = new Event(eventId,name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,image,uri);
                     eventList.add(event);
 
                 }

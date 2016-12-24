@@ -2,7 +2,10 @@ package rsf2.android.tarc2day;
 
 import android.app.LocalActivityManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,14 +14,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class EventInfo extends AppCompatActivity implements EventDetailFragment.OnFragmentInteractionListener,
         EventLocationFragment.OnFragmentInteractionListener, EventQuestionFragment.OnFragmentInteractionListener{
-
+    private ImageView imageView;
     private TextView textViewTitle;
     private TextView textViewTime;
     private TextView textViewDate;
@@ -36,6 +45,8 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         Intent intent = getIntent();
         Event event = intent.getParcelableExtra("EVENT");
         getDetails(event);
+
+
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayoutEventInfo);
@@ -68,6 +79,23 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
 
     }
 
+    class BackgroundTask extends AsyncTask<String,Void,Bitmap> {
+
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            //Pass in the event id
+            return getBitmapFromURL(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imageView = (ImageView) findViewById(R.id.imageViewEventInfo);
+            imageView.setImageBitmap(bitmap);
+
+        }
+    }
+
     protected void getDetails(Event event) {
 
 
@@ -86,6 +114,26 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
 
         textViewContact = (TextView) findViewById(R.id.textViewEventInfoContact);
         textViewContact.setText(event.getContactNo());
+
+        BackgroundTask backgroundTask = new BackgroundTask();
+        backgroundTask.execute(event.getImageUrl());
+    }
+
+
+
+    public static Bitmap getBitmapFromURL(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
     }
 
     @Override

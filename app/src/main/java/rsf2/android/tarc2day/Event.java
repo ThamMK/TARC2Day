@@ -17,6 +17,7 @@ import java.util.Date;
 
 public class Event implements Parcelable{
 
+    private String id;
     private String title;
     private String eventDescription;
     private String startDate;
@@ -29,6 +30,7 @@ public class Event implements Parcelable{
     private String email;
     private String location;
     private Bitmap image;
+    private String imageUrl;
 
     public Event() {
 
@@ -48,6 +50,34 @@ public class Event implements Parcelable{
         this.location = location;
         this.image = image;
     }
+
+    public Event(String id, String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email,String location,Bitmap image, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.eventDescription = eventDescription;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.society = society;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.location = location;
+        this.image = image;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    public String getId() { return id; }
+
+    public void setId(String id) {this.id = id;}
 
     public String getLocation() {
         return location;
@@ -153,6 +183,7 @@ public class Event implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(eventDescription);
         dest.writeString(startDate);
@@ -163,6 +194,7 @@ public class Event implements Parcelable{
         dest.writeDouble(price);
         dest.writeString(contactNo);
         dest.writeString(email);
+        dest.writeString(imageUrl);
 
     }
 
@@ -177,6 +209,7 @@ public class Event implements Parcelable{
     };
 
     private Event(Parcel in){
+        id = in.readString();
         title = in.readString();
         eventDescription = in.readString();
         startDate = in.readString();
@@ -187,6 +220,7 @@ public class Event implements Parcelable{
         price = in.readDouble();
         contactNo = in.readString();
         email = in.readString();
+        imageUrl = in.readString();
     }
 
     public static Bitmap base64ToBitmap(String b64) {
