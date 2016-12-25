@@ -11,7 +11,11 @@ public class Config {
     public static final String URL_ADD_EVENT = "http://thammingkeat.esy.es/AddEvent.php";
     public static final String URL_GET_LOCATION_NAME = "http://thammingkeat.esy.es/getLocationName.php";
     public static final String URL_GET_SOCIETY_NAME = "http://thammingkeat.esy.es/getSocietyName.php";
-
+    public static final String URL_GET_EVENT_IMAGE = "http://thammingkeat.esy.es/getImageEvent.php";
+    public static final String URL_GET_LOCATION = "http://thammingkeat.esy.es/GetLocation.php?locationId=";
+    public static final String URL_CHECK_ADMIN = "http://thammingkeat.esy.es/checkAdmin.php?username=";
+    public static final String URL_ADD_EVENTDETAILS = "http://thammingkeat.esy.es/GetEventDetails.php";
+    
     //Keys that will be used to send the request to php scripts
     //VALUE MUST BE SAME WITH THE PHP SCRIPT VALUES
     public static final String KEY_USER_USERNAME = "username";
@@ -39,7 +43,9 @@ public class Config {
     public static final String KEY_LOGIN_USERNAME = "username";
     public static final String KEY_LOGIN_PASSWORD = "password";
 
-
+    public static  final String KEY_REGISTEREVENT_ID = "eventId";
+    public  static final String KEY_REGISTEREVENT_USERNAME = "username";
+    public static final  String KEY_REGISTEREVENT_QRCODE = "qrCode";
 
     //JSON Tags
     public static final String TAG_USER = "USER"; //Store the user data
@@ -48,6 +54,9 @@ public class Config {
     public static final String TAG_EMAIL = "Email";
     public static final String TAG_DOB = "DateofBirth";
     public static final String TAG_CONTACT = "ContactNumber";
+
+    //Check if user is an admin
+    public static final String TAG_ADMIN = "admin";
 
     //employee id to pass with intent
     public static final String USER_USERNAME = "username";

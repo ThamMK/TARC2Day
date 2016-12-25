@@ -1,12 +1,31 @@
 package rsf2.android.tarc2day;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 /**
@@ -26,6 +45,12 @@ public class EventLocationFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private String locationName = "test";
+    private Double locationLat = 1.0;
+    private Double locationLong =1.0;
+    private GoogleMap map;
+    private MapView mapView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,13 +83,92 @@ public class EventLocationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_event_location, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_location, container, false);
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //Retrieve data from the activity
+
+        Bundle bundle = getArguments();
+        locationName = bundle.getString("locationName");
+        locationLat = Double.parseDouble(bundle.getString("locationLat"));
+        locationLong = Double.parseDouble(bundle.getString("locationLong"));
+        mapView = (MapView) getActivity().findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+
+
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                map = googleMap;
+
+                // Add a marker in Sydney, Australia, and move the camera.
+                LatLng location = new LatLng(locationLat, locationLong);
+                map.addMarker(new MarkerOptions().position(location).title(locationName));
+                //map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+                CameraUpdate center=CameraUpdateFactory.newLatLng(location);
+                CameraUpdate zoom=CameraUpdateFactory.zoomTo(20);
+                map.moveCamera(center);
+                map.animateCamera(zoom);
+
+            }
+        });
+
+
+        //Used to improve the touch gesture of the map
+
+        final ScrollView scrollView = (ScrollView) getActivity().findViewById(R.id.scrollView);
+        ImageView transparentImageView = (ImageView) getActivity().findViewById(R.id.transparentImage);
+
+        transparentImageView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        // Disable touch on transparent view
+                        return false;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        scrollView.requestDisallowInterceptTouchEvent(false);
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        return false;
+
+                    default:
+                        return true;
+                }
+            }
+        });
+
+        mapView.onResume();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
