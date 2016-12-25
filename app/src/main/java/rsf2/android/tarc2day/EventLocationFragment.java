@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -88,7 +90,7 @@ public class EventLocationFragment extends Fragment {
 
         mapView = (MapView) view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
-        mapView.onResume();
+
 
 
         try {
@@ -108,13 +110,47 @@ public class EventLocationFragment extends Fragment {
                 //map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
                 CameraUpdate center=CameraUpdateFactory.newLatLng(sydney);
-                CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+                CameraUpdate zoom=CameraUpdateFactory.zoomTo(20);
                 map.moveCamera(center);
                 map.animateCamera(zoom);
 
             }
         });
 
+
+        //Used to improve the touch gesture of the map
+
+        final ScrollView scrollView = (ScrollView) getActivity().findViewById(R.id.scrollView);
+        ImageView transparentImageView = (ImageView) view.findViewById(R.id.transparentImage);
+
+        transparentImageView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        // Disable touch on transparent view
+                        return false;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        scrollView.requestDisallowInterceptTouchEvent(false);
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        return false;
+
+                    default:
+                        return true;
+                }
+            }
+        });
+
+        mapView.onResume();
         return view;
     }
 
