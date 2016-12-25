@@ -54,11 +54,14 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private ImageView toolbarImage;
     private ImageView navDrawerBack;
     private ListView drawerListView;
-    private ArrayAdapter<String> adapter;
+    private CustomListAdapter adapter;
     private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
+    private String[] adminArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" ,"Create Event", "About us", "Log Out"};
+    private Integer[] adminImageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage};
     private Integer[] imageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage};
 
     private User user;
+    private boolean admin;
     private TextView textViewUsername;
 
     @Override
@@ -105,9 +108,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         textViewUsername = (TextView) findViewById(R.id.textViewUsername);
 
         //Get the user data from shared preference
-        user = getUserData();
+        getUserData();
         textViewUsername.setText(user.getUsername());
-
+        if(admin)
+            Toast.makeText(this,"user is admin",Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(this,"user is not an admin",Toast.LENGTH_LONG).show();
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
@@ -163,37 +169,65 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
 
 
+        if(admin) {
+            adapter = new CustomListAdapter(this, adminArray, adminImageId);
 
+            drawerListView.setAdapter(adapter);
 
-        CustomListAdapter adapter=new CustomListAdapter(this, linkArray, imageId);
+            drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        drawerListView.setAdapter(adapter);
-
-        drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // TODO Auto-generated method stub
-                String selectedItem= linkArray[+position];
-                Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
-                Intent intent;
-                switch(selectedItem) {
-                    case "Events" :
-                        intent = new Intent (getApplicationContext(),EventList.class);
-                        startActivity(intent);
-                        break;
-                    case "Promotion" :
-                        intent = new Intent(getApplicationContext(),PromotionList.class);
-                        startActivity(intent);
-                        break;
-                    default:
-                        break;
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    // TODO Auto-generated method stub
+                    String selectedItem = adminArray[+position];
+                    Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+                    Intent intent;
+                    switch (selectedItem) {
+                        case "Events":
+                            intent = new Intent(getApplicationContext(), EventList.class);
+                            startActivity(intent);
+                            break;
+                        case "Promotion":
+                            intent = new Intent(getApplicationContext(), PromotionList.class);
+                            startActivity(intent);
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }
-        });
+            });
 
 
+        } else {
+            adapter = new CustomListAdapter(this, linkArray, imageId);
+            drawerListView.setAdapter(adapter);
+
+            drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    // TODO Auto-generated method stub
+                    String selectedItem = linkArray[+position];
+                    Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+                    Intent intent;
+                    switch (selectedItem) {
+                        case "Events":
+                            intent = new Intent(getApplicationContext(), EventList.class);
+                            startActivity(intent);
+                            break;
+                        case "Promotion":
+                            intent = new Intent(getApplicationContext(), PromotionList.class);
+                            startActivity(intent);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+
+        }
         recyclerView2 = (RecyclerView) findViewById(R.id.recyclerViewSociety);
 
         societyAdapter = new SocietyAdapter(societyList);
@@ -240,21 +274,22 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     }
 
     //This method will return the user data from shared preferences
-    protected User getUserData() {
+    protected void getUserData() {
 
         Gson gson = new Gson();
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
         String json = sharedPreferences.getString(Config.TAG_USER, "");
 
         user = gson.fromJson(json,User.class);
-        return user;
+        admin = sharedPreferences.getBoolean(Config.TAG_ADMIN,false);
+
     }
 
-    private void addDrawerItems() {
+/*    private void addDrawerItems() {
 
         adapter = new ArrayAdapter<String>(this, R.layout.custom_list, linkArray);
         drawerListView.setAdapter(adapter);
-    }
+    }*/
 
     private void societyData() {
 
