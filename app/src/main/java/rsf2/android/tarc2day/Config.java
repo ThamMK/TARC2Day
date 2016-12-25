@@ -15,8 +15,7 @@ public class Config {
     public static final String URL_GET_LOCATION = "http://thammingkeat.esy.es/GetLocation.php?locationId=";
     public static final String URL_CHECK_ADMIN = "http://thammingkeat.esy.es/checkAdmin.php?username=";
     public static final String URL_ADD_EVENTDETAILS = "http://thammingkeat.esy.es/GetEventDetails.php";
-
-
+    
     //Keys that will be used to send the request to php scripts
     //VALUE MUST BE SAME WITH THE PHP SCRIPT VALUES
     public static final String KEY_USER_USERNAME = "username";
