@@ -86,8 +86,9 @@ public class GenerateQR extends AppCompatActivity {
             parameter.put(Config.KEY_REGISTEREVENT_QRCODE,QRCOde);
 
             RequestHandler rh = new RequestHandler();
-            String res = rh.sendPostRequest(Config.URL_ADD_EVENT, parameter);
-            return res;
+            //String res = rh.sendPostRequest(, parameter);
+            //return res;
+            return null;
         }
     }
 
