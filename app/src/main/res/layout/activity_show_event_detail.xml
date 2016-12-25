@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_show_event_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="rsf2.android.tarc2day.ShowEventDetail">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:id="@+id/imageViewShowEventDetailimage"
+        android:layout_height="250dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tarPink"
+        android:orientation="vertical"
+        android:layout_marginTop="260dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:id="@+id/textShowEventDetailTitle"
+            android:textColor="@color/white"
+            android:text="Title"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawablePadding="10dp"
+            android:text="8.00am - 10.00am"
+            android:gravity="center_vertical"
+            android:id="@+id/textShowEventDetailTime"
+            android:textColor="@color/white"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawablePadding="10dp"
+            android:text="12/06/2016 - 18/06/2016"
+            android:gravity="center_vertical"
+            android:id="@+id/textShowEventDetailDate"
+            android:textColor="@color/white"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawablePadding="10dp"
+            android:text="RM 60"
+            android:gravity="center_vertical"
+            android:id="@+id/textShowEventDetailPrice"
+            android:textColor="@color/white"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawablePadding="10dp"
+            android:text="016-2123206"
+            android:gravity="center_vertical"
+            android:id="@+id/textShowEventDetailConctact"
+            android:textColor="@color/white"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawablePadding="10dp"
+            android:text="DK ABA"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/textShowEventDetailLocation"
+            android:textColor="@color/white"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+    </LinearLayout>
+
+</RelativeLayout>
