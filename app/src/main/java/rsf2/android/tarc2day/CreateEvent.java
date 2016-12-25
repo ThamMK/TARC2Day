@@ -1,11 +1,17 @@
 package rsf2.android.tarc2day;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,16 +19,21 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +41,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -61,6 +73,9 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
     private ArrayList<String> location;
     private ArrayList<String> society;
 
+    //ImageSetting
+    private final static int RESULT_SELECT_IMAGE = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,32 +104,74 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
     }
 
     protected void onClickImageView(View view) {
-        Intent intent = new Intent();
+        /*Intent intent = new Intent();
         // Show only images, no videos or anything else
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         // Always show the chooser (if there are multiple options available)
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);*/
 
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        try{
+            //Pick Image From Gallery
+            Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(i, RESULT_SELECT_IMAGE);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
+        /*if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
-
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
-
                 ImageView imageView = (ImageView) findViewById(R.id.createEventImageFile);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }*/
+
+        if (requestCode == RESULT_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
+            // Let's read picked image data - its URI
+            Uri uri = data.getData();
+
+            doCrop(uri);
+                        /*
+            try {
+              Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+                ImageView imageView = (ImageView) findViewById(R.id.createEventImageFile);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
         }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            //Bitmap bitmap = CropImageView
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
+                    bitmap = scale(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                ImageView imageView = (ImageView) findViewById(R.id.createEventImageFile);
+                imageView.setImageBitmap(bitmap);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+
     }
 
     protected void onClickDateTextView(View view) {
@@ -281,15 +338,20 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
     class BackgroundInsertEventTask extends AsyncTask<String,Void,String>{
         Context ctx;
         String date;
+        ProgressDialog loading;
 
         BackgroundInsertEventTask(Context context){
             this.ctx = context;
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading = ProgressDialog.show(CreateEvent.this, "Uploading Events", "Please wait...",true,true);
+        }
+
+        @Override
         protected String doInBackground(String... params) {
-
-
             String eventTitle = params[0];
             String startDate = params[1];
             String endDate = params[2];
@@ -376,22 +438,22 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
         }
 
-
         @Override
         protected void onPostExecute(String s) {
             Toast.makeText(ctx,s,Toast.LENGTH_SHORT).show();
             TextView textView = (TextView)findViewById(R.id.textView);
             textView.setText(date);
-
+            loading.dismiss();
         }
+
 
     }
 
     protected String getLocation() {
 
-            //Send a get request
-            RequestHandler requestHandler = new RequestHandler();
-            String response = requestHandler.sendGetRequest(Config.URL_GET_LOCATION_NAME);
+        //Send a get request
+        RequestHandler requestHandler = new RequestHandler();
+        String response = requestHandler.sendGetRequest(Config.URL_GET_LOCATION_NAME);
 
 
 
@@ -428,4 +490,16 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         backgroundInsertEventTask.execute(eventTitle,startDate,endDate,startTime,endTime,email,contactNum,society,location,price,description,encodedImage);
     }
 
+    public void doCrop(Uri imageUri){
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropResultSize(600,600)
+                //.setMaxCropResultSize(1000,480)
+                .start(this);
+    }
+
+    private Bitmap scale(Bitmap b) {
+        ScrollView scrollView = (ScrollView)findViewById(R.id.activity_create_event);
+        return Bitmap.createScaledBitmap(b, (scrollView.getWidth()-40),600, false);
+    }
 }

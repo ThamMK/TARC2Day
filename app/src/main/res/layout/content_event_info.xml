@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:fillViewport="true">
@@ -29,9 +30,9 @@
 
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/promo1"
+                    android:layout_width="365dp"
+                    android:layout_height="250dp"
+
                     android:id="@+id/imageViewEventInfo"/>
 
                 <TextView
@@ -124,7 +125,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="250dp"
-                android:text="@string/action_register"/>
+                android:text="@string/action_register"
+                android:onClick="registerEvent"
+                android:id="@+id/buttonRegisterEvent" />
 
 
 
@@ -142,5 +145,5 @@
 
             </android.support.v4.view.ViewPager>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 </LinearLayout>

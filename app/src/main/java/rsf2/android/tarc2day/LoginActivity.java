@@ -270,11 +270,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, String> {
+    public class UserLoginTask extends AsyncTask<Void, Void, String[]> {
 
         private final String username;
         private final String password;
-        String response;
+        String[] response = new String[2];
         User user;
 
         UserLoginTask(String username, String password) {
@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected String[] doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
             URL url;
             try {
@@ -291,14 +291,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                return "exception";
+                return null;
             }
 
             try {
                url = new URL(Config.URL_LOGIN);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                return "exception";
+                return null;
             }
 
             try {
@@ -315,7 +315,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 parameter.put(Config.KEY_LOGIN_USERNAME,username);
                 parameter.put(Config.KEY_LOGIN_PASSWORD,password);
                 RequestHandler requestHandler = new RequestHandler();
-                response = requestHandler.sendPostRequest(Config.URL_LOGIN,parameter);
+                //using string array
+                //the 2nd index is used to check if the username is an admin
+                response[0] = requestHandler.sendPostRequest(Config.URL_LOGIN,parameter);
+
+
+                if (response[0] != null) {
+                    JSONObject jsonObject = new JSONObject(response[0]);
+                    String username = jsonObject.getString(Config.TAG_USERNAME);
+
+                    //Check if username is an admin privilege
+                    //store it in the 2nd index
+                    response[1] = requestHandler.sendGetRequestParam(Config.URL_CHECK_ADMIN,username);
+
+
+                }
 
                 //Returns response based on php script
                 //Need to change it to return a user object
@@ -323,18 +337,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             } catch (IOException e) {
                 e.printStackTrace();
-                return "exception";
+                return null;
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
             }
-
-
 
 
         }
 
 
         @Override
-        protected void onPostExecute(String resp) {
+        protected void onPostExecute(String[] resp) {
             mAuthTask = null;
             showProgress(false);
 
@@ -343,12 +358,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //So we can bring the user data to the other activties and store in a session
 
 
-            if(!resp.isEmpty()) {
+            if(!resp[0].isEmpty()) {
                 try {
                     //Parse the response into a json object
                     //Get the data from the json object and add it into the user object
                     //Need to save user into shared preference as a global logged in
-                    JSONObject jsonObject = new JSONObject(resp);
+                    JSONObject jsonObject = new JSONObject(resp[0]);
                     user = new User();
                     //Tags are used to reference what data to retrieve
                     user.setUsername(jsonObject.getString(Config.TAG_USERNAME));
@@ -356,6 +371,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     user.setEmail(jsonObject.getString(Config.TAG_EMAIL));
                     user.setContactNo(jsonObject.getString(Config.TAG_CONTACT));
                     user.setDateOfBirth(jsonObject.getString(Config.TAG_DOB));
+                    boolean admin = false;
+                    JSONArray jsonArray = new JSONArray(resp[1]);
+                    if(jsonArray.length() != 0) {
+
+                        JSONObject jsonAdmin = jsonArray.getJSONObject(0);
+                        String checkAdmin = jsonAdmin.getString("success");
+                        if (checkAdmin == "1") {
+                            admin = true;
+                        } else {
+                            admin = false;
+                        }
+                    }
 
                     //Create a shared preference to pass the user logged in data around the app
                     SharedPreferences preference = getSharedPreferences("MyPreferences",MODE_PRIVATE);
@@ -366,6 +393,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     Gson gson = new Gson();
                     String json = gson.toJson(user);
                     preferenceEditor.putString(Config.TAG_USER,json);
+                    preferenceEditor.putBoolean(Config.TAG_ADMIN,admin);
                     preferenceEditor.commit();
 
 

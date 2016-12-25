@@ -2,6 +2,8 @@ package rsf2.android.tarc2day;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Base64;
@@ -15,6 +17,7 @@ import java.util.Date;
 
 public class Event implements Parcelable{
 
+    private String id;
     private String title;
     private String eventDescription;
     private String startDate;
@@ -25,8 +28,10 @@ public class Event implements Parcelable{
     private double price;
     private String contactNo;
     private String email;
+    private String locationId;
     private String location;
     private Bitmap image;
+    private String imageUrl;
 
     public Event() {
 
@@ -46,6 +51,78 @@ public class Event implements Parcelable{
         this.location = location;
         this.image = image;
     }
+
+    public Event(String id, String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email,String location,Bitmap image, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.eventDescription = eventDescription;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.society = society;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.location = location;
+        this.image = image;
+        this.imageUrl = imageUrl;
+    }
+
+    public Event(String id, String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email, String location, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.eventDescription = eventDescription;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.society = society;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.location = location;
+        this.imageUrl = imageUrl;
+    }
+
+    public Event(String id, String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email, String locationId, String location, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.eventDescription = eventDescription;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.society = society;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.locationId = locationId;
+        this.location = location;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    public String getId() { return id; }
+
+    public void setId(String id) {this.id = id;}
 
     public String getLocation() {
         return location;
@@ -151,15 +228,20 @@ public class Event implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(eventDescription);
         dest.writeString(startDate);
         dest.writeString(endDate);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
         dest.writeString(society);
         dest.writeDouble(price);
         dest.writeString(contactNo);
         dest.writeString(email);
-
+        dest.writeString(imageUrl);
+        dest.writeString(location);
+        dest.writeString(locationId);
     }
 
     public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>(){
@@ -172,15 +254,21 @@ public class Event implements Parcelable{
         }
     };
 
-    private Event(Parcel in){
+    protected Event(Parcel in){
+        id = in.readString();
         title = in.readString();
         eventDescription = in.readString();
         startDate = in.readString();
         endDate = in.readString();
+        startTime = in.readString();
+        endTime = in.readString();
         society = in.readString();
         price = in.readDouble();
         contactNo = in.readString();
         email = in.readString();
+        imageUrl = in.readString();
+        location = in.readString();
+        locationId = in.readString();
     }
 
     public static Bitmap base64ToBitmap(String b64) {
@@ -190,10 +278,14 @@ public class Event implements Parcelable{
 
     public static String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        if(bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        }
+        else {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        }
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
-
 
 }
