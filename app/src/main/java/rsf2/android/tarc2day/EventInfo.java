@@ -1,8 +1,10 @@
 package rsf2.android.tarc2day;
 
 import android.app.LocalActivityManager;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -17,12 +19,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Request;
 
@@ -31,10 +35,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class EventInfo extends AppCompatActivity implements EventDetailFragment.OnFragmentInteractionListener,
         EventLocationFragment.OnFragmentInteractionListener, EventQuestionFragment.OnFragmentInteractionListener{
@@ -50,10 +58,18 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
     private String locationLat;
     private String locationLong;
     private String locationName;
+    ArrayList<String> eventIdArray = new ArrayList<>();
+    static Boolean checkRegisterEvent = false;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
+        String json = sharedPreferences.getString(Config.TAG_USER, "");
+        user = gson.fromJson(json,User.class);
+
         setContentView(R.layout.activity_event_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,8 +84,7 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         tabLayout.addTab(tabLayout.newTab().setText("Comment"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-
-
+        super.onCreate(savedInstanceState);
     }
 
     class BackgroundTask extends AsyncTask<String,Void,Bitmap> {
@@ -128,8 +143,6 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
                 locationLat = JO.getString("latitude");
                 locationLong = JO.getString("longitude");
 
-                Toast.makeText(getApplicationContext(),locationName,Toast.LENGTH_LONG).show();
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -185,24 +198,7 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         BackgroundTask backgroundTask = new BackgroundTask();
         backgroundTask.execute(event.getImageUrl());
 
-
-    }
-
-
-
-    public static Bitmap getBitmapFromURL(String imageUrl) {
-        try {
-            URL url = new URL(imageUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            // Log exception
-            return null;
-        }
+        new BackgroundCheckEventTask().execute();
     }
 
     @Override
@@ -211,24 +207,100 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
     }
 
     public void registerEvent(View view){
-        final Intent intent = new Intent(this,GenerateQR.class);
-        intent.putExtra("registerEvent",(Parcelable) event);
+        if(checkRegisterEvent) {
+            Toast.makeText(EventInfo.this, "Fuck you off,dont register twice", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            checkRegisterEvent = true;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setTitle("Event Registration");
+            builder.setMessage("Do you confirm want to register event : " + event.getTitle());
+            builder.setPositiveButton("Confirm",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(EventInfo.this, GenerateQR.class);
+                            intent.putExtra("registerEvent", (Parcelable) event);
+                            startActivity(intent);
+                        }
+                    });
+            builder.setNegativeButton(android.R.string.cancel, null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle("Event Registration");
-        builder.setMessage("Do you confirm want to register event : " + event.getTitle());
-        builder.setPositiveButton("Confirm",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+    class BackgroundCheckEventTask extends AsyncTask<Void,Void,String> {
 
-                        startActivity(intent);
+        String json_url;
+        String JSON_STRING;
+        JSONArray jsonArray;
+        ProgressDialog loading;
+
+        @Override
+        protected void onPreExecute() {
+            json_url = "http://thammingkeat.esy.es/GetEventDetails.php?username=" + user.getUsername(); //th php url
+            loading = ProgressDialog.show(EventInfo.this, "Loading Events", "Please wait...",true,true);
+            loading.setCancelable(false);
+            loading.setCanceledOnTouchOutside(false);
+            checkRegisterEvent = false;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result="";
+            try {
+                URL url = new URL(json_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                while((JSON_STRING = bufferedReader.readLine())!=null)
+                {
+                    stringBuilder.append(JSON_STRING +"\n");
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                result = stringBuilder.toString().trim();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if(result != null) {
+                    jsonArray = new JSONArray(result);
+                    String eventId;
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject JO = jsonArray.getJSONObject(i);
+                        eventId = JO.getString("eventId");
+                        eventIdArray.add(eventId);
                     }
-                });
-        builder.setNegativeButton(android.R.string.cancel, null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+                }
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
 
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            for(int i=0;i<eventIdArray.size();i++){
+                if(eventIdArray.get(i).equals(event.getId())){
+                    checkRegisterEvent = true;
+                }
+            }
+            loading.dismiss();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
     }
 }
