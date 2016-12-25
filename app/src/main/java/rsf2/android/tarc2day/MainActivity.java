@@ -188,10 +188,24 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             intent = new Intent(getApplicationContext(), EventList.class);
                             startActivity(intent);
                             break;
+                        case "Society":
+                            intent = new Intent(getApplicationContext(), SocietyList.class);
+                            startActivity(intent);
+                            break;
                         case "Promotion":
                             intent = new Intent(getApplicationContext(), PromotionList.class);
                             startActivity(intent);
                             break;
+                        case "My Events":
+                            intent = new Intent(getApplicationContext(), MyEvent.class);
+                            startActivity(intent);
+                            break;
+                        case "Create Event":
+                            intent = new Intent(getApplicationContext(), CreateEvent.class);
+                            startActivity(intent);
+                            break;
+                        case "Log Out":
+                            finishActivity(0);
                         default:
                             break;
                     }
@@ -217,10 +231,21 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             intent = new Intent(getApplicationContext(), EventList.class);
                             startActivity(intent);
                             break;
+                        case "Society":
+                            intent = new Intent(getApplicationContext(), SocietyList.class);
+                            startActivity(intent);
+                            break;
                         case "Promotion":
                             intent = new Intent(getApplicationContext(), PromotionList.class);
                             startActivity(intent);
                             break;
+                        case "My Events":
+                            intent = new Intent(getApplicationContext(), MyEvent.class);
+                            startActivity(intent);
+                            break;
+
+                        case "Log Out":
+                            finishActivity(0);
                         default:
                             break;
                     }

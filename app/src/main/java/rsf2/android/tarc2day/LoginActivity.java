@@ -404,7 +404,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 //Toast.makeText(LoginActivity.this, resp, Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(LoginActivity.this, MyEvent.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
 
             } else {

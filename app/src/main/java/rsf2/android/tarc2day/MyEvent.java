@@ -84,35 +84,36 @@ public class MyEvent extends AppCompatActivity {
             }
 
             try {
-                jsonArray = new JSONArray(result);
-                String eventId, name, description, startDate, endDate, startTime, endTime,email, contactNumber, societyId, societyName,locationName,encodedImage;
-                String uri,qrCode;
-                Double price;
-                for(int i=0;i<jsonArray.length();i++){
-                    JSONObject JO = jsonArray.getJSONObject(i);
-                    eventId = JO.getString("eventId");
-                    name = JO.getString("name");
-                    description = JO.getString("description");
-                    startDate = JO.getString("startDate");
-                    endDate = JO.getString("endDate");
-                    startTime = JO.getString("startTime");
-                    endTime = JO.getString("endTime");
-                    price = Double.parseDouble(JO.getString("price"));
-                    email = JO.getString("email");
-                    contactNumber = JO.getString("contactNumber");
-                    societyId = JO.getString("societyId");
-                    societyName = JO.getString("societyName");
-                    locationName = JO.getString("locationName");
-                    //encodedImage = JO.getString("image");
-                    uri = JO.getString("imageUrl");
-                    qrCode = JO.getString("qrCode");
+                if(result != null) {
+                    jsonArray = new JSONArray(result);
+                    String eventId, name, description, startDate, endDate, startTime, endTime, email, contactNumber, societyId, societyName, locationName, encodedImage;
+                    String uri, qrCode;
+                    Double price;
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject JO = jsonArray.getJSONObject(i);
+                        eventId = JO.getString("eventId");
+                        name = JO.getString("name");
+                        description = JO.getString("description");
+                        startDate = JO.getString("startDate");
+                        endDate = JO.getString("endDate");
+                        startTime = JO.getString("startTime");
+                        endTime = JO.getString("endTime");
+                        price = Double.parseDouble(JO.getString("price"));
+                        email = JO.getString("email");
+                        contactNumber = JO.getString("contactNumber");
+                        societyId = JO.getString("societyId");
+                        societyName = JO.getString("societyName");
+                        locationName = JO.getString("locationName");
+                        //encodedImage = JO.getString("image");
+                        uri = JO.getString("imageUrl");
+                        qrCode = JO.getString("qrCode");
 
-                    RegisterdEvent event = new RegisterdEvent(eventId,name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,uri,qrCode);
-                    eventList.add(event);
+                        RegisterdEvent event = new RegisterdEvent(eventId, name, description, startDate, endDate, startTime, endTime, societyName, price, contactNumber, email, locationName, uri, qrCode);
+                        eventList.add(event);
+
+                    }
 
                 }
-
-
             }
             catch(JSONException e){
                 e.printStackTrace();
