@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,11 +18,12 @@ public class SocietyAdapter extends RecyclerView.Adapter<SocietyAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewPersonInCharge,textViewDescription,textViewContactNo,textViewEmail;
-
+        public ImageView imageViewSociety;
         public MyViewHolder(View view) {
             super(view);
             textViewName = (TextView) view.findViewById(R.id.textViewSocietyName);
             textViewPersonInCharge = (TextView) view.findViewById(R.id.textViewSocietyPersonInCharge);
+            imageViewSociety = (ImageView) view.findViewById(R.id.imageViewSociety);
         }
     }
 
@@ -47,6 +49,7 @@ public class SocietyAdapter extends RecyclerView.Adapter<SocietyAdapter.MyViewHo
         context = holder.itemView.getContext();
         holder.textViewName.setText(society.getName());
         holder.textViewPersonInCharge.setText(society.getPersonInCharge());
+        holder.imageViewSociety.setImageBitmap(society.getImage());
 //        holder.textViewDescription.setText(society.getDescription());
 //        holder.textViewContactNo.setText(society.getContactNo());
 //        holder.textViewEmail.setText(society.getContactNo());

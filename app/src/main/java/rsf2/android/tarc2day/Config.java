@@ -9,6 +9,7 @@ public class Config {
     public static final String URL_ADD_USER = "http://thammingkeat.esy.es/AddUser.php";
     public static final String URL_LOGIN = "http://thammingkeat.esy.es/login.php";
     public static final String URL_ADD_EVENT = "http://thammingkeat.esy.es/AddEvent.php";
+    public static final String URL_ADD_SOCIETY = "http://thammingkeat.esy.es/AddSociety.php";
     public static final String URL_GET_LOCATION_NAME = "http://thammingkeat.esy.es/getLocationName.php";
     public static final String URL_GET_SOCIETY_NAME = "http://thammingkeat.esy.es/getSocietyName.php";
 
@@ -21,7 +22,7 @@ public class Config {
     public static final String KEY_USER_DATE = "date";
     public static final String KEY_USER_CONTACT = "contactnumber";
 
-
+    // Event entity key
     public static final String KEY_EVENT_NAME = "name";
     public static final String KEY_EVENT_DESCRIPTION = "description";
     public static final String KEY_EVENT_START_DATE = "startDate";
@@ -34,6 +35,14 @@ public class Config {
     public static final String KEY_EVENT_PRICE = "price";
     public static final String KEY_EVENT_IMAGE = "image";
     public static final String KEY_EVENT_SOCIETY = "society";
+
+    // Society entity key
+    public static final String KEY_SOCIETY_NAME = "name";
+    public static final String KEY_SOCIETY_DESCRIPTION = "description";
+    public static final String KEY_SOCIETY_PERSON_IN_CHARGE = "personInCharge";
+    public static final String KEY_SOCIETY_CONTACT_NUMBER = "contactNumber";
+    public static final String KEY_SOCIETY_EMAIL = "email";
+    public static final String KEY_SOCIETY_IMAGE = "image";
 
 
     public static final String KEY_LOGIN_USERNAME = "username";

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/fileimage"
-            android:id="@+id/createEventImageFile"
+            android:id="@+id/createSocietyImageFile"
             android:layout_weight="0.40"
             android:clickable="true"
             android:onClick="onClickImageView"/>
@@ -100,7 +100,7 @@
             android:id="@+id/buttonCreateSociety"
             android:layout_weight="1"
             android:background="@color/tarPink"
-            />
+            android:onClick="submitSociety" />
 
     </LinearLayout>
 </ScrollView>
