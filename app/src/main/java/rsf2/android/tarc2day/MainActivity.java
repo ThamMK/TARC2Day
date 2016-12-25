@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         Gson gson = new Gson();
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
         String json = sharedPreferences.getString(Config.TAG_USER, "");
+
         user = gson.fromJson(json,User.class);
         return user;
     }

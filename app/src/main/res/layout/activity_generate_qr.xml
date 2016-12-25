@@ -25,6 +25,17 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:id="@+id/textQRTitle"
+            android:textColor="@color/white"
+            android:text="Title"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_eventtime"
             android:drawablePadding="10dp"
             android:text="8.00am - 10.00am"

@@ -254,7 +254,7 @@ public class Event implements Parcelable{
         }
     };
 
-    private Event(Parcel in){
+    protected Event(Parcel in){
         id = in.readString();
         title = in.readString();
         eventDescription = in.readString();
