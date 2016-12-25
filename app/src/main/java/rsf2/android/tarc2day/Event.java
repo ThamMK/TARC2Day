@@ -28,6 +28,7 @@ public class Event implements Parcelable{
     private double price;
     private String contactNo;
     private String email;
+    private String locationId;
     private String location;
     private Bitmap image;
     private String imageUrl;
@@ -83,6 +84,34 @@ public class Event implements Parcelable{
         this.location = location;
         this.imageUrl = imageUrl;
     }
+
+    public Event(String id, String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email, String locationId, String location, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.eventDescription = eventDescription;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.society = society;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.locationId = locationId;
+        this.location = location;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -212,6 +241,7 @@ public class Event implements Parcelable{
         dest.writeString(email);
         dest.writeString(imageUrl);
         dest.writeString(location);
+        dest.writeString(locationId);
     }
 
     public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>(){
@@ -238,6 +268,7 @@ public class Event implements Parcelable{
         email = in.readString();
         imageUrl = in.readString();
         location = in.readString();
+        locationId = in.readString();
     }
 
     public static Bitmap base64ToBitmap(String b64) {

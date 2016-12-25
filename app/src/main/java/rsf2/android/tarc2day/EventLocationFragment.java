@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,6 +46,9 @@ public class EventLocationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private String locationName = "test";
+    private Double locationLat = 1.0;
+    private Double locationLong =1.0;
     private GoogleMap map;
     private MapView mapView;
 
@@ -88,7 +93,19 @@ public class EventLocationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_location, container, false);
 
-        mapView = (MapView) view.findViewById(R.id.mapView);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //Retrieve data from the activity
+
+        Bundle bundle = getArguments();
+        locationName = bundle.getString("locationName");
+        locationLat = Double.parseDouble(bundle.getString("locationLat"));
+        locationLong = Double.parseDouble(bundle.getString("locationLong"));
+        mapView = (MapView) getActivity().findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
 
 
@@ -105,11 +122,11 @@ public class EventLocationFragment extends Fragment {
                 map = googleMap;
 
                 // Add a marker in Sydney, Australia, and move the camera.
-                LatLng sydney = new LatLng(-34, 151);
-                map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+                LatLng location = new LatLng(locationLat, locationLong);
+                map.addMarker(new MarkerOptions().position(location).title(locationName));
                 //map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-                CameraUpdate center=CameraUpdateFactory.newLatLng(sydney);
+                CameraUpdate center=CameraUpdateFactory.newLatLng(location);
                 CameraUpdate zoom=CameraUpdateFactory.zoomTo(20);
                 map.moveCamera(center);
                 map.animateCamera(zoom);
@@ -121,7 +138,7 @@ public class EventLocationFragment extends Fragment {
         //Used to improve the touch gesture of the map
 
         final ScrollView scrollView = (ScrollView) getActivity().findViewById(R.id.scrollView);
-        ImageView transparentImageView = (ImageView) view.findViewById(R.id.transparentImage);
+        ImageView transparentImageView = (ImageView) getActivity().findViewById(R.id.transparentImage);
 
         transparentImageView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -151,7 +168,7 @@ public class EventLocationFragment extends Fragment {
         });
 
         mapView.onResume();
-        return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

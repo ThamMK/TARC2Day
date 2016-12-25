@@ -98,7 +98,7 @@ public class EventList extends AppCompatActivity {
 
             try {
                 jsonArray = new JSONArray (result);
-                String eventId, name, description, startDate, endDate, startTime, endTime,email, contactNumber, societyId, societyName,locationName,encodedImage;
+                String eventId, name, description, startDate, endDate, startTime, endTime,email, contactNumber, societyId, societyName,locationName,encodedImage,locationId;
                 String uri;
                 Double price;
                 for(int i=0;i<jsonArray.length();i++){
@@ -115,11 +115,13 @@ public class EventList extends AppCompatActivity {
                     contactNumber = JO.getString("contactNumber");
                     societyId = JO.getString("societyId");
                     societyName = JO.getString("societyName");
+                    locationId = JO.getString("locationId");
                     locationName = JO.getString("locationName");
+
                     //encodedImage = JO.getString("image");
                     uri = JO.getString("imageUrl");
 
-                    Event event = new Event(eventId,name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationName,uri);
+                    Event event = new Event(eventId,name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationId,locationName,uri);
                     eventList.add(event);
 
                 }
