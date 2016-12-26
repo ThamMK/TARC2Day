@@ -54,7 +54,10 @@ public class ShowEventDetail extends AppCompatActivity {
         textQRTitle.setText(event.getTitle());
         textQRDate.setText(event.getStartTime() + " - " + event.getEndTime());
         textQRDate.setText(event.getStartDate() + " - " + event.getEndDate());
-        textQRPrice.setText("RM " + event.getPrice());
+        if(event.getPrice() == 0.0)
+            textQRPrice.setText("FREE");
+        else
+            textQRPrice.setText("RM " + event.getPrice());
         textQRConctact.setText(event.getContactNo());
         textQRLocation.setText(event.getLocation());
 

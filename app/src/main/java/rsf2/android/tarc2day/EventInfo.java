@@ -160,7 +160,10 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         textViewDate.setText(event.getStartDate() + " - " + event.getEndDate());
 
         textViewPrice = (TextView) findViewById(R.id.textViewEventInfoPrice);
-        textViewPrice.setText("RM " + event.getPrice());
+        if(event.getPrice() == 0.0)
+            textViewPrice.setText("FREE");
+        else
+            textViewPrice.setText("RM " + event.getPrice());
 
         textViewContact = (TextView) findViewById(R.id.textViewEventInfoContact);
         textViewContact.setText(event.getContactNo());
