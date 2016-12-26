@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -88,7 +89,7 @@ public class EventQuestionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view =  inflater.inflate(R.layout.fragment_event_question, container, false);
+        final View view =  inflater.inflate(R.layout.fragment_event_question, container,false);
 
         final Bundle bundle = getArguments();
         //Get back the parcel
@@ -102,10 +103,20 @@ public class EventQuestionFragment extends Fragment {
         ListView messageList = (ListView) view.findViewById(R.id.list_of_messages);
         messageList.setAdapter(messageListAdapter);
 
-
-
-
         FloatingActionButton btnSend = (FloatingActionButton) view.findViewById(R.id.fab);
+
+        messageList.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
