@@ -209,7 +209,7 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
 
         this.event = event;
         BackgroundLocationTask backgroundLocationTask = new BackgroundLocationTask();
-        backgroundLocationTask.execute(event.getLocationId());
+        backgroundLocationTask.execute(event.getLocationId(),event.getId());
         textViewTitle = (TextView) findViewById(R.id.textViewEventInfoName);
         textViewTitle.setText(event.getTitle());
 
