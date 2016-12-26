@@ -135,12 +135,12 @@
             android:maxLength="20"
             android:hint="Contact Number"/>
 
-        <Spinner
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/emptyframe"
 
-            android:id="@+id/spinnerCreatePromo"
+            android:id="@+id/editTextCreatePromoLocation"
             android:layout_weight="1"/>
 
         <EditText
@@ -176,6 +176,7 @@
             android:id="@+id/buttonCreatePromo"
             android:layout_weight="1"
             android:background="@color/tarPink"
+            android:onClick="submitPromotion"
             />
 
     </LinearLayout>

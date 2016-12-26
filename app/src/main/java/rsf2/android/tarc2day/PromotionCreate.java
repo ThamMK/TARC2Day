@@ -50,7 +50,7 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
     public TextView textViewDate;
     Spinner spinnerLocation;
     ImageView imageViewPromotionCreate;
-    EditText editTextPromotionTitle, editTextCreatePromoEmail,editTextCreatePromoContact,editTextCreatePromoPrice,editTextCreatePromoDetail;
+    EditText editTextPromotionTitle, editTextCreatePromoEmail,editTextCreatePromoContact,editTextCreatePromoPrice,editTextCreatePromoDetail, editTextCreatePromoLocation;
     TextView textViewCreatePromoStartDate,textViewCreatePromoEndDate,textViewCreatePromoStartTime,textViewCreatePromoEndTime;
     private final static int RESULT_SELECT_IMAGE = 100;
 
@@ -64,7 +64,6 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         setSupportActionBar(toolbar);
 
         //Declaration of resources
-        spinnerLocation = (Spinner) findViewById(R.id.spinnerCreatePromo);
         imageViewPromotionCreate = (ImageView) findViewById(R.id.imageViewPromotionCreate);
         editTextPromotionTitle = (EditText) findViewById(R.id.editTextPromotionTitle);
         editTextCreatePromoEmail = (EditText) findViewById(R.id.editTextCreatePromoEmail);
@@ -75,6 +74,7 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         textViewCreatePromoEndDate = (TextView) findViewById(R.id.textViewCreatePromoEndDate);
         textViewCreatePromoStartTime = (TextView) findViewById(R.id.textViewCreatePromoStartTime);
         textViewCreatePromoEndTime = (TextView) findViewById(R.id.textViewCreatePromoEndTime);
+        editTextCreatePromoLocation = (EditText) findViewById(R.id.editTextCreatePromoLocation);
 
     }
     protected void onClickImageView(View view) {
@@ -322,7 +322,7 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         endTime = textViewCreatePromoEndTime.getText().toString();
         email = editTextCreatePromoEmail.getText().toString();
         contactNum = editTextCreatePromoContact.getText().toString();
-        location = spinnerLocation.getSelectedItem().toString();
+        location = editTextCreatePromoLocation.getText().toString();
         price = editTextCreatePromoPrice.getText().toString();
         description = editTextCreatePromoDetail.getText().toString();
 

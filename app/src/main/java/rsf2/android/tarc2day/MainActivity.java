@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private ListView drawerListView;
     private CustomListAdapter adapter;
     private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
-    private String[] adminArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" ,"Create Event", "About us", "Log Out"};
-    private Integer[] adminImageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage};
+    private String[] adminArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" ,"Create Event", "Create Promotion", "Create Society","About us", "Log Out"};
+    private Integer[] adminImageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage, R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage};
     private Integer[] imageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage};
 
     private User user;
@@ -202,6 +202,14 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             break;
                         case "Create Event":
                             intent = new Intent(getApplicationContext(), CreateEvent.class);
+                            startActivity(intent);
+                            break;
+                        case "Create Promotion":
+                            intent = new Intent(getApplicationContext(), PromotionCreate.class);
+                            startActivity(intent);
+                            break;
+                        case "Create Society":
+                            intent = new Intent(getApplicationContext(), CreateSociety.class);
                             startActivity(intent);
                             break;
                         case "Log Out":

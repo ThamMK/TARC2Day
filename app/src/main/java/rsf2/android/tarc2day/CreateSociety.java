@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -139,7 +140,7 @@ public class CreateSociety extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-
+            Log.d("PARAMETERS", params.toString());
 
             String societyName = params[0];
             String societyDescription = params[1];
@@ -164,6 +165,7 @@ public class CreateSociety extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
+            loading.dismiss();
             Toast.makeText(ctx,s,Toast.LENGTH_SHORT).show();
         }
     }
