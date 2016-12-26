@@ -128,7 +128,7 @@ public class EventList extends AppCompatActivity {
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 int width = displaymetrics.widthPixels;
-                int height = dpToPx(180);
+                int height = dpToPx(200);
                 eventAdapter = new EventAdapter(eventList,width,height);
 
             }
