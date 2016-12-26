@@ -1,8 +1,12 @@
 package rsf2.android.tarc2day;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 /**
@@ -124,5 +128,22 @@ public class Promotion implements Parcelable{
         price = in.readDouble();
         contactNo = in.readString();
         location = in.readString();
+    }
+
+    public static Bitmap base64ToBitmap(String b64) {
+        byte[] imageAsBytes = Base64.decode(b64.getBytes(), Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+    }
+
+    public static String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        if(bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        }
+        else {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        }
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

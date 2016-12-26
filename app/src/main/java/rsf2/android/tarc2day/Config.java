@@ -10,6 +10,7 @@ public class Config {
     public static final String URL_LOGIN = "http://thammingkeat.esy.es/login.php";
     public static final String URL_ADD_EVENT = "http://thammingkeat.esy.es/AddEvent.php";
     public static final String URL_ADD_SOCIETY = "http://thammingkeat.esy.es/AddSociety.php";
+    public static final String URL_ADD_PROMO = "http://thammingkeat.esy.es/AddPromotion.php";
     public static final String URL_GET_LOCATION_NAME = "http://thammingkeat.esy.es/getLocationName.php";
     public static final String URL_GET_SOCIETY_NAME = "http://thammingkeat.esy.es/getSocietyName.php";
     public static final String URL_GET_EVENT_IMAGE = "http://thammingkeat.esy.es/getImageEvent.php";
@@ -48,6 +49,18 @@ public class Config {
     public static final String KEY_SOCIETY_EMAIL = "email";
     public static final String KEY_SOCIETY_IMAGE = "image";
 
+    // Promotion entity key
+    public static final String KEY_PROMO_NAME = "name";
+    public static final String KEY_PROMO_DESCRIPTION = "description";
+    public static final String KEY_PROMO_START_DATE = "startDate";
+    public static final String KEY_PROMO_END_DATE = "endDate";
+    public static final String KEY_PROMO_START_TIME = "startTime";
+    public static final String KEY_PROMO_END_TIME= "endTime";
+    public static final String KEY_PROMO_EMAIL = "email";
+    public static final String KEY_PROMO_CONTACT_NUMBER = "contactNumber";
+    public static final String KEY_PROMO_LOCATION = "location";
+    public static final String KEY_PROMO_PRICE = "price";
+    public static final String KEY_PROMO_IMAGE = "image";
 
     public static final String KEY_LOGIN_USERNAME = "username";
     public static final String KEY_LOGIN_PASSWORD = "password";

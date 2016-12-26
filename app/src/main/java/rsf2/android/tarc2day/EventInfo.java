@@ -222,13 +222,11 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         startActivity(intent);
                     }
                 });
         builder.setNegativeButton(android.R.string.cancel, null);
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 }

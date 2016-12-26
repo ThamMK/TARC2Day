@@ -1,5 +1,6 @@
 package rsf2.android.tarc2day;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.DatePickerDialog;
@@ -19,10 +20,15 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,8 +56,7 @@ public class CreateSociety extends AppCompatActivity {
     EditText editTextCreateSocietyContactNo, editTextCreateSocietyEmail;
     ImageView imageViewCreateSocietyImage;
 
-    private int PICK_IMAGE_REQUEST = 1;
-
+    private final static int RESULT_SELECT_IMAGE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,39 +73,68 @@ public class CreateSociety extends AppCompatActivity {
     }
 
     protected void onClickImageView(View view) {
-        Intent intent = new Intent();
-        // Show only images, no videos or anything else
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        // Always show the chooser (if there are multiple options available)
-
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        try{
+            //Pick Image From Gallery
+            Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(i, RESULT_SELECT_IMAGE);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
+        /*if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
-
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
-                ImageView imageView = (ImageView) findViewById(R.id.createSocietyImageFile);
+                ImageView imageView = (ImageView) findViewById(R.id.createEventImageFile);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }*/
+
+        if (requestCode == RESULT_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
+            // Let's read picked image data - its URI
+            Uri uri = data.getData();
+
+            doCrop(uri);
         }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            //Bitmap bitmap = CropImageView
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
+                    bitmap = scale(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                ImageView imageView = (ImageView) findViewById(R.id.createSocietyImageFile);
+                imageView.setImageBitmap(bitmap);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+
     }
 
     class BackgroundInsertSocietyTask extends AsyncTask<String,Void,String>{
         Context ctx;
         String date;
+        ProgressDialog loading;
 
         BackgroundInsertSocietyTask(Context context){
             this.ctx = context;
+            loading = ProgressDialog.show(CreateSociety.this, "Uploading Society", "Please wait...",true,true);
         }
 
         @Override
@@ -148,5 +182,18 @@ public class CreateSociety extends AppCompatActivity {
 
         BackgroundInsertSocietyTask backgroundInsertSocietyTask = new BackgroundInsertSocietyTask(this);
         backgroundInsertSocietyTask.execute(societyName,societyDescription,societyPersonInCharge,societyContactNo,societyEmail,encodedImage);
+    }
+
+    public void doCrop(Uri imageUri){
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropResultSize(600,600)
+                //.setMaxCropResultSize(1000,480)
+                .start(this);
+    }
+
+    private Bitmap scale(Bitmap b) {
+        ScrollView scrollView = (ScrollView)findViewById(R.id.activity_create_society);
+        return Bitmap.createScaledBitmap(b, (scrollView.getWidth()-40),600, false);
     }
 }

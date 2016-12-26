@@ -16,6 +16,25 @@ public class Society implements Parcelable{
     private String contactNo;
     private String email;
     private Bitmap image;
+    private String imageUrl;
+
+    public Society(String name, String personInCharge, String description, String contactNo, String email) {
+        this.name = name;
+        this.personInCharge = personInCharge;
+        this.description = description;
+        this.contactNo = contactNo;
+        this.email = email;
+    }
+
+    public Society(String name, String personInCharge, String description, String contactNo, String email, Bitmap image, String imageUrl) {
+        this.name = name;
+        this.personInCharge = personInCharge;
+        this.description = description;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.image = image;
+        this.imageUrl = imageUrl;
+    }
 
     public Society(String name, String personInCharge, String description, String contactNo, String email, Bitmap image) {
         this.setName(name);
@@ -24,6 +43,14 @@ public class Society implements Parcelable{
         this.setContactNo(contactNo);
         this.setEmail(email);
         this.image = image;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getName() {

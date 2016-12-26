@@ -1,18 +1,28 @@
 package rsf2.android.tarc2day;
 
 import android.app.LocalActivityManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 public class SocietyInfo extends AppCompatActivity{
 
@@ -21,7 +31,8 @@ public class SocietyInfo extends AppCompatActivity{
     private TextView textViewDescription;
     private TextView textViewContactNo;
     private TextView textViewEmail;
-    private TabHost tabHost;
+    private ImageView imageView;
+    private static Society society;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,37 +44,40 @@ public class SocietyInfo extends AppCompatActivity{
         Intent intent = getIntent();
         Society society = intent.getParcelableExtra("SOCIETY");
         getDetails(society);
-//
-//
-//        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayoutSocietyInfo);
-//        tabLayout.addTab(tabLayout.newTab().setText("Details"));
-//        tabLayout.addTab(tabLayout.newTab().setText("Location"));
-//        tabLayout.addTab(tabLayout.newTab().setText("Comment"));
-//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//
-//        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPagerSocietyInfo);
-//        final EventInfoAdapter adapter = new EventInfoAdapter
-//                (getSupportFragmentManager(), tabLayout.getTabCount());
-//        viewPager.setAdapter(adapter);
-//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                viewPager.setCurrentItem(tab.getPosition());
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
 
     }
+    class BackgroundTask extends AsyncTask<String,Void,Bitmap> {
+
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            //Pass in the event id
+            //return getBitmapFromURL(params[0]);
+            try {
+                return Picasso.with(SocietyInfo.this).load(params[0]).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+
+
+            imageView = (ImageView) findViewById(R.id.imageViewSocietyInfo);
+
+            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(1600, 1600);
+            //imageView.setLayoutParams(layoutParams);
+
+            // imageView.getLayoutParams().height = 450;
+
+            imageView.setImageBitmap(bitmap);
+            //imageView.requestLayout();
+        }
+    }
+
 
     protected void getDetails(Society society) {
 
@@ -83,5 +97,33 @@ public class SocietyInfo extends AppCompatActivity{
 
         textViewEmail = (TextView) findViewById(R.id.textViewSocietyInfoEmail);
         textViewEmail.setText(society.getEmail());
+
+        SocietyInfo.BackgroundTask backgroundTask = new SocietyInfo.BackgroundTask();
+        backgroundTask.execute(society.getImageUrl());
+    }
+
+    public void registerSociety(View view){
+//        final Intent intent = new Intent(this,GenerateQR.class);
+//        intent.putExtra("registerSociety",(Parcelable) society);
+
+        AlertDialog.Builder requestBuilder = new AlertDialog.Builder(this);
+        requestBuilder.setCancelable(true);
+        requestBuilder.setMessage("Your request to join " + society.getName() + " is pending for approve. ");
+        final AlertDialog requestDialog = requestBuilder.create();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Society Registration");
+        builder.setMessage("Do you confirm want to register society : " + society.getName());
+        builder.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        startActivity(intent);
+                        requestDialog.show();
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

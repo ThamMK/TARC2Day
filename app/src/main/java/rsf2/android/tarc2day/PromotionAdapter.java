@@ -61,7 +61,6 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
                 //Pass in the position of the event from the arraylist
                 intent.putExtra("PROMOTION",promotion);
                 context.startActivity(intent);
-
             }
         });
     }

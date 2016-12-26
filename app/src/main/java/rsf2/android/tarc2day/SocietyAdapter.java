@@ -10,11 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class SocietyAdapter extends RecyclerView.Adapter<SocietyAdapter.MyViewHolder> {
 
     private List<Society> societyList;
+    int width, height;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewPersonInCharge,textViewDescription,textViewContactNo,textViewEmail;
@@ -29,6 +32,12 @@ public class SocietyAdapter extends RecyclerView.Adapter<SocietyAdapter.MyViewHo
 
     public SocietyAdapter(List<Society> societyList) {
         this.societyList = societyList;
+    }
+
+    public SocietyAdapter(List<Society> societyList,int width,int height){
+        this.societyList = societyList;
+        this.width = width;
+        this.height = height;
     }
 
     @Override
@@ -50,9 +59,7 @@ public class SocietyAdapter extends RecyclerView.Adapter<SocietyAdapter.MyViewHo
         holder.textViewName.setText(society.getName());
         holder.textViewPersonInCharge.setText(society.getPersonInCharge());
         holder.imageViewSociety.setImageBitmap(society.getImage());
-//        holder.textViewDescription.setText(society.getDescription());
-//        holder.textViewContactNo.setText(society.getContactNo());
-//        holder.textViewEmail.setText(society.getContactNo());
+        Picasso.with(context).load(society.getImageUrl()).placeholder( R.drawable.progress_animation ).resize(width,height).into(holder.imageViewSociety);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
