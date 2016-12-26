@@ -19,10 +19,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
@@ -64,7 +64,7 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
     ArrayList<String> eventIdArray = new ArrayList<>();
     static Boolean checkRegisterEvent = false;
     User user;
-
+    private Message[] messageArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -90,29 +90,53 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         super.onCreate(savedInstanceState);
     }
 
-    class BackgroundLocationTask extends AsyncTask<String,Void,String> {
+    class BackgroundLocationTask extends AsyncTask<String,Void,String[]> {
 
         @Override
-        protected String doInBackground(String... params) {
-
+        protected String[] doInBackground(String... params) {
+            // response at 0 is for the location
+            // response at 1 is for messages
+            String[] response = new String[2];
             //Param 0 is location ID
             RequestHandler requestHandler = new RequestHandler();
-            String response = requestHandler.sendGetRequestParam(Config.URL_GET_LOCATION,params[0]);
+            response[0] = requestHandler.sendGetRequestParam(Config.URL_GET_LOCATION,params[0]);
 
+            //Param 1 is event ID
+            response[1] = requestHandler.sendGetRequestParam(Config.URL_GET_MESSAGE,params[1]);
+            //Need to run both at the same time to create the page adapater after both completed
 
             return response;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String[] response) {
+            super.onPostExecute(response);
 
             try {
-                JSONArray jsonArray = new JSONArray(s);
+                JSONArray jsonArray = new JSONArray(response[0]);
                 JSONObject JO = jsonArray.getJSONObject(0);
                 locationName = JO.getString("name");
                 locationLat = JO.getString("latitude");
                 locationLong = JO.getString("longitude");
+
+                JSONArray jsonMessageArray = new JSONArray(response[1]);
+                Log.d("JSON MESSAGE",response[1]);
+                messageArray = new Message[jsonMessageArray.length()];
+                for(int i = 0; i < jsonMessageArray.length(); i++) {
+
+                    JSONObject jsonMessage = jsonMessageArray.getJSONObject(i);
+                    Log.d("JSON MESSAGE",jsonMessage.toString());
+                    String messageId = jsonMessage.getString("messageId");
+                    String eventId = jsonMessage.getString("eventId");
+                    String username = jsonMessage.getString("username");
+                    String messageText = jsonMessage.getString("message");
+                    String messageDate = jsonMessage.getString("messageDate");
+                    String name = jsonMessage.getString("name");
+                    Message message = new Message(messageId,username,eventId,messageText,messageDate,name);
+                    messageArray[i] = message;
+                }
+
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -122,7 +146,7 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
 
             final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPagerEventInfo);
             final EventInfoAdapter adapter = new EventInfoAdapter
-                    (getSupportFragmentManager(), tabLayout.getTabCount(), event,locationName,locationLat,locationLong);
+                    (getSupportFragmentManager(), tabLayout.getTabCount(), event,locationName,locationLat,locationLong, messageArray);
             viewPager.setAdapter(adapter);
             viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -143,6 +167,41 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
             });
 
 
+        }
+    }
+
+    class BackgroundMessageTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            //Param is event ID
+            RequestHandler requestHandler = new RequestHandler();
+            String response = requestHandler.sendGetRequestParam(Config.URL_GET_LOCATION,params[0]);
+
+
+            return response;
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                JSONArray jsonArray = new JSONArray(s);
+                Message[] messageArray = new Message[jsonArray.length()];
+                for(int i = 0; i < jsonArray.length(); i++) {
+
+                    JSONObject JO = jsonArray.getJSONObject(i);
+                    messageArray[i].setUsername(JO.getString("username"));
+                    messageArray[i].setEventId(JO.getString("eventId"));
+                    messageArray[i].setMessage(JO.getString("message"));
+                    messageArray[i].setMessageId(JO.getString("messageId"));
+                    messageArray[i].setMessageDate(JO.getString("messageDate"));
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -188,16 +247,15 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
             Toast.makeText(EventInfo.this, "Fuck you off,dont register twice", Toast.LENGTH_SHORT).show();
         }
         else{
+            checkRegisterEvent = true;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Event Registration");
             builder.setMessage("Do you confirm want to register event : " + event.getTitle());
             builder.setPositiveButton("Confirm",
                     new DialogInterface.OnClickListener() {
-
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            checkRegisterEvent = true;
                             Intent intent = new Intent(EventInfo.this, GenerateQR.class);
                             intent.putExtra("registerEvent", (Parcelable) event);
                             startActivity(intent);

@@ -14,15 +14,17 @@ public class EventInfoAdapter extends FragmentStatePagerAdapter{
     int numTabs;
     Event event;
     String locationName, locationLat, locationLong;
+    Message[] messageArray;
 
 
-    public EventInfoAdapter(FragmentManager fm, int numTabs, Event event,String locationName, String locationLat, String locationLong) {
+    public EventInfoAdapter(FragmentManager fm, int numTabs, Event event,String locationName, String locationLat, String locationLong, Message[] messageArray) {
         super(fm);
         this.numTabs = numTabs;
         this.event = event;
         this.locationName = locationName;
         this.locationLat = locationLat;
         this.locationLong = locationLong;
+        this.messageArray = messageArray;
     }
 
 
@@ -46,6 +48,10 @@ public class EventInfoAdapter extends FragmentStatePagerAdapter{
                 return eventLocationFragment;
             case 2:
                 EventQuestionFragment eventQuestionFragment = new EventQuestionFragment();
+                bundle.putParcelableArray("messageArray",messageArray);
+                bundle.putString("eventId",event.getId());
+                eventQuestionFragment.setArguments(bundle);
+
                 return eventQuestionFragment;
             default:
                 return null;
