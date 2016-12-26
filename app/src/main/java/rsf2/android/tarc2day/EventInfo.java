@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -18,6 +19,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -85,38 +88,6 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         super.onCreate(savedInstanceState);
-    }
-
-    class BackgroundTask extends AsyncTask<String,Void,Bitmap> {
-
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            //Pass in the event id
-            //return getBitmapFromURL(params[0]);
-            try {
-                return Picasso.with(EventInfo.this).load(params[0]).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-
-
-            imageView = (ImageView) findViewById(R.id.imageViewEventInfo);
-
-            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(1600, 1600);
-            //imageView.setLayoutParams(layoutParams);
-
-           // imageView.getLayoutParams().height = 450;
-
-            imageView.setImageBitmap(bitmap);
-            //imageView.requestLayout();
-        }
     }
 
     class BackgroundLocationTask extends AsyncTask<String,Void,String> {
@@ -190,13 +161,19 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         textViewDate.setText(event.getStartDate() + " - " + event.getEndDate());
 
         textViewPrice = (TextView) findViewById(R.id.textViewEventInfoPrice);
-        textViewPrice.setText("RM " + event.getPrice());
+        if(event.getPrice() == 0.0)
+            textViewPrice.setText("FREE");
+        else
+            textViewPrice.setText("RM " + event.getPrice());
 
         textViewContact = (TextView) findViewById(R.id.textViewEventInfoContact);
         textViewContact.setText(event.getContactNo());
 
-        BackgroundTask backgroundTask = new BackgroundTask();
-        backgroundTask.execute(event.getImageUrl());
+        int width = dpToPx(365);
+        int height = dpToPx(200);
+
+        imageView = (ImageView) findViewById(R.id.imageViewEventInfo) ;
+        Picasso.with(this).load(event.getImageUrl()).placeholder(R.drawable.progress_animation ).resize(width,height).into(imageView);
 
         new BackgroundCheckEventTask().execute();
     }
@@ -211,15 +188,16 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
             Toast.makeText(EventInfo.this, "Fuck you off,dont register twice", Toast.LENGTH_SHORT).show();
         }
         else{
-            checkRegisterEvent = true;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Event Registration");
             builder.setMessage("Do you confirm want to register event : " + event.getTitle());
             builder.setPositiveButton("Confirm",
                     new DialogInterface.OnClickListener() {
+
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            checkRegisterEvent = true;
                             Intent intent = new Intent(EventInfo.this, GenerateQR.class);
                             intent.putExtra("registerEvent", (Parcelable) event);
                             startActivity(intent);
@@ -302,5 +280,12 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
         }
+    }
+
+
+    public int dpToPx(int dp) {
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
     }
 }

@@ -90,11 +90,19 @@
             android:drawablePadding="10dp"
             android:text="DK ABA"
             android:gravity="center_vertical"
-            android:layout_marginBottom="20dp"
             android:id="@+id/textShowEventDetailLocation"
             android:textColor="@color/white"
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:id="@+id/buttonShowEventDetailReminder"
+                android:text="Set As Reminder"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:onClick="reminderEvent" />
     </LinearLayout>
-
 </RelativeLayout>

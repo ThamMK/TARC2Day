@@ -24,14 +24,12 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context="rsf2.android.tarc2day.EventInfo"
                 tools:showIn="@layout/activity_event_info"
+                android:layout_marginTop="60dp"
                 android:weightSum="1">
-
-
-
 
                 <ImageView
                     android:layout_width="365dp"
-                    android:layout_height="250dp"
+                    android:layout_height="200dp"
 
                     android:id="@+id/imageViewEventInfo"/>
 

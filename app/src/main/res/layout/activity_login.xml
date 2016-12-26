@@ -101,6 +101,18 @@
                 android:background="@color/tarPink"
                 android:layout_marginTop="10dp"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:text="Forget Password"
+                android:layout_marginTop="8dp"
+                android:textSize="14dp"
+                android:layout_gravity="center"
+                android:textColor="@color/tarPink"
+                android:background="@color/zxing_transparent"
+                android:onClick="proceedToForgetPassword"
+                android:id="@+id/btnForgetPass" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
