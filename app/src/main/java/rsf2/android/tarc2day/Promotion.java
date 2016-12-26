@@ -1,8 +1,12 @@
 package rsf2.android.tarc2day;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 /**
@@ -18,9 +22,22 @@ public class Promotion implements Parcelable{
     private double price;
     private String contactNo;
     private String location;
+    private Bitmap image;
+    private String imageUrl;
 
     public Promotion() {
 
+    }
+
+    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location, Bitmap image) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.location = location;
+        this.image = image;
     }
 
     public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location) {
@@ -31,6 +48,34 @@ public class Promotion implements Parcelable{
         this.setPrice(price);
         this.setContactNo(contactNo);
         this.setLocation(location);
+    }
+
+    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location, Bitmap image, String imageUrl) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.location = location;
+        this.image = image;
+        this.imageUrl = imageUrl;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {
@@ -124,5 +169,22 @@ public class Promotion implements Parcelable{
         price = in.readDouble();
         contactNo = in.readString();
         location = in.readString();
+    }
+
+    public static Bitmap base64ToBitmap(String b64) {
+        byte[] imageAsBytes = Base64.decode(b64.getBytes(), Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+    }
+
+    public static String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        if(bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        }
+        else {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        }
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

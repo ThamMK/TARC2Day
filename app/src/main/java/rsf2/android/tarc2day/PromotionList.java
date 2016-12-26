@@ -51,7 +51,7 @@ public class PromotionList extends AppCompatActivity {
 
         String startDate = simpleDateFormat.format(date);
         String endDate = simpleDateFormat.format(date);
-        Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
+//        Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
         Promotion promotion = new Promotion("Promotion 1", "Very fun", startDate, endDate, 0.0, "012", "Test-Location");
         promotionList.add(promotion);
 

@@ -261,7 +261,6 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
     class BackgroundLocationTask extends AsyncTask<Void,Void,String>{
 
-
         @Override
         protected void onPreExecute() {
         }
