@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private Button btnRegister;
+    private  Button btnForgetPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View view) {
 
                 attemptLogin();
+            }
+        });
+
+        btnForgetPass = (Button) findViewById(R.id.btnForgetPass);
+        btnForgetPass.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
+                startActivity(intent);
             }
         });
 
@@ -426,6 +436,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
             Toast.makeText(LoginActivity.this,"cancelled",Toast.LENGTH_LONG);
         }
+
     }
 }
 
