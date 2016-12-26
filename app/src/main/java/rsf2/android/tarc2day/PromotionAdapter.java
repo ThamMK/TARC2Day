@@ -17,7 +17,7 @@ import java.util.List;
 public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyViewHolder> {
 
     private List<Promotion> promotionList;
-
+    int width, height;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewDesc,textViewPrice;
@@ -31,7 +31,13 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
     }
 
     public PromotionAdapter(List<Promotion> promotionList) {
+        this(promotionList,1000,600);
+    }
+
+    public PromotionAdapter(List<Promotion> promotionList,int width,int height){
         this.promotionList = promotionList;
+        this.width = width;
+        this.height = height;
     }
 
     @Override

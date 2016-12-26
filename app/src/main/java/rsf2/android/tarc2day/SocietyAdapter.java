@@ -31,7 +31,7 @@ public class SocietyAdapter extends RecyclerView.Adapter<SocietyAdapter.MyViewHo
     }
 
     public SocietyAdapter(List<Society> societyList) {
-        this.societyList = societyList;
+        this(societyList,1000,600);
     }
 
     public SocietyAdapter(List<Society> societyList,int width,int height){

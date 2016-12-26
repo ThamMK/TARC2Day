@@ -22,9 +22,22 @@ public class Promotion implements Parcelable{
     private double price;
     private String contactNo;
     private String location;
+    private Bitmap image;
+    private String imageUrl;
 
     public Promotion() {
 
+    }
+
+    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location, Bitmap image) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.location = location;
+        this.image = image;
     }
 
     public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location) {
@@ -35,6 +48,34 @@ public class Promotion implements Parcelable{
         this.setPrice(price);
         this.setContactNo(contactNo);
         this.setLocation(location);
+    }
+
+    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location, Bitmap image, String imageUrl) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.location = location;
+        this.image = image;
+        this.imageUrl = imageUrl;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {
