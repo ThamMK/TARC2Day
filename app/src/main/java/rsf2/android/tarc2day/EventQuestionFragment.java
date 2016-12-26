@@ -1,12 +1,31 @@
 package rsf2.android.tarc2day;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 
 
 /**
@@ -26,6 +45,11 @@ public class EventQuestionFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Message[] messageArray;
+    private User user;
+    private boolean admin;
+
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +88,49 @@ public class EventQuestionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_event_question, container, false);
+        final View view =  inflater.inflate(R.layout.fragment_event_question, container, false);
+
+        final Bundle bundle = getArguments();
+        //Get back the parcel
+        //But cant cast parcel into message array
+        // Need to copy the data from parcel back into a messge array
+
+        //This is to retrieve message for the activity
+        Parcelable[] messageParcel = bundle.getParcelableArray("messageArray");
+        messageArray = Arrays.copyOf(messageParcel,messageParcel.length,Message[].class);
+        CustomMessageListAdapter messageListAdapter = new CustomMessageListAdapter(getContext(),messageArray);
+        ListView messageList = (ListView) view.findViewById(R.id.list_of_messages);
+        messageList.setAdapter(messageListAdapter);
+
+
+
+
+        FloatingActionButton btnSend = (FloatingActionButton) view.findViewById(R.id.fab);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //This is to post the message
+                //Retrieve the necessary data
+                EditText editTextMessage = (EditText) view.findViewById(R.id.inputMessage);
+                String messageText = editTextMessage.getText().toString();
+                String eventId = bundle.getString("eventId");
+                //Get shared preference to get the user id
+                getUserData();
+
+                //Get the current date of user comment post
+                Date date = new Date();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String messageDate = simpleDateFormat.format(date);
+
+                BackgroundPostMessageTask backgroundPostMessageTask = new BackgroundPostMessageTask();
+                backgroundPostMessageTask.execute(user.getUsername(),eventId,messageText,messageDate);
+
+
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -105,4 +171,63 @@ public class EventQuestionFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    protected void getUserData() {
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPreferences",Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString(Config.TAG_USER, "");
+
+        user = gson.fromJson(json,User.class);
+        admin = sharedPreferences.getBoolean(Config.TAG_ADMIN,false);
+
+    }
+
+    class BackgroundPostMessageTask extends AsyncTask<String,Void,String> {
+
+        ProgressDialog loading;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            loading = ProgressDialog.show(getContext(),"Posting message","Please wait...",true,true);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            HashMap<String,String> parameter = new HashMap<>();
+            parameter.put("username",params[0]);
+            parameter.put("eventId",params[1]);
+            parameter.put("messageText",params[2]);
+            parameter.put("messageDate",params[3]);
+
+            RequestHandler rh = new RequestHandler();
+            String res = rh.sendPostRequest(Config.URL_POST_MESSAGE, parameter);
+            return res;
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            loading.dismiss();
+            if(!response.isEmpty()) {
+                Toast.makeText(getContext(),"Successfully posted!", Toast.LENGTH_SHORT).show();
+
+                getActivity().finish();
+
+            } else {
+                Toast.makeText(getContext(),"Failed to post", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void refreshFragment(Message[] messageArray) {
+
+    }
+
+
 }
