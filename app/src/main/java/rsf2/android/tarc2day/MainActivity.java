@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private ListView drawerListView;
     private CustomListAdapter adapter;
     private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
-    private String[] adminArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" ,"Create Event", "About us", "Log Out"};
-    private Integer[] adminImageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage};
+    private String[] adminArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" ,"Create Event", "Create Promotion", "Create Society","About us", "Log Out"};
+    private Integer[] adminImageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage, R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage};
     private Integer[] imageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage};
 
     private User user;
@@ -204,6 +204,14 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             intent = new Intent(getApplicationContext(), CreateEvent.class);
                             startActivity(intent);
                             break;
+                        case "Create Promotion":
+                            intent = new Intent(getApplicationContext(), PromotionCreate.class);
+                            startActivity(intent);
+                            break;
+                        case "Create Society":
+                            intent = new Intent(getApplicationContext(), CreateSociety.class);
+                            startActivity(intent);
+                            break;
                         case "Log Out":
                             finishActivity(0);
                         default:
@@ -319,14 +327,14 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private void societyData() {
 
         //Get event data from database
-        Society society = new Society("Computer Science Society","Ming Keat","This is society description part\n" +
-                "It may contain multiple lines of text","012-3456789","test@email.com");
-        societyList.add(society);
-        society = new Society("Accounting Society","Ming Keat","This is society description part\nIt may contain multiple lines of text","012-3456789","test@email.com");
-        societyList.add(society);
-        society = new Society("Astronomy Society","Ming Keat","This is society description part\n" +
-                "It may contain multiple lines text","012-3456789","test@email.com");
-        societyList.add(society);
+//        Society society = new Society("Computer Science Society","Ming Keat","This is society description part\n" +
+//                "It may contain multiple lines of text","012-3456789","test@email.com");
+//        societyList.add(society);
+//        society = new Society("Accounting Society","Ming Keat","This is society description part\nIt may contain multiple lines of text","012-3456789","test@email.com");
+//        societyList.add(society);
+//        society = new Society("Astronomy Society","Ming Keat","This is society description part\n" +
+//                "It may contain multiple lines text","012-3456789","test@email.com");
+//        societyList.add(society);
 
 
     }

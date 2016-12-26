@@ -1,19 +1,26 @@
 package rsf2.android.tarc2day;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+
 public class PromotionInfo extends AppCompatActivity {
 
-
+    private static Promotion promotion;
     private TextView textViewTitle;
     private TextView textViewDetail;
     private TextView textViewTime;
@@ -21,6 +28,7 @@ public class PromotionInfo extends AppCompatActivity {
     private TextView textViewPrice;
     private TextView textViewContact;
     private TextView textViewLocation;
+    private ImageView imageViewPromotionInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +44,48 @@ public class PromotionInfo extends AppCompatActivity {
         textViewPrice = (TextView) findViewById(R.id.textViewPromotionPrice);
         textViewContact = (TextView) findViewById(R.id.textViewPromotionContact);
         textViewLocation = (TextView) findViewById(R.id.textViewPromotionLocation);
+        imageViewPromotionInfo = (ImageView) findViewById(R.id.imageViewPromotionInfo);
 
         Intent intent = getIntent();
         Promotion promotion = intent.getParcelableExtra("PROMOTION");
         getDetails(promotion);
     }
 
+    class BackgroundTask extends AsyncTask<String,Void,Bitmap> {
+
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            //Pass in the event id
+            //return getBitmapFromURL(params[0]);
+            try {
+                return Picasso.with(PromotionInfo.this).load(params[0]).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+
+
+            imageViewPromotionInfo = (ImageView) findViewById(R.id.imageViewPromotionInfo);
+
+            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(1600, 1600);
+            //imageView.setLayoutParams(layoutParams);
+
+            // imageView.getLayoutParams().height = 450;
+
+            imageViewPromotionInfo.setImageBitmap(bitmap);
+            //imageView.requestLayout();
+        }
+    }
+
     protected void getDetails(Promotion promotion) {
+
+        this.promotion = promotion;
 
         textViewTitle.setText(promotion.getTitle());
         textViewDetail.setText(promotion.getDescription());
@@ -51,7 +94,8 @@ public class PromotionInfo extends AppCompatActivity {
         textViewContact.setText(promotion.getContactNo());
         textViewLocation.setText(promotion.getLocation());
 
-
+        PromotionInfo.BackgroundTask backgroundTask = new PromotionInfo.BackgroundTask();
+        backgroundTask.execute(promotion.getImageUrl());
 
     }
 

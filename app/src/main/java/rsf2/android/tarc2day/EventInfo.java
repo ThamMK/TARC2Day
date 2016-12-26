@@ -205,8 +205,8 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         }
     }
 
-    protected void getDetails(Event event) {
 
+    protected void getDetails(Event event) {
         this.event = event;
         BackgroundLocationTask backgroundLocationTask = new BackgroundLocationTask();
         backgroundLocationTask.execute(event.getLocationId(),event.getId());
