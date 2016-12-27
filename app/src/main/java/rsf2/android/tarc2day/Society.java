@@ -26,13 +26,12 @@ public class Society implements Parcelable{
         this.email = email;
     }
 
-    public Society(String name, String personInCharge, String description, String contactNo, String email, Bitmap image, String imageUrl) {
+    public Society(String name, String personInCharge, String description, String contactNo, String email,String imageUrl) {
         this.name = name;
         this.personInCharge = personInCharge;
         this.description = description;
         this.contactNo = contactNo;
         this.email = email;
-        this.image = image;
         this.imageUrl = imageUrl;
     }
 

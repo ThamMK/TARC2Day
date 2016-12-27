@@ -19,8 +19,11 @@ public class Promotion implements Parcelable{
     private String description;
     private String startDate;
     private String endDate;
+    private String startTime;
+    private String endTime;
     private double price;
     private String contactNo;
+    private String email;
     private String location;
     private Bitmap image;
     private String imageUrl;
@@ -29,37 +32,67 @@ public class Promotion implements Parcelable{
 
     }
 
-    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location, Bitmap image) {
+    public Promotion(String title, String description, String startDate, String endDate, String startTime, String endTime, double price, String contactNo, String email, String location, Bitmap image) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.price = price;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.location = location;
+        this.image = image;
+    }
+
+    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String email, String location) {
         this.title = title;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
         this.contactNo = contactNo;
+        this.email = email;
         this.location = location;
-        this.image = image;
     }
 
-    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location) {
-        this.setTitle(title);
-        this.setDescription(description);
-        this.setStartDate(startDate);
-        this.setEndDate(endDate);
-        this.setPrice(price);
-        this.setContactNo(contactNo);
-        this.setLocation(location);
-    }
-
-    public Promotion(String title, String description, String startDate, String endDate, double price, String contactNo, String location, Bitmap image, String imageUrl) {
+    public Promotion(String title, String description, String startDate, String endDate, String startTime, String endTime, double price, String contactNo, String email, String location, String imageUrl) {
         this.title = title;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.price = price;
         this.contactNo = contactNo;
+        this.email = email;
         this.location = location;
-        this.image = image;
         this.imageUrl = imageUrl;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Bitmap getImage() {
