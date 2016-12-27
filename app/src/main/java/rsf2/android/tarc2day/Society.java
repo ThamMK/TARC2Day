@@ -111,7 +111,7 @@ public class Society implements Parcelable{
         dest.writeString(description);
         dest.writeString(contactNo);
         dest.writeString(email);
-
+        dest.writeString(imageUrl);
     }
 
     public static final Parcelable.Creator<Society> CREATOR = new Parcelable.Creator<Society>(){
@@ -130,6 +130,7 @@ public class Society implements Parcelable{
         description = in.readString();
         contactNo = in.readString();
         email = in.readString();
+        imageUrl = in.readString();
     }
 
     public static Bitmap base64ToBitmap(String b64) {

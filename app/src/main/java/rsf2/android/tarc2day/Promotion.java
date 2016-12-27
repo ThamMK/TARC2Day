@@ -182,6 +182,7 @@ public class Promotion implements Parcelable{
         dest.writeDouble(price);
         dest.writeString(contactNo);
         dest.writeString(location);
+        dest.writeString(imageUrl);
     }
 
     public static final Parcelable.Creator<Promotion> CREATOR = new Parcelable.Creator<Promotion>(){
@@ -202,6 +203,7 @@ public class Promotion implements Parcelable{
         price = in.readDouble();
         contactNo = in.readString();
         location = in.readString();
+        imageUrl = in.readString();
     }
 
     public static Bitmap base64ToBitmap(String b64) {
