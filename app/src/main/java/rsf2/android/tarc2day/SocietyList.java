@@ -1,5 +1,6 @@
 package rsf2.android.tarc2day;
 
+import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,17 +48,19 @@ public class SocietyList extends AppCompatActivity {
 
 
 
-        new BackgroundTask().execute();
+        new SocietyList.BackgroundTask().execute();
     }
 
     class BackgroundTask extends AsyncTask<Void,Void,String> {
 
         String json_url;
         String JSON_STRING;
+        ProgressDialog loading;
 
         @Override
         protected void onPreExecute() {
             json_url = "http://thammingkeat.esy.es/GetSociety.php"; //th php url
+            loading = ProgressDialog.show(SocietyList.this, "Loading Society", "Please wait...",true,true);
         }
 
         @Override
@@ -119,6 +122,7 @@ public class SocietyList extends AppCompatActivity {
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(societyAdapter);
+            loading.dismiss();
         }
 
         @Override

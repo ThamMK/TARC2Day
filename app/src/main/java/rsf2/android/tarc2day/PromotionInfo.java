@@ -34,10 +34,21 @@ public class PromotionInfo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_promotion_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Intent intent = getIntent();
+        Promotion promotion = intent.getParcelableExtra("PROMOTION");
+        getDetails(promotion);
+        super.onCreate(savedInstanceState);
+    }
+
+    protected void getDetails(Promotion promotion) {
+
+        this.promotion = promotion;
+
 
         textViewTitle = (TextView) findViewById(R.id.textViewPromotionTitle);
         textViewDetail = (TextView) findViewById(R.id.textViewPromotionDetail);
@@ -46,48 +57,6 @@ public class PromotionInfo extends AppCompatActivity {
         textViewPrice = (TextView) findViewById(R.id.textViewPromotionPrice);
         textViewContact = (TextView) findViewById(R.id.textViewPromotionContact);
         textViewLocation = (TextView) findViewById(R.id.textViewPromotionLocation);
-        imageViewPromotionInfo = (ImageView) findViewById(R.id.imageViewPromotionInfo);
-
-        Intent intent = getIntent();
-        Promotion promotion = intent.getParcelableExtra("PROMOTION");
-        getDetails(promotion);
-    }
-
-    class BackgroundTask extends AsyncTask<String,Void,Bitmap> {
-
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            //Pass in the event id
-            //return getBitmapFromURL(params[0]);
-            try {
-                return Picasso.with(PromotionInfo.this).load(params[0]).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-
-
-            imageViewPromotionInfo = (ImageView) findViewById(R.id.imageViewPromotionInfo);
-
-            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(1600, 1600);
-            //imageView.setLayoutParams(layoutParams);
-
-            // imageView.getLayoutParams().height = 450;
-
-            imageViewPromotionInfo.setImageBitmap(bitmap);
-            //imageView.requestLayout();
-        }
-    }
-
-    protected void getDetails(Promotion promotion) {
-
-        this.promotion = promotion;
 
         textViewTitle.setText(promotion.getTitle());
         textViewDetail.setText(promotion.getDescription());

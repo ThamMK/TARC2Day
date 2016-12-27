@@ -48,39 +48,6 @@ public class SocietyInfo extends AppCompatActivity{
         getDetails(society);
 
     }
-    class BackgroundTask extends AsyncTask<String,Void,Bitmap> {
-
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            //Pass in the event id
-            //return getBitmapFromURL(params[0]);
-            try {
-                return Picasso.with(SocietyInfo.this).load(params[0]).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-
-
-            imageView = (ImageView) findViewById(R.id.imageViewSocietyInfo);
-
-            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(1600, 1600);
-            //imageView.setLayoutParams(layoutParams);
-
-            // imageView.getLayoutParams().height = 450;
-
-            imageView.setImageBitmap(bitmap);
-            //imageView.requestLayout();
-        }
-    }
-
-
     protected void getDetails(Society society) {
 
 
@@ -104,8 +71,7 @@ public class SocietyInfo extends AppCompatActivity{
         int height = dpToPx(200);
 
         imageView = (ImageView) findViewById(R.id.imageViewSocietyInfo) ;
-        Picasso.with(this).load(society.getImageUrl()).placeholder(R.drawable.progress_animation ).resize(width,height).into(imageView);
-
+        Picasso.with(this).load(society.getImageUrl()).placeholder(R.drawable.progress_animation).resize(width,height).into(imageView);
     }
 
     public void registerSociety(View view){
