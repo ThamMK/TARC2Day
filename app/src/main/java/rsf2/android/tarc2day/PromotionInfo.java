@@ -1,6 +1,7 @@
 package rsf2.android.tarc2day;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -94,9 +96,18 @@ public class PromotionInfo extends AppCompatActivity {
         textViewContact.setText(promotion.getContactNo());
         textViewLocation.setText(promotion.getLocation());
 
-        PromotionInfo.BackgroundTask backgroundTask = new PromotionInfo.BackgroundTask();
-        backgroundTask.execute(promotion.getImageUrl());
+        int width = dpToPx(365);
+        int height = dpToPx(200);
+
+        imageViewPromotionInfo = (ImageView) findViewById(R.id.imageViewPromotionInfo) ;
+        Picasso.with(this).load(promotion.getImageUrl()).placeholder(R.drawable.progress_animation ).resize(width,height).into(imageViewPromotionInfo);
 
     }
 
+
+    public int dpToPx(int dp) {
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
+    }
 }

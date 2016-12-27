@@ -76,7 +76,7 @@ public class SocietyList extends AppCompatActivity {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
-                return  stringBuilder.toString().trim();
+                result =  stringBuilder.toString().trim();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -104,7 +104,7 @@ public class SocietyList extends AppCompatActivity {
                 int width = displaymetrics.widthPixels;
                 int height = dpToPx(200);
                 societyAdapter = new SocietyAdapter(societyList,width,height);
-                
+
             }
             catch(JSONException e){
                 e.printStackTrace();
