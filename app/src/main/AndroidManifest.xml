@@ -43,6 +43,7 @@
         <activity
             android:name=".EventList"
             android:label="@string/title_activity_event_list"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         =======
         <activity
@@ -58,7 +59,8 @@
             android:name=".EventInfo"
             android:label="@string/title_activity_event_info"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:parentActivityName=".EventList"/>
         =======
         <activity
             android:name=".SocietyInfo"
@@ -77,18 +79,24 @@
             android:name=".CreateEvent"
             android:launchMode="singleTop"
             android:noHistory="false" />
+
         <activity android:name=".GenerateQR"
             android:parentActivityName=".EventInfo"/>
+
         <activity android:name=".CreateSociety" />
         >>>>>>> origin/SocietyBranch
         <activity android:name=".RegisterActivity" />
+
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <activity android:name=".MyEvent" />
         <activity android:name=".ShowEventDetail" />
+
         <activity android:name=".ForgetPassword"
             android:parentActivityName=".LoginActivity"></activity>
+
     </application>
 
 </manifest>

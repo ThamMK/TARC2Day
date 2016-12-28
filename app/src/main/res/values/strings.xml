@@ -13,7 +13,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="action_register">Register</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="top_event">Top Event</string>
     <string name="view_all">View All ></string>

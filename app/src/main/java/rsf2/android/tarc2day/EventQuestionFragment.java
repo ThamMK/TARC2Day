@@ -228,7 +228,14 @@ public class EventQuestionFragment extends Fragment {
             if(!response.isEmpty()) {
                 Toast.makeText(getContext(),"Successfully posted!", Toast.LENGTH_SHORT).show();
 
-                getActivity().finish();
+                Fragment currentFragment = getFragmentManager().findFragmentByTag("");
+                FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
+                fragTransaction.detach(currentFragment);
+                fragTransaction.attach(currentFragment);
+                fragTransaction.commit();
+
+                //getActivity().finish();
+
 
             } else {
                 Toast.makeText(getContext(),"Failed to post", Toast.LENGTH_SHORT).show();
