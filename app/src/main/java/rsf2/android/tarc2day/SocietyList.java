@@ -1,5 +1,7 @@
 package rsf2.android.tarc2day;
 
+import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +11,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 
 import org.json.JSONArray;
@@ -44,21 +48,24 @@ public class SocietyList extends AppCompatActivity {
 
 
 
-        new BackgroundTask().execute();
+        new SocietyList.BackgroundTask().execute();
     }
 
     class BackgroundTask extends AsyncTask<Void,Void,String> {
 
         String json_url;
         String JSON_STRING;
+        ProgressDialog loading;
 
         @Override
         protected void onPreExecute() {
             json_url = "http://thammingkeat.esy.es/GetSociety.php"; //th php url
+            loading = ProgressDialog.show(SocietyList.this, "Loading Society", "Please wait...",true,true);
         }
 
         @Override
         protected String doInBackground(Void... params) {
+            String result = "";
             try {
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -72,18 +79,13 @@ public class SocietyList extends AppCompatActivity {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
-                return  stringBuilder.toString().trim();
+                result =  stringBuilder.toString().trim();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
             try {
                 jsonArray = new JSONArray(result);
                 String societyName,societyDescription,societyPersonInCharge,societyContactNo,societyEmail, encodedImage;
@@ -96,20 +98,31 @@ public class SocietyList extends AppCompatActivity {
                     societyEmail = JO.getString("email");
                     encodedImage = JO.getString("image");
 
-                    Society society = new Society(societyName,societyPersonInCharge,societyDescription,societyContactNo,societyEmail,Society.base64ToBitmap(encodedImage));
+                    Society society = new Society(societyName,societyPersonInCharge,societyDescription,societyContactNo,societyEmail,encodedImage);
                     societyList.add(society);
                 }
 
-                societyAdapter = new SocietyAdapter(societyList);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                recyclerView.setLayoutManager(mLayoutManager);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(societyAdapter);
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                int width = displaymetrics.widthPixels;
+                int height = dpToPx(200);
+                societyAdapter = new SocietyAdapter(societyList,width,height);
 
             }
             catch(JSONException e){
                 e.printStackTrace();
             }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(societyAdapter);
+            loading.dismiss();
         }
 
         @Override
@@ -117,4 +130,10 @@ public class SocietyList extends AppCompatActivity {
             super.onProgressUpdate(values);
         }
     }
+    public int dpToPx(int dp) {
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
+    }
+
 }

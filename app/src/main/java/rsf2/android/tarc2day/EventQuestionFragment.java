@@ -228,7 +228,10 @@ public class EventQuestionFragment extends Fragment {
             if(!response.isEmpty()) {
                 Toast.makeText(getContext(),"Successfully posted!", Toast.LENGTH_SHORT).show();
 
+                Intent intent = new Intent(getContext(),EventList.class);
+
                 getActivity().finish();
+                startActivity(intent);
 
             } else {
                 Toast.makeText(getContext(),"Failed to post", Toast.LENGTH_SHORT).show();

@@ -2,26 +2,24 @@ package rsf2.android.tarc2day;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,20 +30,25 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
     private SliderLayout mDemoSlider;
     private List<Event> eventList = new ArrayList<Event>();
     private List<Society> societyList = new ArrayList<Society>();
-    private RecyclerView recyclerView, recyclerView2;
+    private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
-    private SocietyAdapter societyAdapter;
     private TextView textViewViewAll;
 
     private DrawerLayout drawerLayout;
@@ -62,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
     private User user;
     private boolean admin;
-    private TextView textViewUsername;
+    private TextView textViewName;
+    private CircleImageView profilePictureView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,15 +109,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         });
 
 
-        textViewUsername = (TextView) findViewById(R.id.textViewUsername);
-
+        textViewName = (TextView) findViewById(R.id.textViewName);
+        profilePictureView = (CircleImageView) findViewById(R.id.imageViewNavDrawer);
         //Get the user data from shared preference
         getUserData();
-        textViewUsername.setText(user.getUsername());
-        if(admin)
-            Toast.makeText(this,"user is admin",Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(this,"user is not an admin",Toast.LENGTH_LONG).show();
+        textViewName.setText(user.getName());
+
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
@@ -149,13 +150,9 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewEvent);
 
-        eventAdapter = new EventAdapter(eventList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(eventAdapter);
+        BackgroundEventTask backgroundEventTask = new BackgroundEventTask();
+        backgroundEventTask.execute();
 
-        eventData();
 
         textViewViewAll = (TextView) findViewById(R.id.textViewViewAll);
         textViewViewAll.setOnClickListener(new View.OnClickListener() {
@@ -212,6 +209,10 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             intent = new Intent(getApplicationContext(), CreateSociety.class);
                             startActivity(intent);
                             break;
+                        case "My Account":
+                            intent = new Intent(getApplicationContext(), MyAccount.class);
+                            startActivity(intent);
+                            break;
                         case "Log Out":
                             finishActivity(0);
                         default:
@@ -251,7 +252,10 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             intent = new Intent(getApplicationContext(), MyEvent.class);
                             startActivity(intent);
                             break;
-
+                        case "My Account":
+                            intent = new Intent(getApplicationContext(), MyAccount.class);
+                            startActivity(intent);
+                            break;
                         case "Log Out":
                             finishActivity(0);
                         default:
@@ -261,24 +265,6 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             });
 
         }
-        recyclerView2 = (RecyclerView) findViewById(R.id.recyclerViewSociety);
-
-        societyAdapter = new SocietyAdapter(societyList);
-        RecyclerView.LayoutManager societyLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView2.setLayoutManager(societyLayoutManager);
-        recyclerView2.setItemAnimator(new DefaultItemAnimator());
-        recyclerView2.setAdapter(societyAdapter);
-
-        societyData();
-
-        textViewViewAll = (TextView) findViewById(R.id.textViewViewAllSociety);
-        textViewViewAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,SocietyList.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
@@ -316,6 +302,52 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         user = gson.fromJson(json,User.class);
         admin = sharedPreferences.getBoolean(Config.TAG_ADMIN,false);
 
+        BackgroundProfileTask backgroundProfileTask = new BackgroundProfileTask();
+        backgroundProfileTask.execute(user.getUsername());
+
+    }
+
+    class BackgroundProfileTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestHandler requestHandler = new RequestHandler();
+
+            HashMap<String,String> parameter = new HashMap<>();
+            parameter.put("username",params[0]);
+
+            String response = requestHandler.sendPostRequest(Config.URL_GET_USER,parameter);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                String encodedImage = jsonObject.getString("profilePicture");
+
+                user.setPassword(jsonObject.getString(Config.KEY_USER_PASSWORD));
+                if(!encodedImage.isEmpty()) {
+                    Bitmap profilePicture = User.base64ToBitmap(encodedImage);
+
+                    user.setProfilePicture(profilePicture);
+
+
+                    profilePictureView.setImageBitmap(user.getProfilePicture());
+                } else {
+                    Toast.makeText(getApplicationContext(),"No image", Toast.LENGTH_LONG).show();
+                    profilePictureView.setImageResource(R.drawable.fileimage);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
 /*    private void addDrawerItems() {
@@ -324,20 +356,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         drawerListView.setAdapter(adapter);
     }*/
 
-    private void societyData() {
 
-        //Get event data from database
-//        Society society = new Society("Computer Science Society","Ming Keat","This is society description part\n" +
-//                "It may contain multiple lines of text","012-3456789","test@email.com");
-//        societyList.add(society);
-//        society = new Society("Accounting Society","Ming Keat","This is society description part\nIt may contain multiple lines of text","012-3456789","test@email.com");
-//        societyList.add(society);
-//        society = new Society("Astronomy Society","Ming Keat","This is society description part\n" +
-//                "It may contain multiple lines text","012-3456789","test@email.com");
-//        societyList.add(society);
-
-
-    }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
@@ -358,4 +377,97 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     public void onPageScrollStateChanged(int state) {
 
     }
+
+
+    class BackgroundEventTask extends AsyncTask<Void,Void,String> {
+
+
+        JSONArray jsonArray;
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result="";
+
+           RequestHandler requestHandler = new RequestHandler();
+           result = requestHandler.sendGetRequest(Config.URL_GET_EVENT_MAIN);
+
+
+            try {
+                jsonArray = new JSONArray(result);
+                String eventId, name, description, startDate, endDate, startTime, endTime, email, contactNumber, societyId, societyName,locationName,encodedImage,locationId;
+                String uri;
+                Double price;
+                for(int i=0;i<jsonArray.length();i++){
+                    JSONObject JO = jsonArray.getJSONObject(i);
+                    eventId = JO.getString("eventId");
+                    name = JO.getString("name");
+                    description = JO.getString("description");
+                    startDate = JO.getString("startDate");
+                    endDate = JO.getString("endDate");
+                    startTime = JO.getString("startTime");
+                    endTime = JO.getString("endTime");
+                    price = Double.parseDouble(JO.getString("price"));
+                    email = JO.getString("email");
+                    contactNumber = JO.getString("contactNumber");
+                    societyId = JO.getString("societyId");
+                    societyName = JO.getString("societyName");
+                    locationId = JO.getString("locationId");
+                    locationName = JO.getString("locationName");
+
+                    //encodedImage = JO.getString("image");
+                    uri = JO.getString("imageUrl");
+
+                    Event event = new Event(eventId,name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationId,locationName,uri);
+                    eventList.add(event);
+
+                }
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                int width = displaymetrics.widthPixels;
+                int height = dpToPx(200);
+                eventAdapter = new EventAdapter(eventList,width,height);
+
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(eventAdapter);
+
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    public int dpToPx(int dp) {
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
+    }
+
+    public void startActivityMyAccount(View view) {
+
+        Intent intent = new Intent(MainActivity.this, MyAccount.class);
+        startActivity(intent);
+
+    }
+
 }

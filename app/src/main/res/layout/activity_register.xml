@@ -7,7 +7,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context="rsf2.android.tarc2day.RegisterActivity">
+    tools:context="rsf2.android.tarc2day.RegisterActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/registerProfilePicture"
+        android:layout_width="136dp"
+        android:layout_height="136dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"
+        android:layout_gravity="center"
+        android:adjustViewBounds="false"
+        android:src="@drawable/fileimage"
+        android:layout_centerHorizontal="true"/>
 
     <EditText
         android:id="@+id/editTextRegisterUsername"

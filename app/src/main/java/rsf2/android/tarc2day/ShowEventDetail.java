@@ -52,7 +52,7 @@ public class ShowEventDetail extends AppCompatActivity {
         textQRLocation = (TextView) findViewById(R.id.textShowEventDetailLocation);
 
         textQRTitle.setText(event.getTitle());
-        textQRDate.setText(event.getStartTime() + " - " + event.getEndTime());
+        textQRTime.setText(event.getStartTime() + " - " + event.getEndTime());
         textQRDate.setText(event.getStartDate() + " - " + event.getEndDate());
         if(event.getPrice() == 0.0)
             textQRPrice.setText("FREE");

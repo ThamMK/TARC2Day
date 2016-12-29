@@ -3,6 +3,7 @@ package rsf2.android.tarc2day;
 import android.app.LocalActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -46,39 +48,6 @@ public class SocietyInfo extends AppCompatActivity{
         getDetails(society);
 
     }
-    class BackgroundTask extends AsyncTask<String,Void,Bitmap> {
-
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            //Pass in the event id
-            //return getBitmapFromURL(params[0]);
-            try {
-                return Picasso.with(SocietyInfo.this).load(params[0]).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-
-
-            imageView = (ImageView) findViewById(R.id.imageViewSocietyInfo);
-
-            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(1600, 1600);
-            //imageView.setLayoutParams(layoutParams);
-
-            // imageView.getLayoutParams().height = 450;
-
-            imageView.setImageBitmap(bitmap);
-            //imageView.requestLayout();
-        }
-    }
-
-
     protected void getDetails(Society society) {
 
 
@@ -98,8 +67,11 @@ public class SocietyInfo extends AppCompatActivity{
         textViewEmail = (TextView) findViewById(R.id.textViewSocietyInfoEmail);
         textViewEmail.setText(society.getEmail());
 
-        SocietyInfo.BackgroundTask backgroundTask = new SocietyInfo.BackgroundTask();
-        backgroundTask.execute(society.getImageUrl());
+        int width = dpToPx(365);
+        int height = dpToPx(200);
+
+        imageView = (ImageView) findViewById(R.id.imageViewSocietyInfo) ;
+        Picasso.with(this).load(society.getImageUrl()).placeholder(R.drawable.progress_animation).resize(width,height).into(imageView);
     }
 
     public void registerSociety(View view){
@@ -125,5 +97,11 @@ public class SocietyInfo extends AppCompatActivity{
         builder.setNegativeButton(android.R.string.cancel, null);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public int dpToPx(int dp) {
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
     }
 }

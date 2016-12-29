@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -89,8 +90,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
-
         mPasswordView = (EditText) findViewById(R.id.password);
 
 
@@ -98,8 +97,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mEmailView.getText().toString().trim().equals("") || mPasswordView.getText().toString().trim().equals("")){
 
-                attemptLogin();
+                    Toast.makeText(LoginActivity.this,"Please enter your username and password",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    attemptLogin();
+                }
             }
         });
 
@@ -187,7 +191,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return true;
     }
 
     /**
@@ -309,7 +313,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             try {
-               url = new URL(Config.URL_LOGIN);
+                url = new URL(Config.URL_LOGIN);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return null;
@@ -325,30 +329,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 conn.setDoOutput(true);
 
                 //Append the username and password to the post request to php script
-                HashMap<String,String> parameter = new HashMap<>();
-                parameter.put(Config.KEY_LOGIN_USERNAME,username);
-                parameter.put(Config.KEY_LOGIN_PASSWORD,password);
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put(Config.KEY_LOGIN_USERNAME, username);
+                parameter.put(Config.KEY_LOGIN_PASSWORD, password);
                 RequestHandler requestHandler = new RequestHandler();
                 //using string array
                 //the 2nd index is used to check if the username is an admin
-                response[0] = requestHandler.sendPostRequest(Config.URL_LOGIN,parameter);
+                if (response.length != 0) {
+                    response[0] = requestHandler.sendPostRequest(Config.URL_LOGIN, parameter);
 
 
-                if (response[0] != null) {
-                    JSONObject jsonObject = new JSONObject(response[0]);
-                    String username = jsonObject.getString(Config.TAG_USERNAME);
+                    if (!response[0].isEmpty()) {
+                        JSONObject jsonObject = new JSONObject(response[0]);
+                        String username = jsonObject.getString(Config.TAG_USERNAME);
 
-                    //Check if username is an admin privilege
-                    //store it in the 2nd index
-                    response[1] = requestHandler.sendGetRequestParam(Config.URL_CHECK_ADMIN,username);
+                        //Check if username is an admin privilege
+                        //store it in the 2nd index
+                        response[1] = requestHandler.sendGetRequestParam(Config.URL_CHECK_ADMIN, username);
 
 
+                    }
+
+                    //Returns response based on php script
+                    //Need to change it to return a user object
+                    return response;
                 }
-
-                //Returns response based on php script
-                //Need to change it to return a user object
-                return response;
-
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -358,7 +363,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return null;
             }
 
-
+        return null;
         }
 
 
@@ -370,63 +375,72 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //Response and resp returns the declared json object from login.php
             //Need to change it to be able to return a user object
             //So we can bring the user data to the other activties and store in a session
+            if(resp.length != 0) {
+
+                if (!resp[0].isEmpty()) {
+                    try {
+                        //Parse the response into a json object
+                        //Get the data from the json object and add it into the user object
+                        //Need to save user into shared preference as a global logged in
+                        JSONObject jsonObject = new JSONObject(resp[0]);
+                        user = new User();
+                        //Tags are used to reference what data to retrieve
+                        user.setUsername(jsonObject.getString(Config.TAG_USERNAME));
+                        user.setName(jsonObject.getString(Config.TAG_NAME));
+                        user.setEmail(jsonObject.getString(Config.TAG_EMAIL));
+                        user.setContactNo(jsonObject.getString(Config.TAG_CONTACT));
+                        user.setDateOfBirth(jsonObject.getString(Config.TAG_DOB));
+                        user.setPassword(jsonObject.getString("password"));
 
 
-            if(!resp[0].isEmpty()) {
-                try {
-                    //Parse the response into a json object
-                    //Get the data from the json object and add it into the user object
-                    //Need to save user into shared preference as a global logged in
-                    JSONObject jsonObject = new JSONObject(resp[0]);
-                    user = new User();
-                    //Tags are used to reference what data to retrieve
-                    user.setUsername(jsonObject.getString(Config.TAG_USERNAME));
-                    user.setName(jsonObject.getString(Config.TAG_NAME));
-                    user.setEmail(jsonObject.getString(Config.TAG_EMAIL));
-                    user.setContactNo(jsonObject.getString(Config.TAG_CONTACT));
-                    user.setDateOfBirth(jsonObject.getString(Config.TAG_DOB));
-                    boolean admin = false;
-                    JSONArray jsonArray = new JSONArray(resp[1]);
-                    if(jsonArray.length() != 0) {
+/*                        String encodedImage = jsonObject.getString("profilePicture");
+                        Bitmap bitmap = User.base64ToBitmap(encodedImage);
+                        user.setProfilePicture(bitmap);*/
 
-                        JSONObject jsonAdmin = jsonArray.getJSONObject(0);
-                        String checkAdmin = jsonAdmin.getString("success");
-                        if (checkAdmin == "1") {
-                            admin = true;
-                        } else {
-                            admin = false;
+                        boolean admin = false;
+                        JSONArray jsonArray = new JSONArray(resp[1]);
+                        if (jsonArray.length() != 0) {
+
+                            JSONObject jsonAdmin = jsonArray.getJSONObject(0);
+                            String checkAdmin = jsonAdmin.getString("success");
+                            if (checkAdmin == "1") {
+                                admin = true;
+                            } else {
+                                admin = false;
+                            }
                         }
+
+                        //Create a shared preference to pass the user logged in data around the app
+                        SharedPreferences preference = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+                        SharedPreferences.Editor preferenceEditor = preference.edit();
+
+                        //use google's gson to convert the object back into a json string
+                        //store the json into the shared preference to be passed around
+                        Gson gson = new Gson();
+                        String json = gson.toJson(user);
+                        preferenceEditor.putString(Config.TAG_USER, json);
+                        preferenceEditor.putBoolean(Config.TAG_ADMIN, admin);
+                        preferenceEditor.commit();
+
+
+                        Toast.makeText(LoginActivity.this, user.getUsername(), Toast.LENGTH_LONG).show();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    //Toast.makeText(LoginActivity.this, resp, Toast.LENGTH_LONG).show();
 
-                    //Create a shared preference to pass the user logged in data around the app
-                    SharedPreferences preference = getSharedPreferences("MyPreferences",MODE_PRIVATE);
-                    SharedPreferences.Editor preferenceEditor = preference.edit();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
 
-                    //use google's gson to convert the object back into a json string
-                    //store the json into the shared preference to be passed around
-                    Gson gson = new Gson();
-                    String json = gson.toJson(user);
-                    preferenceEditor.putString(Config.TAG_USER,json);
-                    preferenceEditor.putBoolean(Config.TAG_ADMIN,admin);
-                    preferenceEditor.commit();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_LONG).show();
 
-
-                    Toast.makeText(LoginActivity.this,user.getUsername(), Toast.LENGTH_LONG).show();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-                //Toast.makeText(LoginActivity.this, resp, Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-
-            } else {
-                Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_LONG).show();
 
             }
-
-
 
         }
 

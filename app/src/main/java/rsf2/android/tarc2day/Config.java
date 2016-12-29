@@ -20,7 +20,10 @@ public class Config {
     public static final String URL_FORGET_PASSWORD = "http://thammingkeat.esy.es/ForgetPassword.php";
     public static final String URL_GET_MESSAGE = "http://thammingkeat.esy.es/GetMessage.php?eventId=";
     public static final String URL_POST_MESSAGE = "http://thammingkeat.esy.es/PostMessage.php";
-
+    public static final String URL_GET_EVENT_MAIN = "http://thammingkeat.esy.es/GetEventLimitDate.php";
+    public static final String URL_GET_USER = "http://thammingkeat.esy.es/GetUser.php";
+    public static final String URL_UPDATE_USER = "http://thammingkeat.esy.es/UpdateUser.php";
+    public static final String URL_UPDATE_USER_PASSWORD= "http://thammingkeat.esy.es/UpdateUserPassword.php";
     //Keys that will be used to send the request to php scripts
     //VALUE MUST BE SAME WITH THE PHP SCRIPT VALUES
     public static final String KEY_USER_USERNAME = "username";
@@ -29,6 +32,7 @@ public class Config {
     public static final String KEY_USER_EMAIL = "email";
     public static final String KEY_USER_DATE = "date";
     public static final String KEY_USER_CONTACT = "contactnumber";
+    public static final String KEY_USER_PROFILE = "profilePicture";
 
     // Event entity key
     public static final String KEY_EVENT_NAME = "name";
@@ -83,6 +87,7 @@ public class Config {
     public static final String TAG_EMAIL = "Email";
     public static final String TAG_DOB = "DateofBirth";
     public static final String TAG_CONTACT = "ContactNumber";
+    public static final String TAG_PASSWORD = "Password";
 
     //Check if user is an admin
     public static final String TAG_ADMIN = "admin";

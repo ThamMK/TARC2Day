@@ -26,24 +26,16 @@ public class Society implements Parcelable{
         this.email = email;
     }
 
-    public Society(String name, String personInCharge, String description, String contactNo, String email, Bitmap image, String imageUrl) {
+    public Society(String name, String personInCharge, String description, String contactNo, String email,String imageUrl) {
         this.name = name;
         this.personInCharge = personInCharge;
         this.description = description;
         this.contactNo = contactNo;
         this.email = email;
-        this.image = image;
         this.imageUrl = imageUrl;
     }
 
-    public Society(String name, String personInCharge, String description, String contactNo, String email, Bitmap image) {
-        this.setName(name);
-        this.setPersonInCharge(personInCharge);
-        this.setDescription(description);
-        this.setContactNo(contactNo);
-        this.setEmail(email);
-        this.image = image;
-    }
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -112,7 +104,7 @@ public class Society implements Parcelable{
         dest.writeString(description);
         dest.writeString(contactNo);
         dest.writeString(email);
-
+        dest.writeString(imageUrl);
     }
 
     public static final Parcelable.Creator<Society> CREATOR = new Parcelable.Creator<Society>(){
@@ -131,6 +123,7 @@ public class Society implements Parcelable{
         description = in.readString();
         contactNo = in.readString();
         email = in.readString();
+        imageUrl = in.readString();
     }
 
     public static Bitmap base64ToBitmap(String b64) {
@@ -140,7 +133,12 @@ public class Society implements Parcelable{
 
     public static String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        if(bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        }
+        else {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        }
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }

@@ -58,7 +58,6 @@ public class SocietyAdapter extends RecyclerView.Adapter<SocietyAdapter.MyViewHo
         context = holder.itemView.getContext();
         holder.textViewName.setText(society.getName());
         holder.textViewPersonInCharge.setText(society.getPersonInCharge());
-        holder.imageViewSociety.setImageBitmap(society.getImage());
         Picasso.with(context).load(society.getImageUrl()).placeholder( R.drawable.progress_animation ).resize(width,height).into(holder.imageViewSociety);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

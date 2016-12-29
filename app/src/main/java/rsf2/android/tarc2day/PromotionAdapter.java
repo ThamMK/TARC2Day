@@ -6,7 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -21,12 +24,14 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewDesc,textViewPrice;
+        public ImageView imageViewEvent;
 
         public MyViewHolder(View view) {
             super(view);
             textViewName = (TextView) view.findViewById(R.id.textViewEventName);
             textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
             textViewPrice = (TextView) view.findViewById(R.id.textViewEventPrice);
+            imageViewEvent = (ImageView) view.findViewById(R.id.imageViewEvent);
         }
     }
 
@@ -53,11 +58,11 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
     @Override
     public void onBindViewHolder(PromotionAdapter.MyViewHolder holder, int position) {
         final Promotion promotion = promotionList.get(position);
+        final Context context = holder.itemView.getContext();
         holder.textViewName.setText(promotion.getTitle());
         holder.textViewDesc.setText(promotion.getDescription());
         holder.textViewPrice.setText("" + promotion.getPrice());
-
-        final Context context = holder.itemView.getContext();
+        Picasso.with(context).load(promotion.getImageUrl()).placeholder( R.drawable.progress_animation ).resize(width,height).into(holder.imageViewEvent);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

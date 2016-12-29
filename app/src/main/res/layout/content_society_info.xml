@@ -3,11 +3,11 @@
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="60dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:context="rsf2.android.tarc2day.SocietyInfo"
             tools:showIn="@layout/activity_society_info">
@@ -29,9 +30,8 @@
 
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/promo1"
+                android:layout_width="365dp"
+                android:layout_height="200dp"
                 android:id="@+id/imageViewSocietyInfo"/>
             <TextView
                 android:id="@+id/textViewSocietyInfoName"
@@ -128,5 +128,5 @@
 
             </android.support.v4.view.ViewPager>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 </LinearLayout>
