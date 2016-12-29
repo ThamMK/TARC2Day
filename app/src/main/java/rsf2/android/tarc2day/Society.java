@@ -35,14 +35,7 @@ public class Society implements Parcelable{
         this.imageUrl = imageUrl;
     }
 
-    public Society(String name, String personInCharge, String description, String contactNo, String email, Bitmap image) {
-        this.setName(name);
-        this.setPersonInCharge(personInCharge);
-        this.setDescription(description);
-        this.setContactNo(contactNo);
-        this.setEmail(email);
-        this.image = image;
-    }
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -140,7 +133,12 @@ public class Society implements Parcelable{
 
     public static String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        if(bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        }
+        else {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        }
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }

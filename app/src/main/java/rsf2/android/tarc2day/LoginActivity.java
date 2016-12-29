@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -389,6 +390,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         user.setEmail(jsonObject.getString(Config.TAG_EMAIL));
                         user.setContactNo(jsonObject.getString(Config.TAG_CONTACT));
                         user.setDateOfBirth(jsonObject.getString(Config.TAG_DOB));
+
+/*                        String encodedImage = jsonObject.getString("profilePicture");
+                        Bitmap bitmap = User.base64ToBitmap(encodedImage);
+                        user.setProfilePicture(bitmap);*/
+
                         boolean admin = false;
                         JSONArray jsonArray = new JSONArray(resp[1]);
                         if (jsonArray.length() != 0) {
@@ -418,6 +424,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Toast.makeText(LoginActivity.this, user.getUsername(), Toast.LENGTH_LONG).show();
 
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     //Toast.makeText(LoginActivity.this, resp, Toast.LENGTH_LONG).show();
