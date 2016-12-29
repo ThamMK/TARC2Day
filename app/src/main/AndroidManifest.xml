@@ -93,7 +93,8 @@
         <activity
             android:name=".ForgetPassword"
             android:parentActivityName=".LoginActivity"/>
-        <activity android:name=".MyAccount">
+        <activity android:name=".MyAccount"
+                  >
         </activity>
     </application>
 

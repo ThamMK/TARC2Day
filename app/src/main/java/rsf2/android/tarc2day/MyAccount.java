@@ -1,6 +1,8 @@
 package rsf2.android.tarc2day;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -8,12 +10,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.renderscript.ScriptGroup;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -31,7 +37,7 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyAccount extends AppCompatActivity {
+public class MyAccount extends Activity {
     private User user;
     boolean admin;
     CircleImageView profilePictureView;
@@ -60,7 +66,7 @@ public class MyAccount extends AppCompatActivity {
         editTextEmail.setText(user.getEmail());
         editTextContactNumber.setText(user.getContactNo());
         editTextBirthday.setText(user.getDateOfBirth());
-
+        Toast.makeText(getApplicationContext(),user.getPassword(),Toast.LENGTH_LONG).show();
         profilePictureView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,21 +80,146 @@ public class MyAccount extends AppCompatActivity {
             }
         });
 
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
+
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                String name = editTextName.getText().toString();
-                String email = editTextEmail.getText().toString();
-                String date = editTextBirthday.getText().toString();
-                String contactNumber = editTextContactNumber.getText().toString();
-                Bitmap bitmap = ((BitmapDrawable)profilePictureView.getDrawable()).getBitmap();
-                String encodedImage = User.bitmapToBase64(bitmap);
 
-                BackgroundUpdateProfileTask backgroundUpdateProfileTask = new BackgroundUpdateProfileTask();
-                backgroundUpdateProfileTask.execute(user.getUsername(),name,email,date,contactNumber,encodedImage);
+                //Pop up an alert dialog
+                AlertDialog alertDialog = new AlertDialog.Builder(MyAccount.this).create();
+
+                //Put edit text into the alert dialog
+                alertDialog.setTitle("Change Password");
+
+                LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                final EditText editTextPassword = new EditText(getApplication());
+                editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                editTextPassword.setHint("Enter current password");
+                editTextPassword.setHintTextColor(getResources().getColor(R.color.alpha_gray));
+                editTextPassword.setTextColor(getResources().getColor(R.color.black));
+
+                final EditText editTextNewPassword = new EditText(getApplication());
+                editTextNewPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                editTextNewPassword.setTextColor(getResources().getColor(R.color.black));
+                editTextNewPassword.setHintTextColor(getResources().getColor(R.color.alpha_gray));
+                editTextNewPassword.setHint("Enter new password");
+
+                final EditText editTextReenterNewPassword = new EditText(getApplication());
+                editTextReenterNewPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                editTextReenterNewPassword.setTextColor(getResources().getColor(R.color.black));
+                editTextReenterNewPassword.setHintTextColor(getResources().getColor(R.color.alpha_gray));
+                editTextReenterNewPassword.setHint("Reenter new password");
+
+                linearLayout.addView(editTextPassword);
+                linearLayout.addView(editTextNewPassword);
+                linearLayout.addView(editTextReenterNewPassword);
+
+                alertDialog.setView(linearLayout);
+                //Set positive button (submit)
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,"Enter", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String currentPassword = editTextPassword.getText().toString();
+
+                        if(currentPassword.contentEquals(user.getPassword())) {
+                            //Check if the reentered password matches
+                            String newPassword = editTextNewPassword.getText().toString();
+                            String reenterNewPassword = editTextReenterNewPassword.getText().toString();
+
+                            if(newPassword.equals(reenterNewPassword)) {
+                                //Update password
+                                dialog.dismiss();
+                                BackgroundUpdatePasswordTask backgroundUpdatePasswordTask = new BackgroundUpdatePasswordTask();
+                                backgroundUpdatePasswordTask.execute(user.getUsername(),newPassword);
+
+                            } else {
+                                //New passwords don't match
+
+                                Toast.makeText(getApplicationContext(),"Passwords do not match", Toast.LENGTH_LONG).show();
+                            }
+
+
+                        } else {
+                            //Incorrect user password
+                            //Don't let them update password
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Wrong password",Toast.LENGTH_LONG).show();
+                        }
+
+
+                    }
+                });
+                //Set negative button (cancel)
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Cancel", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                alertDialog.show();
 
             }
         });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String name = editTextName.getText().toString();
+                final String email = editTextEmail.getText().toString();
+                final String date = editTextBirthday.getText().toString();
+                final String contactNumber = editTextContactNumber.getText().toString();
+                Bitmap bitmap = ((BitmapDrawable)profilePictureView.getDrawable()).getBitmap();
+                final String encodedImage = User.bitmapToBase64(bitmap);
+
+
+
+                //Pop up an alert dialog
+                AlertDialog alertDialog = new AlertDialog.Builder(MyAccount.this).create();
+
+                alertDialog.setTitle("Enter current password");
+                //Put edit text into the alert dialog
+                final EditText editTextPassword = new EditText(getApplication());
+                editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                editTextPassword.setTextColor(getResources().getColor(R.color.black));
+                alertDialog.setView(editTextPassword);
+                //Set positive button (submit)
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,"Enter", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String password = editTextPassword.getText().toString();
+
+                        if(password.contentEquals(user.getPassword())) {
+                            dialog.dismiss();
+                            BackgroundUpdateProfileTask backgroundUpdateProfileTask = new BackgroundUpdateProfileTask();
+                            backgroundUpdateProfileTask.execute(user.getUsername(),name,email,date,contactNumber,encodedImage);
+                        } else {
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+                //Set negative button (cancel)
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Cancel", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                alertDialog.show();
+
+
+            }
+        });
+
+
+
 
 
     }
@@ -236,6 +367,40 @@ public class MyAccount extends AppCompatActivity {
 
             RequestHandler rh = new RequestHandler();
             String res = rh.sendPostRequest(Config.URL_UPDATE_USER, params);
+            return res;
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            loading.dismiss();
+            if(!s.isEmpty()) {
+                Toast.makeText(getApplicationContext(),"Successfully updated profile!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(),"Failed to update profile!", Toast.LENGTH_LONG).show();
+            }
+
+
+        }
+    }
+
+    class BackgroundUpdatePasswordTask extends AsyncTask<String,Void,String> {
+        ProgressDialog loading;
+
+        @Override
+        protected void onPreExecute() {
+            loading = ProgressDialog.show(MyAccount.this, "Updating user account", "Please wait...",true,true);
+        }
+
+        @Override
+        protected String doInBackground(String... parameter) {
+
+            HashMap<String,String> params = new HashMap<>();
+            params.put(Config.KEY_USER_USERNAME,parameter[0]);
+            params.put(Config.KEY_USER_PASSWORD,parameter[1]);
+
+            RequestHandler rh = new RequestHandler();
+            String res = rh.sendPostRequest(Config.URL_UPDATE_USER_PASSWORD, params);
             return res;
 
         }

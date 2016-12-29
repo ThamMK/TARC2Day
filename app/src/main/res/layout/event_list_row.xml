@@ -23,7 +23,7 @@
 
 
     <RelativeLayout
-        android:background="#6FFF"
+        android:background="#A6FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="140dp">

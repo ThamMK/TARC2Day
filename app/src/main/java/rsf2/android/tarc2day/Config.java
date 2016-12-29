@@ -23,7 +23,7 @@ public class Config {
     public static final String URL_GET_EVENT_MAIN = "http://thammingkeat.esy.es/GetEventLimitDate.php";
     public static final String URL_GET_USER = "http://thammingkeat.esy.es/GetUser.php";
     public static final String URL_UPDATE_USER = "http://thammingkeat.esy.es/UpdateUser.php";
-
+    public static final String URL_UPDATE_USER_PASSWORD= "http://thammingkeat.esy.es/UpdateUserPassword.php";
     //Keys that will be used to send the request to php scripts
     //VALUE MUST BE SAME WITH THE PHP SCRIPT VALUES
     public static final String KEY_USER_USERNAME = "username";
@@ -87,6 +87,7 @@ public class Config {
     public static final String TAG_EMAIL = "Email";
     public static final String TAG_DOB = "DateofBirth";
     public static final String TAG_CONTACT = "ContactNumber";
+    public static final String TAG_PASSWORD = "Password";
 
     //Check if user is an admin
     public static final String TAG_ADMIN = "admin";

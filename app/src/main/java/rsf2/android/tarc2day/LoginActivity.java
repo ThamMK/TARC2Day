@@ -390,6 +390,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         user.setEmail(jsonObject.getString(Config.TAG_EMAIL));
                         user.setContactNo(jsonObject.getString(Config.TAG_CONTACT));
                         user.setDateOfBirth(jsonObject.getString(Config.TAG_DOB));
+                        user.setPassword(jsonObject.getString("password"));
+
 
 /*                        String encodedImage = jsonObject.getString("profilePicture");
                         Bitmap bitmap = User.base64ToBitmap(encodedImage);

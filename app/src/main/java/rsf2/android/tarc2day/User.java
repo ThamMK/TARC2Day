@@ -18,17 +18,19 @@ public class User {
     private String dateOfBirth;
     private String contactNumber;
     private Bitmap profilePicture;
+    private String password;
 
     public User() {
 
     }
 
-    public User(String username, String name, String dateOfBirth, String contactNo, String email) {
+    public User(String username, String name, String dateOfBirth, String contactNo, String email, String password) {
         this.username = username;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.contactNumber = contactNo;
         this.email = email;
+        this.password = password;
     }
 
     public User(String username, String name, String dateOfBirth, String contactNo, String email, Bitmap profilePicture) {
@@ -38,6 +40,24 @@ public class User {
         this.contactNumber = contactNo;
         this.email = email;
         this.profilePicture = profilePicture;
+    }
+
+    public User(String username, String name, String dateOfBirth, String contactNo, String email, Bitmap profilePicture, String password) {
+        this.username = username;
+        this.name = name;
+        this.dateOfBirth = dateOfBirth;
+        this.contactNumber = contactNo;
+        this.email = email;
+        this.profilePicture = profilePicture;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Bitmap getProfilePicture() {

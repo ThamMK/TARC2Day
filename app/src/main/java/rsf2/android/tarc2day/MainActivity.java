@@ -114,12 +114,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         //Get the user data from shared preference
         getUserData();
         textViewName.setText(user.getName());
-        profilePictureView.setImageBitmap(user.getProfilePicture());
 
-        if(admin)
-            Toast.makeText(this,"user is admin",Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(this,"user is not an admin",Toast.LENGTH_LONG).show();
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
@@ -334,13 +329,17 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
 
                 String encodedImage = jsonObject.getString("profilePicture");
+
+                user.setPassword(jsonObject.getString(Config.KEY_USER_PASSWORD));
                 if(!encodedImage.isEmpty()) {
                     Bitmap profilePicture = User.base64ToBitmap(encodedImage);
 
                     user.setProfilePicture(profilePicture);
 
+
                     profilePictureView.setImageBitmap(user.getProfilePicture());
                 } else {
+                    Toast.makeText(getApplicationContext(),"No image", Toast.LENGTH_LONG).show();
                     profilePictureView.setImageResource(R.drawable.fileimage);
                 }
             } catch (JSONException e) {
