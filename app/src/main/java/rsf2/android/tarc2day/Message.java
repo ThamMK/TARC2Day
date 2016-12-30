@@ -109,4 +109,6 @@ public class Message implements Parcelable {
         message = in.readString();
         messageDate = in.readString();
     }
+
+
 }

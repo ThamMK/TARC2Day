@@ -7,17 +7,23 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Created by MingKeat on 26/12/2016.
  */
 
-public class CustomMessageListAdapter extends ArrayAdapter<Message> {
-    public CustomMessageListAdapter(Context context, Message[] messageArray) {
-        super(context, 0, messageArray);
+class CustomMessageListAdapter extends ArrayAdapter<Message> {
 
+    private final List<Message> messageArrayList;
+
+    public CustomMessageListAdapter(Context context,List<Message> messageArrayList) {
+        super(context, 0, messageArrayList);
+        this.messageArrayList = messageArrayList;
     }
-
-
+    public List<Message> messages() {
+        return this.messageArrayList;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -40,4 +46,6 @@ public class CustomMessageListAdapter extends ArrayAdapter<Message> {
 
 
     }
+
+
 }

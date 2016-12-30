@@ -2,7 +2,6 @@ package rsf2.android.tarc2day;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,12 +19,15 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -49,8 +50,10 @@ public class EventQuestionFragment extends Fragment {
     private Message[] messageArray;
     private User user;
     private boolean admin;
-
-
+    String passedEventId;
+    CustomMessageListAdapter messageListAdapter;
+    List<Message> messageList;
+    ListView messageListView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -96,16 +99,20 @@ public class EventQuestionFragment extends Fragment {
         //But cant cast parcel into message array
         // Need to copy the data from parcel back into a messge array
 
+        passedEventId = getArguments().getString("eventId");
+        Toast.makeText(getActivity(),passedEventId,Toast.LENGTH_SHORT).show();
+
         //This is to retrieve message for the activity
         Parcelable[] messageParcel = bundle.getParcelableArray("messageArray");
         messageArray = Arrays.copyOf(messageParcel,messageParcel.length,Message[].class);
-        CustomMessageListAdapter messageListAdapter = new CustomMessageListAdapter(getContext(),messageArray);
-        ListView messageList = (ListView) view.findViewById(R.id.list_of_messages);
-        messageList.setAdapter(messageListAdapter);
+        messageListAdapter = new CustomMessageListAdapter(getContext(),convertToArrayList());
+
+        messageListView = (ListView) view.findViewById(R.id.list_of_messages);
+        messageListView.setAdapter(messageListAdapter);
 
         FloatingActionButton btnSend = (FloatingActionButton) view.findViewById(R.id.fab);
 
-        messageList.setOnTouchListener(new View.OnTouchListener() {
+        messageListView.setOnTouchListener(new View.OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -136,7 +143,7 @@ public class EventQuestionFragment extends Fragment {
 
                 BackgroundPostMessageTask backgroundPostMessageTask = new BackgroundPostMessageTask();
                 backgroundPostMessageTask.execute(user.getUsername(),eventId,messageText,messageDate);
-
+                new BackgroundMessageTask().execute();
 
             }
         });
@@ -228,10 +235,8 @@ public class EventQuestionFragment extends Fragment {
             if(!response.isEmpty()) {
                 Toast.makeText(getContext(),"Successfully posted!", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getContext(),EventList.class);
+                //getActivity().finish();
 
-                getActivity().finish();
-                startActivity(intent);
 
             } else {
                 Toast.makeText(getContext(),"Failed to post", Toast.LENGTH_SHORT).show();
@@ -243,5 +248,69 @@ public class EventQuestionFragment extends Fragment {
 
     }
 
+    public ArrayList convertToArrayList(){
+        ArrayList<Message> arrayList = new ArrayList<Message>(Arrays.asList(messageArray));
+        return  arrayList;
+    }
+
+    class BackgroundMessageTask extends AsyncTask<Void,Void,String>{
+        ProgressDialog loading;
+
+        @Override
+        protected void onPreExecute() {
+            loading = ProgressDialog.show(getContext(),"Refreshing Messages","Please wait...",true,true);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            RequestHandler requestHandler = new RequestHandler();
+            String response = requestHandler.sendGetRequest("http://thammingkeat.esy.es/GetMessage.php?eventId="+passedEventId);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            messageList = new ArrayList<Message>();
+
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+                for(int i = 0; i < jsonArray.length(); i++) {
+                    String messageId = jsonArray.getJSONObject(i).getString("messageId");
+                    String username = jsonArray.getJSONObject(i).getString("username");
+                    String eventId = jsonArray.getJSONObject(i).getString("eventId");
+                    String message = jsonArray.getJSONObject(i).getString("message");
+                    String messageDate = jsonArray.getJSONObject(i).getString("messageDate");
+                    String name = jsonArray.getJSONObject(i).getString("name");
+
+                    Message newMessage = new Message(messageId,username,eventId,message,messageDate,name);
+
+                    messageList.add(newMessage);
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            messageListAdapter.messages().clear();
+            messageListAdapter.messages().addAll(messageList);
+            messageListAdapter.notifyDataSetChanged();
+
+            messageListView.post(new Runnable() {
+                @Override
+                public void run() {
+                    // Select the last row so it will scroll into view...
+                    messageListView.setSelection(messageListAdapter.getCount() - 1);
+                }
+            });
+
+            loading.dismiss();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
 
 }
