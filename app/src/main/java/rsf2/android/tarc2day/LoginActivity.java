@@ -60,6 +60,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Id to identity READ_CONTACTS permission request.
      */
+
+
+
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
@@ -79,6 +82,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private Button btnRegister;
     private  Button btnForgetPass;
+    private User user;
+    private boolean admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
+
+        //Check whether user has logged in and selected remember me before
+        getUserData();
+
+        if(user != null) {
+            Intent intent = new Intent(this,MainActivity.class);
+            finish();
+            startActivity(intent);
+
+        }
+
+
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -447,6 +464,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
             Toast.makeText(LoginActivity.this,"cancelled",Toast.LENGTH_LONG);
         }
+
+    }
+
+
+    protected void getUserData() {
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
+        String json = sharedPreferences.getString(Config.TAG_USER, "");
+
+        user = gson.fromJson(json,User.class);
+        admin = sharedPreferences.getBoolean(Config.TAG_ADMIN,false);
+
 
     }
 }

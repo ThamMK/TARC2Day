@@ -216,7 +216,19 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             startActivity(intent);
                             break;
                         case "Log Out":
+                            //Remove the user data from the shared preference
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear().commit();
 
+                            finish();
+
+                            //Redirect user back to login
+                            intent = new Intent(getApplicationContext(),LoginActivity.class);
+                            startActivity(intent);
+
+
+                            break;
                         default:
                             break;
                     }
@@ -259,7 +271,19 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             startActivity(intent);
                             break;
                         case "Log Out":
-                            finishActivity(0);
+
+                            //Remove the user data from the shared preference
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear().commit();
+
+                            finish();
+
+                            //Redirect user back to login
+                            intent = new Intent(getApplicationContext(),LoginActivity.class);
+                            startActivity(intent);
+
+                            break;
                         default:
                             break;
                     }
