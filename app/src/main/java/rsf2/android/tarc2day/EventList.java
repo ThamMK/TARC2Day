@@ -1,6 +1,8 @@
 package rsf2.android.tarc2day;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,15 +10,23 @@ import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SearchViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EventList extends AppCompatActivity {
+public class EventList extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private List<Event> eventList = new ArrayList<Event>();
     private RecyclerView recyclerView;
@@ -47,6 +57,7 @@ public class EventList extends AppCompatActivity {
     JSONObject jsonObject;
     TextView textViewShowData;
     JSONArray jsonArray;
+    private int width, height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +72,60 @@ public class EventList extends AppCompatActivity {
         new BackgroundTask().execute();
     }
 
-    class BackgroundTask extends AsyncTask<Void,Void,String>{
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
+
+        MenuItem searchItem = menu.findItem(R.id.search);
+
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                eventAdapter.getFilter();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return true;
+            }
+        });
+
+        return true;
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if ( TextUtils.isEmpty ( newText ) ) {
+            eventAdapter.getFilter().filter("");
+        } else {
+            eventAdapter.getFilter().filter(newText.toString());
+        }
+        return true;
+
+    }
+
+    class BackgroundTask extends AsyncTask<Void,Void,String>{
         String json_url;
         String JSON_STRING;
         ProgressDialog loading;
@@ -127,9 +190,8 @@ public class EventList extends AppCompatActivity {
                 }
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                int width = displaymetrics.widthPixels;
-                int height = dpToPx(200);
-                eventAdapter = new EventAdapter(eventList,width,height);
+                width = displaymetrics.widthPixels;
+                height = dpToPx(200);
 
             }
             catch(JSONException e){
@@ -141,15 +203,14 @@ public class EventList extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
+            eventAdapter = new EventAdapter(eventList,width,height);
             textViewShowData.setText(eventList.get(0).getLocation());
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(eventAdapter);
-
-            loading.dismiss();
+           loading.dismiss();
 
         }
 
@@ -159,29 +220,7 @@ public class EventList extends AppCompatActivity {
         }
     }
 
-    private void eventData() {
 
-        //Get event data from database
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMM yyyy");
-        //simpleDateFormat.applyPattern("d MMM yyyy");
-        Date date = new Date();
-
-        String startDate = simpleDateFormat.format(date);
-        String endDate = simpleDateFormat.format(date);
-
-        new BackgroundTask().execute();
-        //Society society = new Society("Computer Science Society","Ming Keat","testing","test","test2");
-        //Event event = new Event("Computer Science Night", "Code", startDate,endDate,society.getName(),0,"012123","tmk@gmail.com");
-        //eventList.add(event);
-
-        //event = new Event("Hackathon", "Coding", startDate,endDate,society.getName(),0,"4","tmk@gmail.com");
-        //eventList.add(event);
-
-        //event = new Event("Idea", "Hacking", startDate,endDate,society.getName(),0,"123","tmk@gmail.com");
-        //eventList.add(event);
-
-    }
 
     private Bitmap scale(Bitmap b) {
         return Bitmap.createScaledBitmap(b, recyclerView.getWidth(), dpToPx(120) , false);

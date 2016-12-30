@@ -381,6 +381,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
     class BackgroundEventTask extends AsyncTask<Void,Void,String> {
 
+        int width;
+        int height;
 
         JSONArray jsonArray;
 
@@ -427,9 +429,9 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 }
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                int width = displaymetrics.widthPixels;
-                int height = dpToPx(200);
-                eventAdapter = new EventAdapter(eventList,width,height);
+                width = displaymetrics.widthPixels;
+                height = dpToPx(200);
+
 
             }
             catch(JSONException e){
@@ -442,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         @Override
         protected void onPostExecute(String result) {
 
-
+            eventAdapter = new EventAdapter(eventList,width,height);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());

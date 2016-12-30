@@ -1,8 +1,10 @@
 package rsf2.android.tarc2day;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -10,23 +12,31 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by MingKeat on 25/11/2016.
  */
 
-public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {
+public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolder> implements Filterable {
 
     private List<Event> eventList;
+    private List<Event> copy;
+    private List<Event> filteredList;
+    private EventFilter eventFilter;
     TextView textViewShowData;
     int width;
     int height;
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName,textViewDesc,textViewPrice;
@@ -41,16 +51,30 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
             imageView = (ImageView) view.findViewById(R.id.imageViewEvent);
 
         }
+
     }
 
     public EventAdapter(List<Event> eventList) {
         this(eventList,1000,600);
+
+        getFilter();
     }
 
     public EventAdapter(List<Event> eventList,int width,int height){
+        this.eventList = new ArrayList(eventList);
+        this.filteredList = new ArrayList(eventList);
+        copy = new ArrayList(eventList);
+        this.width = width;
+        this.height = height;
+
+        getFilter();
+    }
+
+    public EventAdapter(Activity activity, List<Event> eventList, int width, int height) {
         this.eventList = eventList;
         this.width = width;
         this.height = height;
+
     }
 
     @Override
@@ -70,7 +94,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
         context = holder.itemView.getContext();
         holder.textViewName.setText(event.getTitle());
         holder.textViewDesc.setText(event.getEventDescription());
-        holder.textViewPrice.setText("" + event.getPrice());
+        holder.textViewPrice.setText("RM" + event.getPrice());
 
         Picasso.with(context).load(event.getImageUrl()).placeholder( R.drawable.progress_animation ).resize(width,height).into(holder.imageView);
 
@@ -94,6 +118,47 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
         return eventList.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        if (eventFilter == null) {
+            eventFilter = new EventFilter();
+        }
+
+        return eventFilter;
+    }
 
 
+
+    private class EventFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            if (constraint!=null && constraint.length()>0) {
+                List<Event> tempList = new ArrayList<Event>();
+
+                // search content in event list
+                for (Event event : copy) {
+                    if (event.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        tempList.add(event);
+                    }
+                }
+
+                filterResults.count = tempList.size();
+                filterResults.values = tempList;
+            } else {
+                filterResults.count = copy.size();
+                filterResults.values = copy;
+            }
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            eventList = (ArrayList<Event>) results.values;
+
+            notifyDataSetChanged();
+        }
+    }
 }
