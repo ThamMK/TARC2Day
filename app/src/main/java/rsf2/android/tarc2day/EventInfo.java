@@ -81,6 +81,11 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         Event event = intent.getParcelableExtra("EVENT");
         getDetails(event);
 
+        if(event.getPrice() != 0.0){
+            View b = findViewById(R.id.buttonRegisterEvent);
+            b.setVisibility(View.GONE);
+        }
+
         tabLayout = (TabLayout) findViewById(R.id.tabLayoutEventInfo);
         tabLayout.addTab(tabLayout.newTab().setText("Details"));
         tabLayout.addTab(tabLayout.newTab().setText("Location"));
