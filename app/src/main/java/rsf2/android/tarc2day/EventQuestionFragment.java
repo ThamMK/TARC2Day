@@ -100,7 +100,6 @@ public class EventQuestionFragment extends Fragment {
         // Need to copy the data from parcel back into a messge array
 
         passedEventId = getArguments().getString("eventId");
-        Toast.makeText(getActivity(),passedEventId,Toast.LENGTH_SHORT).show();
 
         //This is to retrieve message for the activity
         Parcelable[] messageParcel = bundle.getParcelableArray("messageArray");
