@@ -19,7 +19,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,14 +43,16 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewName,textViewDesc,textViewPrice;
+        public TextView textViewName,textViewPrice,textViewTime,textViewDate;
         public ImageView imageView;
 
 
         public MyViewHolder(View view) {
             super(view);
             textViewName = (TextView) view.findViewById(R.id.textViewEventName);
-            textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
+            //textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
+            textViewTime  = (TextView) view.findViewById(R.id.textViewEventTime);
+            textViewDate = (TextView) view.findViewById(R.id.textViewEventDate);
             textViewPrice = (TextView) view.findViewById(R.id.textViewEventPrice);
             imageView = (ImageView) view.findViewById(R.id.imageViewEvent);
 
@@ -93,8 +99,37 @@ public class EventAdapter  extends RecyclerView.Adapter<EventAdapter.MyViewHolde
 
         context = holder.itemView.getContext();
         holder.textViewName.setText(event.getTitle());
-        holder.textViewDesc.setText(event.getEventDescription());
-        holder.textViewPrice.setText("RM" + event.getPrice());
+        //holder.textViewDesc.setText(event.getEventDescription());
+
+        SimpleDateFormat inputDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a");
+
+        try {
+            if(event.getStartDate().equals(event.getEndDate())){
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                holder.textViewDate.setText(outputDateFormat.format(startDateTime));
+                holder.textViewTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+            }
+            else {
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                holder.textViewTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+                holder.textViewDate.setText(outputDateFormat.format(startDateTime) + " - " + outputDateFormat.format(endDateTime));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(event.getPrice() == 0.0)
+            holder.textViewPrice.setText("FREE");
+        else{
+            DecimalFormat df = new DecimalFormat("#.00");
+            holder.textViewPrice.setText("RM" + df.format(event.getPrice()));
+        }
 
         Picasso.with(context).load(event.getImageUrl()).placeholder( R.drawable.progress_animation ).resize(width,height).into(holder.imageView);
 

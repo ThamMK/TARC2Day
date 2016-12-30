@@ -1,5 +1,7 @@
 package rsf2.android.tarc2day;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -214,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             startActivity(intent);
                             break;
                         case "Log Out":
-                            finishActivity(0);
+
                         default:
                             break;
                     }
@@ -470,6 +472,20 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         Intent intent = new Intent(MainActivity.this, MyAccount.class);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
 }

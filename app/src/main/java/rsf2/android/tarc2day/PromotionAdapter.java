@@ -29,7 +29,7 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
         public MyViewHolder(View view) {
             super(view);
             textViewName = (TextView) view.findViewById(R.id.textViewEventName);
-            textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
+            //textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
             textViewPrice = (TextView) view.findViewById(R.id.textViewEventPrice);
             imageViewEvent = (ImageView) view.findViewById(R.id.imageViewEvent);
         }

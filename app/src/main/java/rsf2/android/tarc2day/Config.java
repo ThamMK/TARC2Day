@@ -92,6 +92,4 @@ public class Config {
     //Check if user is an admin
     public static final String TAG_ADMIN = "admin";
 
-    //employee id to pass with intent
-    public static final String USER_USERNAME = "username";
 }

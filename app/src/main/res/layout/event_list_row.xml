@@ -24,50 +24,72 @@
         />
 
 
-    <RelativeLayout
-        android:background="#A6FFFFFF"
+    <LinearLayout
+        android:background="#C5FFFFFF"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="140dp">
+        android:layout_height="70dp"
+        android:layout_marginTop="130dp"
+        android:orientation="horizontal">
 
-
-        <TextView
-            android:id="@+id/textViewEventName"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:text="Testing"
-            android:gravity="top"
+            android:orientation="vertical">
 
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            <TextView
+                android:id="@+id/textViewEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tarPink"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginLeft="12dp"
+                android:text="Testing"
+                android:gravity="top"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
 
+            <TextView
+                android:id="@+id/textViewEventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="12sp"
+                android:text="More details"
+                android:textColor="@color/black"
+                android:layout_alignBaseline="@+id/textViewEventPrice"
+                android:layout_alignBottom="@+id/textViewEventPrice"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/textViewEventTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="More details"
+                android:textColor="@color/black"
+                android:layout_marginLeft="12sp"
+                android:layout_alignBaseline="@+id/textViewEventPrice"
+                android:layout_alignBottom="@+id/textViewEventPrice"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textViewEventPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#85bb65"
+            android:layout_marginRight="12sp"
             android:text="PRICE"
-            android:layout_below="@+id/textViewEventName"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="3sp"/>
 
-        <TextView
-            android:id="@+id/textViewEventDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="More details"
-            android:textColor="@color/black"
-            android:paddingTop="10dp"
-            android:layout_alignBaseline="@+id/textViewEventPrice"
-            android:layout_alignBottom="@+id/textViewEventPrice"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
