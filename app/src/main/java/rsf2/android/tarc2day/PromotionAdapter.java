@@ -60,7 +60,7 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
         final Promotion promotion = promotionList.get(position);
         final Context context = holder.itemView.getContext();
         holder.textViewName.setText(promotion.getTitle());
-        holder.textViewDesc.setText(promotion.getDescription());
+        //holder.textViewDesc.setText(promotion.getDescription());
         holder.textViewPrice.setText("" + promotion.getPrice());
         Picasso.with(context).load(promotion.getImageUrl()).placeholder( R.drawable.progress_animation ).resize(width,height).into(holder.imageViewEvent);
 

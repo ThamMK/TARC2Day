@@ -1,11 +1,13 @@
 package rsf2.android.tarc2day;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -31,24 +33,36 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
     private SliderLayout mDemoSlider;
+    private HashMap<String,String> file_maps;
+
     private List<Event> eventList = new ArrayList<Event>();
     private List<Society> societyList = new ArrayList<Society>();
+    private List<Promotion> promotionList = new ArrayList<Promotion>();
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     private TextView textViewViewAll;
@@ -120,14 +134,16 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
+        file_maps = new HashMap<String, String>();
 
+/*
         file_maps.put("Promotion 1",R.drawable.promo1);
         file_maps.put("Promotion 2",R.drawable.promo2);
         file_maps.put("Promotion 3",R.drawable.promo3);
+*/
 
 
-        for(String name : file_maps.keySet()){
+        /*for(String name : file_maps.keySet()){
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
@@ -147,13 +163,16 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         mDemoSlider.setDuration(4000);
-        mDemoSlider.addOnPageChangeListener(this);
+        mDemoSlider.addOnPageChangeListener(this);*/
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewEvent);
 
         BackgroundEventTask backgroundEventTask = new BackgroundEventTask();
         backgroundEventTask.execute();
+
+        BackgroundPromotionTask backgroundPromotionTask = new BackgroundPromotionTask();
+        backgroundPromotionTask.execute();
 
 
         textViewViewAll = (TextView) findViewById(R.id.textViewViewAll);
@@ -452,6 +471,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                     Event event = new Event(eventId,name,description,startDate,endDate,startTime,endTime,societyName,price,contactNumber,email,locationId,locationName,uri);
                     eventList.add(event);
 
+
                 }
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -476,6 +496,213 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(eventAdapter);
 
+
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    class BackgroundSocietyTask extends AsyncTask<Void,Void,String> {
+
+        String json_url;
+        String JSON_STRING;
+
+        @Override
+        protected void onPreExecute() {
+            json_url = "http://thammingkeat.esy.es/GetSociety.php"; //th php url
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result = "";
+            try {
+                URL url = new URL(json_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                while((JSON_STRING = bufferedReader.readLine())!=null)
+                {
+                    stringBuilder.append(JSON_STRING +"\n");
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                result =  stringBuilder.toString().trim();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+                String societyName,societyDescription,societyPersonInCharge,societyContactNo,societyEmail, encodedImage;
+                for(int i=0;i<jsonArray.length();i++){
+                    JSONObject JO = jsonArray.getJSONObject(i);
+                    societyName = JO.getString("name");
+                    societyDescription = JO.getString("description");
+                    societyPersonInCharge = JO.getString("personInCharge");
+                    societyContactNo = JO.getString("contactNumber");
+                    societyEmail = JO.getString("email");
+                    encodedImage = JO.getString("image");
+
+                    Society society = new Society(societyName,societyPersonInCharge,societyDescription,societyContactNo,societyEmail,encodedImage);
+                    societyList.add(society);
+                }
+
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                int width = displaymetrics.widthPixels;
+                int height = dpToPx(200);
+
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //Set data at the slider view
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    class BackgroundPromotionTask extends AsyncTask<Void,Void,String> {
+
+        String json_url;
+        String JSON_STRING;
+
+        @Override
+        protected void onPreExecute() {
+            json_url = "http://thammingkeat.esy.es/GetPromotion.php"; //th php url
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result="";
+            try {
+                URL url = new URL(json_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                while((JSON_STRING = bufferedReader.readLine())!=null)
+                {
+                    stringBuilder.append(JSON_STRING +"\n");
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                result = stringBuilder.toString().trim();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+                String title, description,startDate, endDate, startTime, endTime, contactNo, email, location, encodedImage;
+                double price;
+                for(int i=0;i<jsonArray.length();i++){
+                    JSONObject JO = jsonArray.getJSONObject(i);
+                    title = JO.getString("name");
+                    description = JO.getString("description");
+                    startDate = JO.getString("startDate");
+                    endDate = JO.getString("endDate");
+                    startTime = JO.getString("startTime");
+                    endTime = JO.getString("endTime");
+                    price = Double.parseDouble(JO.getString("price"));
+                    contactNo = JO.getString("contactNumber");
+                    email = JO.getString("email");
+                    location = JO.getString("location");
+                    encodedImage = JO.getString("image");
+
+                    Promotion promotion = new Promotion(title, description,startDate, endDate, startTime, endTime,price, contactNo, email, location,encodedImage);
+                    promotionList.add(promotion);
+
+                    file_maps.put(promotion.getTitle(),promotion.getImageUrl());
+
+
+                }
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                int width = displaymetrics.widthPixels;
+                int height = dpToPx(200);
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            for(String key : file_maps.keySet()){
+
+                TextSliderView textSliderView = new TextSliderView(getApplicationContext());
+                // initialize a SliderLayout
+                textSliderView
+                        .description(key)
+                        .image(file_maps.get(key))
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setOnSliderClickListener(MainActivity.this);
+
+                //add your extra information
+                textSliderView.bundle(new Bundle());
+                textSliderView.getBundle()
+                        .putString("extra",key);
+
+                //Retrieve the event and put it into a parcel to pass to event info
+                // Need to determine the event to add in
+                Promotion promotion = null;
+                for(int i = 0; i < promotionList.size(); i++) {
+
+                    if(key.equals(promotionList.get(i).getTitle())) {
+                        promotion = promotionList.get(i);
+                        break;
+                    }
+
+                }
+
+                textSliderView.getBundle().putParcelable("promotion",promotion);
+                textSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                    @Override
+                    public void onSliderClick(BaseSliderView slider) {
+                        Intent intent = new Intent(MainActivity.this,PromotionInfo.class);
+                        //Need to remember which event was clicked
+                        //Pass in the position of the event from the arraylist
+                        Promotion promotion = slider.getBundle().getParcelable("promotion");
+
+                        intent.putExtra("PROMOTION",promotion);
+                        startActivity(intent);
+                    }
+                });
+                mDemoSlider.addSlider(textSliderView);
+
+
+            }
+            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+            mDemoSlider.setDuration(4000);
+            mDemoSlider.addOnPageChangeListener(MainActivity.this);
 
         }
 
