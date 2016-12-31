@@ -14,7 +14,9 @@ import android.renderscript.ScriptGroup;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,6 +83,7 @@ public class MyAccount extends Activity {
         });
 
 
+
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -129,11 +132,14 @@ public class MyAccount extends Activity {
                             String reenterNewPassword = editTextReenterNewPassword.getText().toString();
 
                             if(newPassword.equals(reenterNewPassword)) {
-                                //Update password
-                                dialog.dismiss();
-                                BackgroundUpdatePasswordTask backgroundUpdatePasswordTask = new BackgroundUpdatePasswordTask();
-                                backgroundUpdatePasswordTask.execute(user.getUsername(),newPassword);
-
+                                if(newPassword.equals(user.getPassword())){
+                                    Toast.makeText(getApplicationContext(),"new password cannot be current password", Toast.LENGTH_LONG).show();
+                                }else {
+                                    //Update password
+                                    dialog.dismiss();
+                                    BackgroundUpdatePasswordTask backgroundUpdatePasswordTask = new BackgroundUpdatePasswordTask();
+                                    backgroundUpdatePasswordTask.execute(user.getUsername(), newPassword);
+                                }
                             } else {
                                 //New passwords don't match
 
@@ -305,7 +311,6 @@ public class MyAccount extends Activity {
     private Bitmap scale(Bitmap b) {
         return Bitmap.createScaledBitmap(b,profilePictureView.getWidth(),profilePictureView.getHeight(),  false);
     }
-
 
     class BackgroundProfileTask extends AsyncTask<String, Void, String> {
 

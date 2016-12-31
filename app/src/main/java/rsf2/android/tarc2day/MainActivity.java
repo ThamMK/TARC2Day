@@ -234,6 +234,10 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             intent = new Intent(getApplicationContext(), MyAccount.class);
                             startActivity(intent);
                             break;
+                        case "About us":
+                            intent = new Intent(getApplicationContext(), AboutUs.class);
+                            startActivity(intent);
+                            break;
                         case "Log Out":
                             //Remove the user data from the shared preference
                             SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
@@ -287,6 +291,10 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                             break;
                         case "My Account":
                             intent = new Intent(getApplicationContext(), MyAccount.class);
+                            startActivity(intent);
+                            break;
+                        case "About us":
+                            intent = new Intent(getApplicationContext(), AboutUs.class);
                             startActivity(intent);
                             break;
                         case "Log Out":

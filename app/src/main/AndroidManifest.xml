@@ -57,8 +57,8 @@
         <activity
             android:name=".EventInfo"
             android:label="@string/title_activity_event_info"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar" />
         =======
         <activity
             android:name=".SocietyInfo"
@@ -77,8 +77,9 @@
             android:name=".CreateEvent"
             android:launchMode="singleTop"
             android:noHistory="false" />
-        <activity android:name=".GenerateQR"
-            android:parentActivityName=".EventInfo"/>
+        <activity
+            android:name=".GenerateQR"
+            android:parentActivityName=".EventInfo" />
         <activity android:name=".CreateSociety" />
         >>>>>>> origin/SocietyBranch
         <activity android:name=".RegisterActivity" />
@@ -87,9 +88,11 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".MyEvent" />
         <activity android:name=".ShowEventDetail" />
-        <activity android:name=".ForgetPassword"
-            android:parentActivityName=".LoginActivity"></activity>
-        <activity android:name=".MyAccount"/>
+        <activity
+            android:name=".ForgetPassword"
+            android:parentActivityName=".LoginActivity" />
+        <activity android:name=".MyAccount" />
+        <activity android:name=".AboutUs"></activity>
     </application>
 
 </manifest>
