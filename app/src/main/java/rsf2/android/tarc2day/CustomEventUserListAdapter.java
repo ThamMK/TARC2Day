@@ -12,7 +12,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,7 +55,30 @@ public class CustomEventUserListAdapter extends ArrayAdapter<RegisterdEvent>{
         textViewEvent.setText(event.getTitle());
 
         TextView textViewDate = (TextView) convertView.findViewById(R.id.eventListDate);
-        textViewDate.setText(event.getStartDate());
+        TextView textViewTime = (TextView) convertView.findViewById(R.id.eventListTime);
+
+        SimpleDateFormat inputDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a");
+
+        try {
+            if(event.getStartDate().equals(event.getEndDate())){
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                textViewDate.setText(outputDateFormat.format(startDateTime));
+                textViewTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+            }
+            else {
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                textViewTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+                textViewDate.setText(outputDateFormat.format(startDateTime) + " - " + outputDateFormat.format(endDateTime));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return convertView;
     }

@@ -29,5 +29,11 @@
         <item name="colorControlHighlight">#99FFFFFF</item>
     </style>
 
+    <style name="ForgetPasswordEditTextTheme">
+        <item name="colorAccent">#2162a5</item>
+        <item name="colorControlNormal">#2162a5</item>
+        <item name="colorControlActivated">#2162a5</item>
+        <item name="colorControlHighlight">#2162a5</item>
+    </style>
 
 </resources>

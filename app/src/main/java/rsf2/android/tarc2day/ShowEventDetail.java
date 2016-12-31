@@ -24,9 +24,11 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class ShowEventDetail extends AppCompatActivity {
@@ -52,12 +54,37 @@ public class ShowEventDetail extends AppCompatActivity {
         textQRLocation = (TextView) findViewById(R.id.textShowEventDetailLocation);
 
         textQRTitle.setText(event.getTitle());
-        textQRTime.setText(event.getStartTime() + " - " + event.getEndTime());
-        textQRDate.setText(event.getStartDate() + " - " + event.getEndDate());
+
+        SimpleDateFormat inputDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a");
+
+        try {
+            if(event.getStartDate().equals(event.getEndDate())){
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                textQRDate.setText(outputDateFormat.format(startDateTime));
+                textQRTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+            }
+            else {
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                textQRTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+                textQRDate.setText(outputDateFormat.format(startDateTime) + " - " + outputDateFormat.format(endDateTime));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if(event.getPrice() == 0.0)
             textQRPrice.setText("FREE");
-        else
-            textQRPrice.setText("RM " + event.getPrice());
+        else{
+            DecimalFormat df = new DecimalFormat("#.00");
+            textQRPrice.setText("RM" + df.format(event.getPrice()));
+        }
+
         textQRConctact.setText(event.getContactNo());
         textQRLocation.setText(event.getLocation());
 

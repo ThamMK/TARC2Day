@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,12 +21,16 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class GenerateQR extends AppCompatActivity {
     ImageView imageViewQRCode;
     TextView textQRTime,textQRDate,textQRPrice,textQRConctact,textQRLocation,textQRTitle;
     User user;
+    Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +43,7 @@ public class GenerateQR extends AppCompatActivity {
         user = gson.fromJson(json,User.class);
 
         Intent intent = getIntent();
-        Event event = (Event) intent.getParcelableExtra("registerEvent");
+        event = (Event) intent.getParcelableExtra("registerEvent");
 
         //Initialize the UI design
         String QReventCode = randomQRCode();
@@ -52,9 +58,37 @@ public class GenerateQR extends AppCompatActivity {
         //Setting up the text
        // textViewTitle.setText(event.getTitle());
         textQRTitle.setText(event.getTitle());
-        textQRDate.setText(event.getStartTime() + " - " + event.getEndTime());
-        textQRDate.setText(event.getStartDate() + " - " + event.getEndDate());
-        textQRPrice.setText("RM " + event.getPrice());
+
+        SimpleDateFormat inputDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a");
+
+        try {
+            if(event.getStartDate().equals(event.getEndDate())){
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                textQRDate.setText(outputDateFormat.format(startDateTime));
+                textQRTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+            }
+            else {
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                textQRTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+                textQRDate.setText(outputDateFormat.format(startDateTime) + " - " + outputDateFormat.format(endDateTime));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(event.getPrice() == 0.0)
+            textQRPrice.setText("FREE");
+        else{
+            DecimalFormat df = new DecimalFormat("#.00");
+            textQRPrice.setText("RM" + df.format(event.getPrice()));
+        }
+
         textQRConctact.setText(event.getContactNo());
         textQRLocation.setText(event.getLocation());
 
@@ -101,6 +135,28 @@ public class GenerateQR extends AppCompatActivity {
             String res = rh.sendPostRequest(Config.URL_ADD_EVENTDETAILS, parameter);
             return res;
         }
+    }
+
+    public void reminderEvent(View view) {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.Events.TITLE, event.getTitle());
+        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "KL TARUC " + event.getLocation());
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, event.getEventDescription());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String startDateTime = event.getStartDate() + " " + event.getStartTime();
+        String endDateTime = event.getEndDate() + " " + event.getEndTime();
+        Calendar calStart = Calendar.getInstance();
+        Calendar calEnd = Calendar.getInstance();
+        try {
+            calStart.setTime(sdf.parse(startDateTime));// all done
+            calEnd.setTime(sdf.parse(endDateTime));// all done
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, calStart.getTimeInMillis());
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, calEnd.getTimeInMillis());
+        startActivity(intent);
     }
 
 }

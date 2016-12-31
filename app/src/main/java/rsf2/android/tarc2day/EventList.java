@@ -55,7 +55,6 @@ public class EventList extends AppCompatActivity implements SearchView.OnQueryTe
     private EventAdapter eventAdapter;
     String json_string;
     JSONObject jsonObject;
-    TextView textViewShowData;
     JSONArray jsonArray;
     private int width, height;
 
@@ -67,7 +66,6 @@ public class EventList extends AppCompatActivity implements SearchView.OnQueryTe
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewEventList);
-        textViewShowData = (TextView) findViewById(R.id.textViewShowRecords);
 
         new BackgroundTask().execute();
     }
@@ -204,7 +202,6 @@ public class EventList extends AppCompatActivity implements SearchView.OnQueryTe
         @Override
         protected void onPostExecute(String result) {
             eventAdapter = new EventAdapter(eventList,width,height);
-            textViewShowData.setText(eventList.get(0).getLocation());
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             recyclerView.setLayoutManager(mLayoutManager);
