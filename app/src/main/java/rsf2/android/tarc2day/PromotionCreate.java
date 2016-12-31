@@ -340,8 +340,10 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
                 location.equals("") || location.equals("") || price.equals("") || description.equals("")) {
             Toast.makeText(getApplicationContext(), "All field must be entered", Toast.LENGTH_LONG).show();
         } else if (!(contactNum.matches("^[0-9\\-]*$")) || contactNum.length() < 10) {
+            //contact number contain charaters other than 0-9, '-' and '+'
             editTextCreatePromoContact.setError("Please enter correct phone number");
         } else if (!priceValidity) {
+            //price entered cannot be parsed into double
             editTextCreatePromoPrice.setError("Please enter number only");
         } else {
             PromotionCreate.BackgroundInsertPromoTask backgroundInsertPromoTask = new PromotionCreate.BackgroundInsertPromoTask(this);

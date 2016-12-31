@@ -134,21 +134,23 @@ public class MyAccount extends Activity {
                             String newPassword = editTextNewPassword.getText().toString();
                             String reenterNewPassword = editTextReenterNewPassword.getText().toString();
 
-                            if(newPassword.equals(reenterNewPassword)) {
-                                if(newPassword.equals(user.getPassword())){
-                                    Toast.makeText(getApplicationContext(),"new password cannot be current password", Toast.LENGTH_LONG).show();
-                                }else {
+                            if(newPassword.equals(reenterNewPassword) && !newPassword.equals(user.getPassword())
+                                    && !currentPassword.equals("") &&!newPassword.equals("")&&!reenterNewPassword.equals("")) {
                                     //Update password
                                     dialog.dismiss();
                                     BackgroundUpdatePasswordTask backgroundUpdatePasswordTask = new BackgroundUpdatePasswordTask();
                                     backgroundUpdatePasswordTask.execute(user.getUsername(), newPassword);
-                                }
-                            } else {
+
+                            } else if(newPassword.equals(user.getPassword())){
+                                Toast.makeText(getApplicationContext(),"new password cannot be current password", Toast.LENGTH_LONG).show();
+                            }else if(currentPassword.equals("")||newPassword.equals("")||reenterNewPassword.equals("")){
+                                Toast.makeText(getApplicationContext(),"All fields must be entered", Toast.LENGTH_LONG).show();
+                            }
+                            else {
                                 //New passwords don't match
                                 editTextReenterNewPassword.setError("Reentered new password does not match new password");
                                 Toast.makeText(getApplicationContext(),"Passwords do not match", Toast.LENGTH_LONG).show();
                             }
-
 
                         } else {
                             //Incorrect user password
@@ -199,8 +201,10 @@ public class MyAccount extends Activity {
                 if(name.equals("")|| email.equals("")||date.equals("")||contactNumber.equals("")){
                     Toast.makeText(getApplicationContext(),"All field must be entered",Toast.LENGTH_LONG).show();
                 }else if(!(contactNumber.matches("^[0-9\\-\\+]*$")) || contactNumber.length()<10){
+                    //contact number contain charaters other than 0-9, '-' and '+'
                     editTextContactNumber.setError("Please enter correct phone number");
                 }else if(inputDate == null){
+                    //Input date not in dd/MM/yyyy format
                     editTextBirthday.setError("Please enter date in format dd/MM/yyyy");
                 }
                 else {

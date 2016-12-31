@@ -254,9 +254,11 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"All field must be entered",Toast.LENGTH_LONG).show();
             return false;
         }else if(inputDate == null){
+            //Input date not in dd/MM/yyyy format
             editTextDate.setError("Please enter date in format dd/MM/yyyy");
             return false;
         }else if(!(contactNumber.matches("^[0-9\\-]*$")) || contactNumber.length()<10){
+            //contact number contain charaters other than 0-9, '-' and '+'
             editTextContactNumber.setError("Please enter correct phone number");
             return false;
         }else if(!password.contentEquals(reenterPassword)) {

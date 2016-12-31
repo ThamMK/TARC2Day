@@ -496,8 +496,10 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 society.equals("")|| location.equals("")||price.equals("")|| description.equals("")) {
             Toast.makeText(getApplicationContext(),"All field must be entered",Toast.LENGTH_LONG).show();
         }else if(!(contactNum.matches("^[0-9\\-]*$")) || contactNum.length()<10){
+            //contact number contain charaters other than 0-9, '-' and '+'
             editTextContactNum.setError("Please enter correct phone number");
         }else if(!priceValidity ){
+            //price entered cannot be parsed into double
             editTextPrice.setError("Please enter number only");
         }
         else {

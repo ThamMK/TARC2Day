@@ -186,6 +186,7 @@ public class CreateSociety extends AppCompatActivity {
                 societyContactNo.equals("") || societyEmail.equals("") ) {
             Toast.makeText(getApplicationContext(), "All field must be entered", Toast.LENGTH_LONG).show();
         } else if (!(societyContactNo.matches("^[0-9\\-]*$")) || societyContactNo.length() < 10) {
+            //contact number contain charaters other than 0-9, '-' and '+'
             editTextCreateSocietyContactNo.setError("Please enter correct phone number");
         } else {
             BackgroundInsertSocietyTask backgroundInsertSocietyTask = new BackgroundInsertSocietyTask(this);
