@@ -35,6 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -142,7 +145,7 @@ public class MyAccount extends Activity {
                                 }
                             } else {
                                 //New passwords don't match
-
+                                editTextReenterNewPassword.setError("Reentered new password does not match new password");
                                 Toast.makeText(getApplicationContext(),"Passwords do not match", Toast.LENGTH_LONG).show();
                             }
 
@@ -180,14 +183,30 @@ public class MyAccount extends Activity {
                 final String contactNumber = editTextContactNumber.getText().toString();
                 Bitmap bitmap = ((BitmapDrawable)profilePictureView.getDrawable()).getBitmap();
                 final String encodedImage = User.bitmapToBase64(bitmap);
-
+                final String birthDateFormat;
+                //Parse the input date
+                SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+                Date inputDate = null;
+                try {
+                    inputDate = fmt.parse(date);
+                    if (!date.equals(fmt.format(inputDate))) {
+                        inputDate = null;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 if(name.equals("")|| email.equals("")||date.equals("")||contactNumber.equals("")){
                     Toast.makeText(getApplicationContext(),"All field must be entered",Toast.LENGTH_LONG).show();
-                }else if(!(contactNumber.matches("^[0-9\\-]*$"))){
+                }else if(!(contactNumber.matches("^[0-9\\-\\+]*$")) || contactNumber.length()<10){
                     editTextContactNumber.setError("Please enter correct phone number");
+                }else if(inputDate == null){
+                    editTextBirthday.setError("Please enter date in format dd/MM/yyyy");
                 }
                 else {
+                    // Create the MySQL datetime string
+                    fmt = new SimpleDateFormat("yyyy-MM-dd");
+                    birthDateFormat = fmt.format(inputDate);
 
                     //Pop up an alert dialog
                     AlertDialog alertDialog = new AlertDialog.Builder(MyAccount.this).create();
@@ -207,7 +226,7 @@ public class MyAccount extends Activity {
                             if (password.contentEquals(user.getPassword())) {
                                 dialog.dismiss();
                                 BackgroundUpdateProfileTask backgroundUpdateProfileTask = new BackgroundUpdateProfileTask();
-                                backgroundUpdateProfileTask.execute(user.getUsername(), name, email, date, contactNumber, encodedImage);
+                                backgroundUpdateProfileTask.execute(user.getUsername(), name, email, birthDateFormat, contactNumber, encodedImage);
                             } else {
                                 dialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_SHORT).show();

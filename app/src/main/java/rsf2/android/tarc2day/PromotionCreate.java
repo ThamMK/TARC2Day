@@ -300,9 +300,9 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
     }
 
 
-    public void submitPromotion(View view){
-        String promoTitle,startDate,endDate,startTime,endTime,email,contactNum,society,location,price,description;
-
+    public void submitPromotion(View view) {
+        String promoTitle, startDate, endDate, startTime, endTime, email, contactNum, society, location, price, description;
+        boolean priceValidity = true;
 //        spinnerLocation = (Spinner) findViewById(R.id.spinnerCreatePromo);
 //        imageViewPromotionCreate = (ImageView) findViewById(R.id.imageViewPromotionCreate);
 //        editTextPromotionTitle = (EditText) findViewById(R.id.editTextPromotionTitle);
@@ -326,13 +326,28 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         price = editTextCreatePromoPrice.getText().toString();
         description = editTextCreatePromoDetail.getText().toString();
 
-        Bitmap bitmap = ((BitmapDrawable)imageViewPromotionCreate.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) imageViewPromotionCreate.getDrawable()).getBitmap();
         String encodedImage = Promotion.bitmapToBase64(bitmap);
 
-        PromotionCreate.BackgroundInsertPromoTask backgroundInsertPromoTask = new PromotionCreate.BackgroundInsertPromoTask(this);
-        backgroundInsertPromoTask.execute(promoTitle,startDate,endDate,startTime,endTime,email,contactNum,location,price,description,encodedImage);
-    }
+        try {
+            Double.parseDouble(price);
+        }catch(NumberFormatException e){
+            priceValidity = false;
+        }
 
+        if (promoTitle.equals("") || startDate.equals("") || endDate.equals("") ||
+                startTime.equals("") || endTime.equals("") || email.equals("") || contactNum.equals("") ||
+                location.equals("") || location.equals("") || price.equals("") || description.equals("")) {
+            Toast.makeText(getApplicationContext(), "All field must be entered", Toast.LENGTH_LONG).show();
+        } else if (!(contactNum.matches("^[0-9\\-]*$")) || contactNum.length() < 10) {
+            editTextCreatePromoContact.setError("Please enter correct phone number");
+        } else if (!priceValidity) {
+            editTextCreatePromoPrice.setError("Please enter number only");
+        } else {
+            PromotionCreate.BackgroundInsertPromoTask backgroundInsertPromoTask = new PromotionCreate.BackgroundInsertPromoTask(this);
+            backgroundInsertPromoTask.execute(promoTitle, startDate, endDate, startTime, endTime, email, contactNum, location, price, description, encodedImage);
+        }
+    }
     public void doCrop(Uri imageUri){
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
