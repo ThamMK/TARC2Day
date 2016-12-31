@@ -315,8 +315,7 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 JSONArray jsonArray = new JSONArray(result);
                 for(int i = 0; i < jsonArray.length(); i++) {
                     String societyName = jsonArray.getJSONObject(i).getString("societyName");
-                    TextView textView = (TextView)findViewById(R.id.textView);
-                    textView.setText(societyName);
+
                     society.add(societyName);
                 }
 
@@ -440,10 +439,9 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
         @Override
         protected void onPostExecute(String s) {
-            Toast.makeText(ctx,s,Toast.LENGTH_SHORT).show();
-            TextView textView = (TextView)findViewById(R.id.textView);
-            textView.setText(date);
+
             loading.dismiss();
+            Toast.makeText(getApplicationContext(),"Successfully created!",Toast.LENGTH_LONG).show();
         }
 
 

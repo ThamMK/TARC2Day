@@ -21,85 +21,105 @@
             android:layout_height="wrap_content"
             android:src="@drawable/fileimage"
             android:id="@+id/createSocietyImageFile"
-            android:layout_weight="0.40"
             android:clickable="true"
             android:onClick="onClickImageView"/>
 
-        <android.support.design.widget.TextInputLayout
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/society_name"
+            android:textColor="@color/tarPink"
+            android:layout_gravity="left"
+            android:paddingLeft="5dp"
+            />
+        <EditText
+            android:id="@+id/editTextCreateSocietyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-
-            <EditText
-                android:id="@+id/editTextCreateSocietyName"
-                android:background="@drawable/createevent"
-                android:paddingLeft="80dp"
-                android:paddingTop="25dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="50"
-                android:hint="Society Name"/>
-
-        </android.support.design.widget.TextInputLayout>
+            android:maxLength="50"
+            android:drawableLeft="@drawable/ic_eventcalendar"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/tarPink"
+            android:hint="@string/society_name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/person_in_charge"
+            android:textColor="@color/tarPink"
+            android:layout_gravity="left"
+            android:paddingLeft="5dp"
+            />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/editTextCreateSocietyPersonInCharge"
-            android:background="@drawable/createeventemail"
-            android:paddingLeft="80dp"
-            android:paddingTop="25dp"
-            android:layout_weight="1"
             android:maxLength="35"
+            android:drawableLeft="@drawable/ic_username"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/tarPink"
             android:hint="Person In Charge"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email_address"
+            android:textColor="@color/tarPink"
+            android:layout_gravity="left"
+            android:paddingLeft="5dp" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/editTextCreateSocietyEmail"
-            android:background="@drawable/createeventemail"
-            android:paddingLeft="80dp"
-            android:paddingTop="25dp"
-            android:layout_weight="1"
             android:maxLength="35"
-            android:hint="Email address"/>
-
+            android:hint="@string/email_address"
+            android:drawableLeft="@drawable/ic_email"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/tarPink"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_number"
+            android:textColor="@color/tarPink"
+            android:layout_gravity="left"
+            android:paddingLeft="5dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
             android:id="@+id/editTextCreateSocietyContactNo"
-            android:paddingLeft="80dp"
-            android:paddingTop="25dp"
-            android:background="@drawable/createeventphone"
-            android:layout_weight="1"
             android:maxLength="20"
-            android:hint="Contact Number"/>
-
+            android:hint="Contact Number"
+            android:drawableLeft="@drawable/ic_contact_phone"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/tarPink"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/society_description"
+            android:textColor="@color/tarPink"
+            android:layout_gravity="left"
+            android:paddingLeft="5dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/editTextCreateSocietyDescription"
-            android:background="@drawable/emptyframelarge"
             android:hint="society description"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:maxLength="150"
-            android:layout_weight="0.40"/>
+            android:maxLength="150"/>
 
         <Button
             android:text="Submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttonCreateSociety"
-            android:layout_weight="1"
-            android:background="@color/tarPink"
+            android:background="@drawable/rounddedbutton"
+            android:backgroundTint="@color/tarPink"
             android:onClick="submitSociety" />
 
     </LinearLayout>
