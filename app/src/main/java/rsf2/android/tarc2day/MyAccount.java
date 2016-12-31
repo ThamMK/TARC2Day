@@ -297,7 +297,9 @@ public class MyAccount extends Activity {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMinCropResultSize(136,136)
+                .setCropShape(CropImageView.CropShape.OVAL)
                 //.setMaxCropResultSize(1000,480)
+                .setAspectRatio(1,1)
                 .start(this);
     }
 

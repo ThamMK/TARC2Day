@@ -6,35 +6,45 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="120dp"
+        android:layout_width="140dp"
+        android:layout_height="100dp"
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/myEventListImage"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="5dp"
-        />
+        android:layout_marginBottom="8dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/eventListTitle"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
             android:textSize="20sp"
-            android:textColor="#c60a0a"
+            android:textColor="@color/tarPink"
             android:text="Event" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/eventListDate"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:textColor="#c60a0a"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/notmalTextColor"
+            android:text="Date"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventListTime"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/notmalTextColor"
             android:text="Date"/>
 
     </LinearLayout>

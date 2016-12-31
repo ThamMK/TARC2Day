@@ -153,6 +153,9 @@ public class RegisterActivity extends AppCompatActivity {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMinCropResultSize(136,136)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .setAspectRatio(1,1)
+                .setFixAspectRatio(true)
                 //.setMaxCropResultSize(1000,480)
                 .start(this);
     }

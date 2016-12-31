@@ -4,7 +4,8 @@
     android:id="@+id/activity_show_event_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="rsf2.android.tarc2day.ShowEventDetail">
+    tools:context="rsf2.android.tarc2day.ShowEventDetail"
+    android:layout_weight="1">
 
     <ImageView
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/tarPink"
         android:orientation="vertical"
         android:layout_marginTop="260dp">
@@ -47,7 +48,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawableLeft="@drawable/ic_eventcalendar"
             android:drawablePadding="10dp"
             android:text="12/06/2016 - 18/06/2016"
             android:gravity="center_vertical"
@@ -60,7 +61,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawableLeft="@drawable/ic_eventprice"
             android:drawablePadding="10dp"
             android:text="RM 60"
             android:gravity="center_vertical"
@@ -73,7 +74,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawableLeft="@drawable/ic_eventcontact"
             android:drawablePadding="10dp"
             android:text="016-2123206"
             android:gravity="center_vertical"
@@ -86,7 +87,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_eventtime"
+            android:drawableLeft="@drawable/ic_eventlocation"
             android:drawablePadding="10dp"
             android:text="DK ABA"
             android:gravity="center_vertical"

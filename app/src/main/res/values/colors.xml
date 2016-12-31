@@ -9,4 +9,5 @@
     <color name="year">#333</color>
     <color name="white">#FFFFFF</color>
     <color name="alpha_gray">#B3999999</color>
+    <color name="notmalTextColor">#8e8e8e</color>
 </resources>

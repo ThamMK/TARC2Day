@@ -1,142 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fillViewport="true">
 
-            <LinearLayout
-                android:id="@+id/content_event_info"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/content_event_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical"
+            android:weightSum="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context="rsf2.android.tarc2day.EventInfo"
+            tools:showIn="@layout/activity_event_info">
+
+            <ImageView
+                android:id="@+id/imageViewEventInfo"
+                android:layout_width="365dp"
+                android:layout_height="200dp" />
+
+            <TextView
+                android:id="@+id/textViewEventInfoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:context="rsf2.android.tarc2day.EventInfo"
-                tools:showIn="@layout/activity_event_info"
-                android:layout_marginTop="60dp"
-                android:weightSum="1">
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="24dp"
+                android:textColor="@color/tarPink"/>
 
-                <ImageView
-                    android:layout_width="365dp"
-                    android:layout_height="200dp"
 
-                    android:id="@+id/imageViewEventInfo"/>
+            <TextView
+                android:id="@+id/textViewEventInfoTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_timer"
+                android:drawablePadding="10dp"/>
+
+            <TextView
+                android:id="@+id/textViewEventInfoDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_date_range"
+                android:drawablePadding="10dp"/>
+
+            <TextView
+                android:id="@+id/textViewEventInfoPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_money"
+                android:drawablePadding="10dp"/>
 
                 <TextView
-                    android:id="@+id/textViewEventInfoName"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="24dp"
+                    android:id="@+id/textViewEventInfoContact"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp">
+                    android:drawableLeft="@drawable/ic_contact_phone"
+                    android:drawablePadding="10dp"
+                    android:layout_weight="2"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_timer"
-                        android:id="@+id/imageViewTimer"
-                        />
-
-                    <TextView
-                        android:id="@+id/textViewEventInfoTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp">
-
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_date_range"
-                        android:id="@+id/imageViewDate"
-                        />
-
-                    <TextView
-                        android:id="@+id/textViewEventInfoDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_money"
-                        android:id="@+id/imageViewPrice"
-                        />
-
-                    <TextView
-                        android:id="@+id/textViewEventInfoPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/imageViewContact"
-                        android:src="@drawable/ic_contact_phone"
-                        />
-
-                    <TextView
-                        android:id="@+id/textViewEventInfoContact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
-                </LinearLayout>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="250dp"
-                android:text="REGISTER"
-                android:onClick="registerEvent"
-                android:id="@+id/buttonRegisterEvent" />
-
+                <Button
+                    android:id="@+id/buttonRegisterEvent"
+                    android:layout_width="160dp"
+                    android:layout_height="35dp"
+                    android:onClick="registerEvent"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="right"
+                    android:text="REGISTER"
+                    android:background="@color/tarPink"
+                    android:textColor="@color/white" />
 
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayoutEventInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:tabBackground="@color/tarPink"
-                app:tabTextColor="#3e4c57"
                 app:tabIndicatorColor="@color/white"
-                app:tabSelectedTextColor="@color/white">
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextColor="#3e4c57">
 
             </android.support.design.widget.TabLayout>
 
