@@ -182,45 +182,50 @@ public class MyAccount extends Activity {
                 final String encodedImage = User.bitmapToBase64(bitmap);
 
 
+                if(name.equals("")|| email.equals("")||date.equals("")||contactNumber.equals("")){
+                    Toast.makeText(getApplicationContext(),"All field must be entered",Toast.LENGTH_LONG).show();
+                }else if(!(contactNumber.matches("^[0-9\\-]*$"))){
+                    editTextContactNumber.setError("Please enter correct phone number");
+                }
+                else {
 
-                //Pop up an alert dialog
-                AlertDialog alertDialog = new AlertDialog.Builder(MyAccount.this).create();
+                    //Pop up an alert dialog
+                    AlertDialog alertDialog = new AlertDialog.Builder(MyAccount.this).create();
 
-                alertDialog.setTitle("Enter current password");
-                //Put edit text into the alert dialog
-                final EditText editTextPassword = new EditText(getApplication());
-                editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                editTextPassword.setTextColor(getResources().getColor(R.color.black));
-                alertDialog.setView(editTextPassword);
-                //Set positive button (submit)
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,"Enter", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String password = editTextPassword.getText().toString();
+                    alertDialog.setTitle("Enter current password");
+                    //Put edit text into the alert dialog
+                    final EditText editTextPassword = new EditText(getApplication());
+                    editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    editTextPassword.setTextColor(getResources().getColor(R.color.black));
+                    alertDialog.setView(editTextPassword);
+                    //Set positive button (submit)
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Enter", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String password = editTextPassword.getText().toString();
 
-                        if(password.contentEquals(user.getPassword())) {
-                            dialog.dismiss();
-                            BackgroundUpdateProfileTask backgroundUpdateProfileTask = new BackgroundUpdateProfileTask();
-                            backgroundUpdateProfileTask.execute(user.getUsername(),name,email,date,contactNumber,encodedImage);
-                        } else {
-                            dialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_SHORT).show();
+                            if (password.contentEquals(user.getPassword())) {
+                                dialog.dismiss();
+                                BackgroundUpdateProfileTask backgroundUpdateProfileTask = new BackgroundUpdateProfileTask();
+                                backgroundUpdateProfileTask.execute(user.getUsername(), name, email, date, contactNumber, encodedImage);
+                            } else {
+                                dialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
+                    });
+                    //Set negative button (cancel)
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
 
-                    }
-                });
-                //Set negative button (cancel)
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                alertDialog.show();
-
-
+                    alertDialog.show();
+                }
             }
         });
 
