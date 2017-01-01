@@ -170,8 +170,8 @@ public class CreateSociety extends AppCompatActivity {
         }
     }
 
-    public void submitSociety(View view){
-        String societyName,societyDescription,societyPersonInCharge,societyContactNo,societyEmail;
+    public void submitSociety(View view) {
+        String societyName, societyDescription, societyPersonInCharge, societyContactNo, societyEmail;
 
         societyName = editTextCreateSocietyName.getText().toString();
         societyDescription = editTextCreateSocietyDescription.getText().toString();
@@ -179,13 +179,20 @@ public class CreateSociety extends AppCompatActivity {
         societyContactNo = editTextCreateSocietyContactNo.getText().toString();
         societyEmail = editTextCreateSocietyEmail.getText().toString();
 
-        Bitmap bitmap = ((BitmapDrawable)imageViewCreateSocietyImage.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) imageViewCreateSocietyImage.getDrawable()).getBitmap();
         String encodedImage = Society.bitmapToBase64(bitmap);
 
-        BackgroundInsertSocietyTask backgroundInsertSocietyTask = new BackgroundInsertSocietyTask(this);
-        backgroundInsertSocietyTask.execute(societyName,societyDescription,societyPersonInCharge,societyContactNo,societyEmail,encodedImage);
+        if (societyName.equals("") || societyDescription.equals("") || societyPersonInCharge.equals("") ||
+                societyContactNo.equals("") || societyEmail.equals("") ) {
+            Toast.makeText(getApplicationContext(), "All field must be entered", Toast.LENGTH_LONG).show();
+        } else if (!(societyContactNo.matches("^[0-9\\-]*$")) || societyContactNo.length() < 10) {
+            //contact number contain charaters other than 0-9, '-' and '+'
+            editTextCreateSocietyContactNo.setError("Please enter correct phone number");
+        } else {
+            BackgroundInsertSocietyTask backgroundInsertSocietyTask = new BackgroundInsertSocietyTask(this);
+            backgroundInsertSocietyTask.execute(societyName, societyDescription, societyPersonInCharge, societyContactNo, societyEmail, encodedImage);
+        }
     }
-
     public void doCrop(Uri imageUri){
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)

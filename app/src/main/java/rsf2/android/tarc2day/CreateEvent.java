@@ -466,9 +466,9 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         return response;
     }
 
-    public void submitEvent(View view){
-        String eventTitle,startDate,endDate,startTime,endTime,email,contactNum,society,location,price,description;
-
+    public void submitEvent(View view) {
+        String eventTitle, startDate, endDate, startTime, endTime, email, contactNum, society, location, price, description;
+        boolean priceValidity= true;
         eventTitle = editTextEventName.getText().toString();
         startDate = textViewStartDate.getText().toString();
         endDate = textViewEndDate.getText().toString();
@@ -481,13 +481,30 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         price = editTextPrice.getText().toString();
         description = editTextDescription.getText().toString();
 
-        Bitmap bitmap = ((BitmapDrawable)eventsImage.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) eventsImage.getDrawable()).getBitmap();
         String encodedImage = Event.bitmapToBase64(bitmap);
 
-        BackgroundInsertEventTask backgroundInsertEventTask = new BackgroundInsertEventTask(this);
-        backgroundInsertEventTask.execute(eventTitle,startDate,endDate,startTime,endTime,email,contactNum,society,location,price,description,encodedImage);
+        try {
+            Double.parseDouble(price);
+        }catch(NumberFormatException e){
+            priceValidity = false;
+        }
+        if (eventTitle.equals("")|| startDate.equals("")|| endDate.equals("")||
+                startTime.equals("")|| endTime.equals("")|| email.equals("")||contactNum.equals("")||
+                society.equals("")|| location.equals("")||price.equals("")|| description.equals("")) {
+            Toast.makeText(getApplicationContext(),"All field must be entered",Toast.LENGTH_LONG).show();
+        }else if(!(contactNum.matches("^[0-9\\-]*$")) || contactNum.length()<10){
+            //contact number contain charaters other than 0-9, '-' and '+'
+            editTextContactNum.setError("Please enter correct phone number");
+        }else if(!priceValidity ){
+            //price entered cannot be parsed into double
+            editTextPrice.setError("Please enter number only");
+        }
+        else {
+            BackgroundInsertEventTask backgroundInsertEventTask = new BackgroundInsertEventTask(this);
+            backgroundInsertEventTask.execute(eventTitle, startDate, endDate, startTime, endTime, email, contactNum, society, location, price, description, encodedImage);
+        }
     }
-
     public void doCrop(Uri imageUri){
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)

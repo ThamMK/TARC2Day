@@ -21,6 +21,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -66,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 } else {
 
-                    Toast.makeText(RegisterActivity.this,"Fields are empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this,"Fields are not entered correctly",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -236,10 +239,34 @@ public class RegisterActivity extends AppCompatActivity {
         Bitmap bitmap = ((BitmapDrawable)profilePicture.getDrawable()).getBitmap();
         encodedImage = User.bitmapToBase64(bitmap);
 
-        if(password.contentEquals(reenterPassword)) {
-            return true;
-        } else {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        Date inputDate = null;
+        try {
+            inputDate = fmt.parse(date);
+            if (!date.equals(fmt.format(inputDate))) {
+                inputDate = null;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(username.equals("")|| name.equals("")|| password.equals("")|| reenterPassword.equals("")||
+                email.equals("")||date.equals("")||contactNumber.equals("")){
+            Toast.makeText(getApplicationContext(),"All field must be entered",Toast.LENGTH_LONG).show();
             return false;
+        }else if(inputDate == null){
+            //Input date not in dd/MM/yyyy format
+            editTextDate.setError("Please enter date in format dd/MM/yyyy");
+            return false;
+        }else if(!(contactNumber.matches("^[0-9\\-]*$")) || contactNumber.length()<10){
+            //contact number contain charaters other than 0-9, '-' and '+'
+            editTextContactNumber.setError("Please enter correct phone number");
+            return false;
+        }else if(!password.contentEquals(reenterPassword)) {
+            editTextReenterPassword.setError("reentered password does not match password");
+            Toast.makeText(getApplicationContext(),"Passwords do not match", Toast.LENGTH_LONG).show();
+            return false;
+        } else {
+            return true;
         }
 
     }

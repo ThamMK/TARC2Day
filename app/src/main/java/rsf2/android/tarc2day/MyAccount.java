@@ -14,7 +14,9 @@ import android.renderscript.ScriptGroup;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -79,6 +84,7 @@ public class MyAccount extends Activity {
                 }
             }
         });
+
 
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
@@ -128,18 +134,23 @@ public class MyAccount extends Activity {
                             String newPassword = editTextNewPassword.getText().toString();
                             String reenterNewPassword = editTextReenterNewPassword.getText().toString();
 
-                            if(newPassword.equals(reenterNewPassword)) {
-                                //Update password
-                                dialog.dismiss();
-                                BackgroundUpdatePasswordTask backgroundUpdatePasswordTask = new BackgroundUpdatePasswordTask();
-                                backgroundUpdatePasswordTask.execute(user.getUsername(),newPassword);
+                            if(newPassword.equals(reenterNewPassword) && !newPassword.equals(user.getPassword())
+                                    && !currentPassword.equals("") &&!newPassword.equals("")&&!reenterNewPassword.equals("")) {
+                                    //Update password
+                                    dialog.dismiss();
+                                    BackgroundUpdatePasswordTask backgroundUpdatePasswordTask = new BackgroundUpdatePasswordTask();
+                                    backgroundUpdatePasswordTask.execute(user.getUsername(), newPassword);
 
-                            } else {
+                            } else if(newPassword.equals(user.getPassword())){
+                                Toast.makeText(getApplicationContext(),"new password cannot be current password", Toast.LENGTH_LONG).show();
+                            }else if(currentPassword.equals("")||newPassword.equals("")||reenterNewPassword.equals("")){
+                                Toast.makeText(getApplicationContext(),"All fields must be entered", Toast.LENGTH_LONG).show();
+                            }
+                            else {
                                 //New passwords don't match
-
+                                editTextReenterNewPassword.setError("Reentered new password does not match new password");
                                 Toast.makeText(getApplicationContext(),"Passwords do not match", Toast.LENGTH_LONG).show();
                             }
-
 
                         } else {
                             //Incorrect user password
@@ -174,47 +185,70 @@ public class MyAccount extends Activity {
                 final String contactNumber = editTextContactNumber.getText().toString();
                 Bitmap bitmap = ((BitmapDrawable)profilePictureView.getDrawable()).getBitmap();
                 final String encodedImage = User.bitmapToBase64(bitmap);
+                final String birthDateFormat;
+                //Parse the input date
+                SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+                Date inputDate = null;
+                try {
+                    inputDate = fmt.parse(date);
+                    if (!date.equals(fmt.format(inputDate))) {
+                        inputDate = null;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
+                if(name.equals("")|| email.equals("")||date.equals("")||contactNumber.equals("")){
+                    Toast.makeText(getApplicationContext(),"All field must be entered",Toast.LENGTH_LONG).show();
+                }else if(!(contactNumber.matches("^[0-9\\-\\+]*$")) || contactNumber.length()<10){
+                    //contact number contain charaters other than 0-9, '-' and '+'
+                    editTextContactNumber.setError("Please enter correct phone number");
+                }else if(inputDate == null){
+                    //Input date not in dd/MM/yyyy format
+                    editTextBirthday.setError("Please enter date in format dd/MM/yyyy");
+                }
+                else {
+                    // Create the MySQL datetime string
+                    fmt = new SimpleDateFormat("yyyy-MM-dd");
+                    birthDateFormat = fmt.format(inputDate);
 
+                    //Pop up an alert dialog
+                    AlertDialog alertDialog = new AlertDialog.Builder(MyAccount.this).create();
 
-                //Pop up an alert dialog
-                AlertDialog alertDialog = new AlertDialog.Builder(MyAccount.this).create();
+                    alertDialog.setTitle("Enter current password");
+                    //Put edit text into the alert dialog
+                    final EditText editTextPassword = new EditText(getApplication());
+                    editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    editTextPassword.setTextColor(getResources().getColor(R.color.black));
+                    alertDialog.setView(editTextPassword);
+                    //Set positive button (submit)
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Enter", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String password = editTextPassword.getText().toString();
 
-                alertDialog.setTitle("Enter current password");
-                //Put edit text into the alert dialog
-                final EditText editTextPassword = new EditText(getApplication());
-                editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                editTextPassword.setTextColor(getResources().getColor(R.color.black));
-                alertDialog.setView(editTextPassword);
-                //Set positive button (submit)
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,"Enter", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String password = editTextPassword.getText().toString();
+                            if (password.contentEquals(user.getPassword())) {
+                                dialog.dismiss();
+                                BackgroundUpdateProfileTask backgroundUpdateProfileTask = new BackgroundUpdateProfileTask();
+                                backgroundUpdateProfileTask.execute(user.getUsername(), name, email, birthDateFormat, contactNumber, encodedImage);
+                            } else {
+                                dialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_SHORT).show();
+                            }
 
-                        if(password.contentEquals(user.getPassword())) {
-                            dialog.dismiss();
-                            BackgroundUpdateProfileTask backgroundUpdateProfileTask = new BackgroundUpdateProfileTask();
-                            backgroundUpdateProfileTask.execute(user.getUsername(),name,email,date,contactNumber,encodedImage);
-                        } else {
-                            dialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_SHORT).show();
                         }
+                    });
+                    //Set negative button (cancel)
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
 
-                    }
-                });
-                //Set negative button (cancel)
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                alertDialog.show();
-
-
+                    alertDialog.show();
+                }
             }
         });
 
@@ -307,7 +341,6 @@ public class MyAccount extends Activity {
     private Bitmap scale(Bitmap b) {
         return Bitmap.createScaledBitmap(b,profilePictureView.getWidth(),profilePictureView.getHeight(),  false);
     }
-
 
     class BackgroundProfileTask extends AsyncTask<String, Void, String> {
 
