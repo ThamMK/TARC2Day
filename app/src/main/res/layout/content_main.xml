@@ -8,7 +8,6 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:fillViewport="true">
         <LinearLayout
@@ -63,7 +62,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewEvent"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"/>
+                android:layout_height="fill_parent"
+                />
 
 
 

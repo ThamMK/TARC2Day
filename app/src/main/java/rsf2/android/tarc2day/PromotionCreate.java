@@ -354,6 +354,7 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMinCropResultSize(600,600)
+                .setAspectRatio(5,3)
                 //.setMaxCropResultSize(1000,480)
                 .start(this);
     }

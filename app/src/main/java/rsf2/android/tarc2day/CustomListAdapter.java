@@ -1,6 +1,9 @@
 package rsf2.android.tarc2day;
 
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +37,13 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         View rowView=inflater.inflate(R.layout.custom_list, null,true);
 
         TextView txtTitle = (TextView) rowView.findViewById(R.id.navListItem);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+
 
 
         txtTitle.setText(itemName[position]);
-        imageView.setImageResource(imageId[position]);
+        txtTitle.setCompoundDrawablesWithIntrinsicBounds( imageId[position], 0, 0, 0);
+
+        //imageView.setImageResource(imageId[position]);
 
 
 

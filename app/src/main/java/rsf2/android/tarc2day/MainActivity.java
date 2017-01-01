@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     private CustomListAdapter adapter;
     private String[] linkArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" , "About us", "Log Out"};
     private String[] adminArray = { "Events" ,"Society", "Promotion", "My Events", "My Account" ,"Create Event", "Create Promotion", "Create Society","About us", "Log Out"};
-    private Integer[] adminImageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage, R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage, R.drawable.logoimage};
-    private Integer[] imageId = {R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage,R.drawable.logoimage};
+    private Integer[] adminImageId = {R.drawable.ic_drawerevent,R.drawable.ic_drawersociety,R.drawable.ic_drawerpromotion,R.drawable.ic_drawermyevent,R.drawable.ic_drawermyaccount,R.drawable.ic_createevent,R.drawable.ic_createpromotion,R.drawable.ic_createsociety,R.drawable.ic_draweraboutus,R.drawable.ic_drawerlogout};
+    private Integer[] imageId = {R.drawable.ic_drawerevent,R.drawable.ic_drawersociety,R.drawable.ic_drawerpromotion,R.drawable.ic_drawermyevent,R.drawable.ic_drawermyaccount,R.drawable.ic_draweraboutus,R.drawable.ic_drawerlogout};
 
     private User user;
     private boolean admin;

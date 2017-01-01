@@ -40,21 +40,23 @@
 
                         <ImageView
                             android:id="@+id/toolbarImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/burgerbutton"
-                            android:layout_marginTop="10dp"
-                            android:layout_alignParentLeft="true"/>
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ic_hamburger"
+                            android:layout_marginLeft="8dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"/>
 
                         <TextView
                             android:id="@+id/toolbarTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:textColor="@color/white"
                             android:layout_toRightOf="@id/toolbarImage"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="20dp"
-                            android:textSize="20dp"
+                            android:gravity="center"
+                            android:layout_marginLeft="22dp"
+                            android:textSize="22dp"
                             android:text="Homepage"/>
 
                     </RelativeLayout>
@@ -92,9 +94,9 @@
 
             <ImageView
                 android:id="@+id/navDrawerBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_width="31dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="30dp"
                 android:src="@drawable/keyboardbackspace"/>
 
@@ -103,9 +105,9 @@
                 android:id="@+id/imageViewNavDrawer"
                 android:layout_width="136dp"
                 android:layout_height="136dp"
-
-                app:civ_border_width="2dp"
+                app:civ_border_width="0.1dp"
                 app:civ_border_color="#FF000000"
+                android:layout_marginTop="-16dp"
                 android:onClick="startActivityMyAccount"
                 android:layout_gravity="center"/>
 
@@ -116,6 +118,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:text="Test"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/white"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:onClick="startActivityMyAccount"
@@ -132,8 +136,6 @@
             android:background="#ffeeeeee"
             android:layout_weight="0.6"
             android:layout_alignTop="@+id/linearDrawerContent">
-
-
         </ListView>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

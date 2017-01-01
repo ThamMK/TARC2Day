@@ -23,7 +23,9 @@
             android:src="@drawable/fileimage"
             android:id="@+id/createEventImageFile"
             android:clickable="true"
-            android:onClick="onClickImageView"/>
+            android:onClick="onClickImageView"
+            android:layout_marginTop="7sp"
+            android:layout_marginBottom="7sp"/>
 
         <TextView
             android:layout_width="wrap_content"
