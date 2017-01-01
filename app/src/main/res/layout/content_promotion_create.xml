@@ -186,7 +186,9 @@
             android:drawablePadding="10dp"
             android:drawableTint="@color/tarPink"
             android:maxLength="35"
-            android:hint="Email address"
+
+            android:hint="@string/email_address"
+
             android:layout_marginBottom="15dp"/>
         <TextView
             android:layout_width="wrap_content"
