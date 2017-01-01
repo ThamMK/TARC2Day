@@ -10,4 +10,6 @@
     <color name="white">#FFFFFF</color>
     <color name="alpha_gray">#B3999999</color>
     <color name="notmalTextColor">#8e8e8e</color>
+    <color name="transparentBlack">#22000000</color>
+    <color name="grayText">#99FFFFFF</color>
 </resources>
