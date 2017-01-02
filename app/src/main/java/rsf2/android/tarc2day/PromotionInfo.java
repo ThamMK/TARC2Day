@@ -60,6 +60,7 @@ public class PromotionInfo extends AppCompatActivity {
 
         textViewTitle.setText(promotion.getTitle());
         textViewDetail.setText(promotion.getDescription());
+        textViewTime.setText(promotion.getStartTime() + " - " + promotion.getEndTime());
         textViewDate.setText(promotion.getStartDate() + " - " + promotion.getEndDate());
         textViewPrice.setText("RM " + promotion.getPrice());
         textViewContact.setText(promotion.getContactNo());

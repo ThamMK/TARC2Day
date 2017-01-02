@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp">
+
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imageViewPromotion"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerInside"
+        />
+
+
+    <LinearLayout
+        android:background="#C5FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="130dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewPromotionListName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tarPink"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginLeft="12dp"
+                android:gravity="top"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/textViewPromotionListDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="12sp"
+                android:textColor="@color/black"
+                android:layout_alignBaseline="@+id/textViewEventPrice"
+                android:layout_alignBottom="@+id/textViewEventPrice"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/textViewPromotionListLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="More details"
+                android:textColor="@color/black"
+                android:layout_marginLeft="12sp"
+                android:layout_alignBaseline="@+id/textViewEventPrice"
+                android:layout_alignBottom="@+id/textViewEventPrice"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewPromotionListPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#85bb65"
+            android:layout_marginRight="12sp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="3sp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

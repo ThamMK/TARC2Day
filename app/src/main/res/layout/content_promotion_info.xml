@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="60dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="rsf2.android.tarc2day.PromotionInfo"
     tools:showIn="@layout/activity_promotion_info">
@@ -22,95 +21,70 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewPromotionTitle"/>
+        android:id="@+id/textViewPromotionTitle"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/tarPink"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewPromotionDetail"/>
+        android:id="@+id/textViewPromotionDetail"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:textSize="24dp" />
 
-    <LinearLayout
-        android:layout_height="wrap_content"
+
+    <TextView
         android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageViewPromoTime"
-            android:src="@drawable/ic_timer"/>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewPromotionTime"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_height="wrap_content"
+        android:id="@+id/textViewPromotionTime"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_timer"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/tarPink"/>
+
+
+    <TextView
         android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageViewPromoDate"
-            android:src="@drawable/ic_date_range"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewPromotionDate"/>
-    </LinearLayout>
-    <LinearLayout
         android:layout_height="wrap_content"
+        android:id="@+id/textViewPromotionDate"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_eventcalendar"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/tarPink"/>
+
+    <TextView
         android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageViewPromoPrice"
-            android:src="@drawable/ic_money"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewPromotionPrice"/>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_height="wrap_content"
+        android:id="@+id/textViewPromotionPrice"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_money"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/tarPink"/>
+
+
+    <TextView
         android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageViewPromoContact"
-            android:src="@drawable/ic_contact_phone"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewPromotionContact"/>
-    </LinearLayout>
-    <LinearLayout
         android:layout_height="wrap_content"
+        android:id="@+id/textViewPromotionContact"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_contact_phone"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/tarPink"/>
+
+    <TextView
         android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageViewPromoLocation"
-            android:src="@drawable/ic_location"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewPromotionLocation"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewPromotionLocation"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_location"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/tarPink"/>
 </LinearLayout>

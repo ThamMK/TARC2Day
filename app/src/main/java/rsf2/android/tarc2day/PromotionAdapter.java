@@ -23,15 +23,16 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
     int width, height;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewName,textViewDesc,textViewPrice;
+        public TextView textViewName,textViewDate,textViewPrice,textViewLocation;
         public ImageView imageViewEvent;
 
         public MyViewHolder(View view) {
             super(view);
-            textViewName = (TextView) view.findViewById(R.id.textViewEventName);
-            //textViewDesc = (TextView) view.findViewById(R.id.textViewEventDetails);
-            textViewPrice = (TextView) view.findViewById(R.id.textViewEventPrice);
-            imageViewEvent = (ImageView) view.findViewById(R.id.imageViewEvent);
+            textViewName = (TextView) view.findViewById(R.id.textViewPromotionListName);
+            textViewDate = (TextView) view.findViewById(R.id.textViewPromotionListDate);
+            textViewLocation = (TextView) view.findViewById(R.id.textViewPromotionListLocation);
+            textViewPrice = (TextView) view.findViewById(R.id.textViewPromotionListPrice);
+            imageViewEvent = (ImageView) view.findViewById(R.id.imageViewPromotion);
         }
     }
 
@@ -48,7 +49,7 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
     @Override
     public PromotionAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.event_list_row, parent, false);
+                .inflate(R.layout.promotion_list_row, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -61,7 +62,21 @@ public class PromotionAdapter  extends RecyclerView.Adapter<PromotionAdapter.MyV
         final Context context = holder.itemView.getContext();
         holder.textViewName.setText(promotion.getTitle());
         //holder.textViewDesc.setText(promotion.getDescription());
-        holder.textViewPrice.setText("" + promotion.getPrice());
+
+        if(promotion.getStartDate().equals(promotion.getEndDate())) {
+            holder.textViewDate.setText(promotion.getStartDate());
+        } else {
+            holder.textViewDate.setText(promotion.getStartDate() + " - " + promotion.getEndDate());
+        }
+
+        if(promotion.getPrice() == 0) {
+            holder.textViewPrice.setText("FREE");
+        } else {
+            holder.textViewPrice.setText("RM" + promotion.getPrice());
+        }
+
+        holder.textViewLocation.setText(promotion.getLocation());
+
         Picasso.with(context).load(promotion.getImageUrl()).placeholder( R.drawable.progress_animation ).resize(width,height).into(holder.imageViewEvent);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

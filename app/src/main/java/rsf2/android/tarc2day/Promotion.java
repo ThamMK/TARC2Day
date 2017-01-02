@@ -179,6 +179,8 @@ public class Promotion implements Parcelable{
         dest.writeString(description);
         dest.writeString(startDate);
         dest.writeString(endDate);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
         dest.writeDouble(price);
         dest.writeString(contactNo);
         dest.writeString(location);
@@ -200,6 +202,8 @@ public class Promotion implements Parcelable{
         description = in.readString();
         startDate = in.readString();
         endDate = in.readString();
+        startTime = in.readString();
+        endTime = in.readString();
         price = in.readDouble();
         contactNo = in.readString();
         location = in.readString();

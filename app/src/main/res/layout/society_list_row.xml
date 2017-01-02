@@ -33,19 +33,20 @@
         android:id="@+id/textViewSocietyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:text="Testing"
+        android:textColor="@color/tarPink"
+        android:textSize="20sp"
+        android:layout_marginLeft="12dp"
         android:gravity="top" />
 
-        <TextView
-            android:id="@+id/textViewSocietyPersonInCharge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/title"
-            android:textSize="15dp"
-            android:text="Testing"
-            android:gravity="top" />
+    <TextView
+        android:id="@+id/textViewSocietyPersonInCharge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/title"
+        android:textSize="15sp"
+        android:gravity="top"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="12dp"/>
     </LinearLayout>
 
 </RelativeLayout>
