@@ -127,22 +127,31 @@ public class EventQuestionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                //This is to post the message
-                //Retrieve the necessary data
                 EditText editTextMessage = (EditText) view.findViewById(R.id.inputMessage);
                 String messageText = editTextMessage.getText().toString();
-                String eventId = bundle.getString("eventId");
-                //Get shared preference to get the user id
-                getUserData();
 
-                //Get the current date of user comment post
-                Date date = new Date();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String messageDate = simpleDateFormat.format(date);
+                if(!messageText.trim().equals("")) {
+                    //This is to post the message
+                    //Retrieve the necessary data
 
-                BackgroundPostMessageTask backgroundPostMessageTask = new BackgroundPostMessageTask();
-                backgroundPostMessageTask.execute(user.getUsername(),eventId,messageText,messageDate);
-                new BackgroundMessageTask().execute();
+                    String eventId = bundle.getString("eventId");
+                    //Get shared preference to get the user id
+                    getUserData();
+
+                    //Get the current date of user comment post
+                    Date date = new Date();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String messageDate = simpleDateFormat.format(date);
+
+                    BackgroundPostMessageTask backgroundPostMessageTask = new BackgroundPostMessageTask();
+                    backgroundPostMessageTask.execute(user.getUsername(), eventId, messageText, messageDate);
+                    new BackgroundMessageTask().execute();
+
+                    editTextMessage.setText("");
+                }
+                else{
+                    Toast.makeText(getActivity(),"Please enter some text",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
