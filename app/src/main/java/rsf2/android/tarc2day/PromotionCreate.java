@@ -35,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -165,15 +166,18 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        DecimalFormat df = new DecimalFormat("00");
+
+
         switch(selectedTimeTextView) {
             case R.id.textViewCreatePromoStartTime :
                 textViewDate = (TextView) findViewById(R.id.textViewCreatePromoStartTime);
-                textViewDate.setText(hourOfDay + ":" + minute);
+                textViewDate.setText(df.format(hourOfDay) + ":" + df.format(minute));
 
                 break;
             case R.id.textViewCreatePromoEndTime :
                 textViewDate = (TextView) findViewById(R.id.textViewCreatePromoEndTime);
-                textViewDate.setText(hourOfDay + ":" + minute);
+                textViewDate.setText(df.format(hourOfDay) + ":" + df.format(minute));
                 break;
 
             default:
@@ -294,6 +298,17 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         @Override
         protected void onPostExecute(String s) {
             Toast.makeText(ctx,s,Toast.LENGTH_SHORT).show();
+
+            editTextPromotionTitle.setText("");
+            editTextCreatePromoDetail.setText("");
+            editTextCreatePromoEmail.setText("");
+            editTextCreatePromoLocation.setText("");
+            editTextCreatePromoContact.setText("");
+            textViewCreatePromoEndDate.setText("");
+            textViewCreatePromoEndTime.setText("");
+            textViewCreatePromoStartTime.setText("");
+            textViewCreatePromoStartDate.setText("");
+
             loading.dismiss();
         }
 

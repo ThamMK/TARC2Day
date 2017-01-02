@@ -50,6 +50,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -223,24 +224,25 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        DecimalFormat df = new DecimalFormat("00");
         switch(selectedTimeTextView) {
             case R.id.textViewCreatePromoStartTime :
                 textViewDate = (TextView) findViewById(R.id.textViewCreatePromoStartTime);
-                textViewDate.setText(hourOfDay + ":" + minute);
+                textViewDate.setText(df.format(hourOfDay) + ":" + df.format(minute));
 
                 break;
             case R.id.textViewCreatePromoEndTime :
                 textViewDate = (TextView) findViewById(R.id.textViewCreatePromoEndTime);
-                textViewDate.setText(hourOfDay + ":" + minute);
+                textViewDate.setText(df.format(hourOfDay) + ":" + df.format(minute));
                 break;
             case R.id.textViewCreateEventStartingTime :
                 textViewDate = (TextView) findViewById(R.id.textViewCreateEventStartingTime);
-                textViewDate.setText(hourOfDay + ":" + minute);
+                textViewDate.setText(df.format(hourOfDay) + ":" + df.format(minute));
                 break;
 
             case R.id.textViewCreateEventEndTime :
                 textViewDate = (TextView) findViewById(R.id.textViewCreateEventEndTime);
-                textViewDate.setText(hourOfDay + ":" + minute);
+                textViewDate.setText(df.format(hourOfDay) + ":" + df.format(minute));
                 break;
 
 
@@ -442,6 +444,18 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
             loading.dismiss();
             Toast.makeText(getApplicationContext(),"Successfully created!",Toast.LENGTH_LONG).show();
+
+            //Empty the text fields
+            editTextEventName.setText("");
+            editTextDescription.setText("");
+            editTextContactNum.setText("");
+            editTextEmail.setText("");
+            editTextPrice.setText("");
+            textViewEndDate.setText("");
+            textViewStartDate.setText("");
+            textViewEndTime.setText("");
+            textViewStartTime.setText("");
+            eventsImage.setImageResource(R.drawable.fileimage);
         }
 
 
