@@ -1,102 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent"
+    android:layout_marginTop="60dp">
 
-    <ScrollView
-        android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/content_society_info"
         android:layout_width="wrap_content"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="rsf2.android.tarc2day.SocietyInfo"
+        tools:showIn="@layout/activity_society_info">
 
-        <LinearLayout
-            android:id="@+id/content_society_info"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <ImageView
+            android:id="@+id/imageViewSocietyInfo"
+            android:layout_width="365dp"
+            android:layout_height="200dp" />
+
+        <TextView
+            android:id="@+id/textViewSocietyInfoName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context="rsf2.android.tarc2day.SocietyInfo"
-            tools:showIn="@layout/activity_society_info">
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/tarPink"
+            android:textSize="24dp" />
 
 
+        <TextView
+            android:id="@+id/textViewSocietyInfoPersonInCharge"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_drawermyaccount"
+            android:drawablePadding="10dp" />
 
+        <TextView
+            android:id="@+id/textViewSocietyInfoEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_contact_mail"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical" />
 
-            <ImageView
-                android:layout_width="365dp"
-                android:layout_height="200dp"
-                android:id="@+id/imageViewSocietyInfo"/>
-            <TextView
-                android:id="@+id/textViewSocietyInfoName"
-                android:textSize="28sp"
-                android:layout_marginLeft="34dp"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:textColor="@color/tarPink"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/textViewSocietyInfoContactNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_contact_phone"
+            android:drawablePadding="10dp" />
 
+        <TextView
+            android:id="@+id/textViewSocietyInfoDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_draweraboutus"
+            android:drawablePadding="10dp" />
 
-            <TextView
-                android:id="@+id/textViewSocietyInfoPersonInCharge"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@drawable/ic_username"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/tarPink"
-                />
+        <Button
+            android:layout_width="320sp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@color/tarPink"
+            android:onClick="registerSociety"
+            android:text="@string/action_join"
+            android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/textViewSocietyInfoDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@drawable/ic_drawerevent"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/tarPink"
-                />
-
-            <TextView
-                android:id="@+id/textViewSocietyInfoEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:drawableLeft="@drawable/ic_email"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/tarPink"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="24dp"
-                />
-
-            <TextView
-                android:id="@+id/textViewSocietyInfoContactNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_contact_phone"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/tarPink"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="10dp"
-                />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/action_join"
-                android:layout_gravity="right"
-                android:layout_marginRight="24dp"
-                android:background="@color/tarPink"/>
-
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

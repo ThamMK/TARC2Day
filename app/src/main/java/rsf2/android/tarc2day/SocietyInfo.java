@@ -1,30 +1,20 @@
 package rsf2.android.tarc2day;
 
-import android.app.LocalActivityManager;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
 
 public class SocietyInfo extends AppCompatActivity{
 
@@ -34,7 +24,7 @@ public class SocietyInfo extends AppCompatActivity{
     private TextView textViewContactNo;
     private TextView textViewEmail;
     private ImageView imageView;
-    private static Society society;
+    Society society;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +35,11 @@ public class SocietyInfo extends AppCompatActivity{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        Society society = intent.getParcelableExtra("SOCIETY");
+        society = intent.getParcelableExtra("SOCIETY");
         getDetails(society);
 
     }
     protected void getDetails(Society society) {
-
-
 
         textViewName = (TextView) findViewById(R.id.textViewSocietyInfoName);
         textViewName.setText(society.getName());
@@ -76,29 +64,11 @@ public class SocietyInfo extends AppCompatActivity{
     }
 
     public void registerSociety(View view){
-//        final Intent intent = new Intent(this,GenerateQR.class);
-//        intent.putExtra("registerSociety",(Parcelable) society);
-
-        AlertDialog.Builder requestBuilder = new AlertDialog.Builder(this);
-        requestBuilder.setCancelable(true);
-        requestBuilder.setMessage("Your request to join " + society.getName() + " is pending for approve. ");
-        final AlertDialog requestDialog = requestBuilder.create();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle("Society Registration");
-        builder.setMessage("Do you confirm want to register society : " + society.getName());
-        builder.setPositiveButton("Confirm",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        startActivity(intent);
-                        requestDialog.show();
-                    }
-                });
-        builder.setNegativeButton(android.R.string.cancel, null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + society.getEmail()));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT,"Request join the society " + society.getName());
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "I would like to request to join the societ" + society.getName());
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+}
 
     public int dpToPx(int dp) {
         Resources r = getResources();

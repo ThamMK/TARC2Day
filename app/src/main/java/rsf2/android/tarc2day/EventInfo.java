@@ -47,7 +47,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class EventInfo extends AppCompatActivity implements EventDetailFragment.OnFragmentInteractionListener,
         EventLocationFragment.OnFragmentInteractionListener, EventQuestionFragment.OnFragmentInteractionListener{
@@ -223,16 +227,38 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         textViewTitle.setText(event.getTitle());
 
         textViewTime = (TextView) findViewById(R.id.textViewEventInfoTime);
-        textViewTime.setText(event.getStartTime() + " - " + event.getEndTime());
-
         textViewDate = (TextView) findViewById(R.id.textViewEventInfoDate);
-        textViewDate.setText(event.getStartDate() + " - " + event.getEndDate());
+
+        SimpleDateFormat inputDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a");
+
+        try {
+            if(event.getStartDate().equals(event.getEndDate())){
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                textViewDate.setText(outputDateFormat.format(startDateTime));
+                textViewTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+            }
+            else {
+                Date startDateTime = inputDateTimeFormat.parse(event.getStartDate() + " " + event.getStartTime());
+                Date endDateTime = inputDateTimeFormat.parse(event.getEndDate() + " " + event.getEndTime());
+
+                textViewTime.setText(outputTimeFormat.format(startDateTime) + " - " + outputTimeFormat.format(endDateTime));
+                textViewDate.setText(outputDateFormat.format(startDateTime) + " - " + outputDateFormat.format(endDateTime));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         textViewPrice = (TextView) findViewById(R.id.textViewEventInfoPrice);
         if(event.getPrice() == 0.0)
             textViewPrice.setText("FREE");
-        else
-            textViewPrice.setText("RM " + event.getPrice());
+        else{
+            DecimalFormat df = new DecimalFormat("#.00");
+            textViewPrice.setText("RM" + df.format(event.getPrice()));
+        }
 
         textViewContact = (TextView) findViewById(R.id.textViewEventInfoContact);
         textViewContact.setText(event.getContactNo());
@@ -253,7 +279,7 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
 
     public void registerEvent(View view){
         if(checkRegisterEvent) {
-            Toast.makeText(EventInfo.this, "Fuck you off,dont register twice", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EventInfo.this, "You had registered this event.", Toast.LENGTH_SHORT).show();
         }
         else{
             checkRegisterEvent = true;
