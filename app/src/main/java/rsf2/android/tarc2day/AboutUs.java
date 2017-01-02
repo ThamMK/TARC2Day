@@ -8,7 +8,7 @@ import android.app.Activity;
 
 import com.google.gson.Gson;
 
-public class AboutUs extends Activity {
+public class AboutUs extends AppCompatActivity {
 
     private TextView aboutUsTextView;
     private String name;

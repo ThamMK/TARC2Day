@@ -42,7 +42,7 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyAccount extends Activity {
+public class MyAccount extends AppCompatActivity {
     private User user;
     boolean admin;
     CircleImageView profilePictureView;
@@ -71,7 +71,6 @@ public class MyAccount extends Activity {
         editTextEmail.setText(user.getEmail());
         editTextContactNumber.setText(user.getContactNo());
         editTextBirthday.setText(user.getDateOfBirth());
-        Toast.makeText(getApplicationContext(),user.getPassword(),Toast.LENGTH_LONG).show();
         profilePictureView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

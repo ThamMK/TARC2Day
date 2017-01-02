@@ -64,7 +64,7 @@ public class EventList extends AppCompatActivity implements SearchView.OnQueryTe
         setContentView(R.layout.activity_event_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewEventList);
 
         new BackgroundTask().execute();

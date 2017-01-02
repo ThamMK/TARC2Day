@@ -63,6 +63,7 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Declaration of resources
         imageViewPromotionCreate = (ImageView) findViewById(R.id.imageViewPromotionCreate);
         editTextPromotionTitle = (EditText) findViewById(R.id.editTextPromotionTitle);

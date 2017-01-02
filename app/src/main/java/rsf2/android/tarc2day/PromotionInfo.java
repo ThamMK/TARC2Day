@@ -38,7 +38,7 @@ public class PromotionInfo extends AppCompatActivity {
         setContentView(R.layout.activity_promotion_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         Promotion promotion = intent.getParcelableExtra("PROMOTION");
         getDetails(promotion);
