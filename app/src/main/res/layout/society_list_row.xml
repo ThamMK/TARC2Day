@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageViewSociety"
         android:layout_alignParentLeft="true"
-        android:background="#6FFF"
+        android:background="#C5FFFFFF"
         android:orientation="vertical"
         android:paddingTop="2dp">
 

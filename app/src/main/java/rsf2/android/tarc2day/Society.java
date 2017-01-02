@@ -140,11 +140,11 @@ public class Society implements Parcelable{
 
     public static String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        if(bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
+        if(bitmap.getWidth()>1000 && bitmap.getHeight()>700){
             bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
         }
         else {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream);
         }
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
