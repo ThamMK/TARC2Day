@@ -150,12 +150,12 @@ public class PromotionCreate extends AppCompatActivity implements DatePickerDial
         switch(selectedDateTextView) {
             case R.id.textViewCreatePromoStartDate :
                 textViewDate = (TextView) findViewById(R.id.textViewCreatePromoStartDate);
-                textViewDate.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year );
+                textViewDate.setText("" + dayOfMonth + "/" + (monthOfYear+1)+ "/" + year );
 
                 break;
             case R.id.textViewCreatePromoEndDate :
                 textViewDate = (TextView) findViewById(R.id.textViewCreatePromoEndDate);
-                textViewDate.setText("" + dayOfMonth + "/" + monthOfYear + "/" + year );
+                textViewDate.setText("" + dayOfMonth + "/" + (monthOfYear+1) + "/" + year );
                 break;
 
             default:
