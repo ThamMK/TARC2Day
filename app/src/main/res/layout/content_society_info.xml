@@ -1,132 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent"
+    android:layout_marginTop="60dp">
 
-    <ScrollView
-        android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/content_society_info"
         android:layout_width="wrap_content"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="rsf2.android.tarc2day.SocietyInfo"
+        tools:showIn="@layout/activity_society_info">
 
-        <LinearLayout
-            android:id="@+id/content_society_info"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <ImageView
+            android:id="@+id/imageViewSocietyInfo"
+            android:layout_width="365dp"
+            android:layout_height="200dp" />
+
+        <TextView
+            android:id="@+id/textViewSocietyInfoName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="60dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context="rsf2.android.tarc2day.SocietyInfo"
-            tools:showIn="@layout/activity_society_info">
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/tarPink"
+            android:textSize="24dp" />
 
 
+        <TextView
+            android:id="@+id/textViewSocietyInfoPersonInCharge"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_drawermyaccount"
+            android:drawablePadding="10dp" />
 
+        <TextView
+            android:id="@+id/textViewSocietyInfoEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_contact_mail"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical" />
 
-            <ImageView
-                android:layout_width="365dp"
-                android:layout_height="200dp"
-                android:id="@+id/imageViewSocietyInfo"/>
-            <TextView
-                android:id="@+id/textViewSocietyInfoName"
-                android:textSize="24dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/textViewSocietyInfoContactNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_contact_phone"
+            android:drawablePadding="10dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/person"
-                    android:id="@+id/imageView"
-                    android:layout_weight="1" />
-                <TextView
-                    android:id="@+id/textViewSocietyInfoPersonInCharge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:layout_weight="19"/>
-            </LinearLayout>
+        <TextView
+            android:id="@+id/textViewSocietyInfoDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_draweraboutus"
+            android:drawablePadding="10dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+        <Button
+            android:layout_width="320sp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@color/tarPink"
+            android:onClick="registerSociety"
+            android:text="@string/action_join"
+            android:textColor="@color/white" />
 
-                <TextView
-                    android:id="@+id/textViewSocietyInfoDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/mail"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/textViewSocietyInfoEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:layout_weight="19"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/phone"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/textViewSocietyInfoContactNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="18"/>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_join"
-                    android:layout_weight="1"
-                    android:onClick="registerSociety" />
-            </LinearLayout>
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabLayoutSocietyInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.design.widget.TabLayout>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPagerSocietyInfo"
-                android:layout_width="match_parent"
-                android:layout_height="400dp">
-
-            </android.support.v4.view.ViewPager>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
