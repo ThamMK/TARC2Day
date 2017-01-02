@@ -146,8 +146,8 @@ public class ForgetPassword extends AppCompatActivity {
                 new Thread() {
                     @Override
                     public void run() {
-                        //sendMail.sendEmail("shiangyoung96@gmail.com", "Shiang Young", Arrays.asList(email), "TAR2DAY Reset Password", "TAR2DAY had set a new password for your account : " + password, null, null, null);
-                        //sms.sendSMS("+18703976174", "+6" + contactNumber, "TAR2DAY had set a new password for your account : " + password);
+                        sendMail.sendEmail("shiangyoung96@gmail.com", "Shiang Young", Arrays.asList(email), "TAR2DAY Reset Password", "TAR2DAY had set a new password for your account : " + password, null, null, null);
+                        sms.sendSMS("+18703976174", "+6" + contactNumber, "TAR2DAY had set a new password for your account : " + password);
                     }
                 }.start();
             }

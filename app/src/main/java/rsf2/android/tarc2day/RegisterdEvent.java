@@ -10,8 +10,8 @@ import android.os.Parcelable;
 public class RegisterdEvent extends Event{
     String qrCode;
 
-    public RegisterdEvent(String id, String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email, String location, String imageUrl, String qrCode) {
-        super(id, title, eventDescription, startDate, endDate, startTime, endTime, society, price, contactNo, email, location, imageUrl);
+    public RegisterdEvent(String id, String title, String eventDescription, String startDate, String endDate, String startTime, String endTime, String society, double price, String contactNo, String email, String locationId, String location, String imageUrl, String qrCode) {
+        super(id, title, eventDescription, startDate, endDate, startTime, endTime, society, price, contactNo, email, locationId ,location, imageUrl);
         this.qrCode = qrCode;
     }
 

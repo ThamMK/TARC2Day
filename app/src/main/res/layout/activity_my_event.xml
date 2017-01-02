@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="rsf2.android.tarc2day.MyEvent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Currently you do not\n have any registered event"
+        android:id="@+id/textShowNoRegisterEvent"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="20dp"
+        android:visibility="invisible"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

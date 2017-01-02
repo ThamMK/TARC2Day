@@ -54,6 +54,15 @@ public class ShowEventDetail extends AppCompatActivity {
         textQRLocation = (TextView) findViewById(R.id.textShowEventDetailLocation);
 
         textQRTitle.setText(event.getTitle());
+        textQRTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Event parseEvent = new Event(event.getId(),event.getTitle(),event.getEventDescription(),event.getStartDate(),event.getEndDate(),event.getStartTime(),event.getEndTime(),event.getSociety(),event.getPrice(),event.getContactNo(),event.getEmail(),event.getLocationId(),event.getLocation(),event.getImageUrl());
+                Intent eventDetailintent = new Intent(getApplication(),EventInfo.class);
+                eventDetailintent.putExtra("EVENT",parseEvent);
+                startActivity(eventDetailintent);
+            }
+        });
 
         SimpleDateFormat inputDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd-MM-yyyy");

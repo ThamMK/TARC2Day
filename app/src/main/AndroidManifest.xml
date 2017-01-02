@@ -42,70 +42,85 @@
         >>>>>>> origin/SocietyBranch
         <activity
             android:name=".EventList"
-            android:label="@string/title_activity_event_list"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity"/>
+            android:label="Event"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         =======
         <activity
             android:name=".SocietyList"
-            android:label="@string/title_activity_society_list"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity"/>
+            android:label="Society"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         >>>>>>> origin/SocietyBranch
         <activity
             android:name=".PromotionList"
-            android:label="@string/title_activity_promotion_list"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity"/>
+            android:label="Promotion"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EventInfo"
-            android:label="@string/title_activity_event_info"
+            android:label="Event Information"
             android:launchMode="singleTop"
             android:parentActivityName=".EventList"
             android:theme="@style/AppTheme.NoActionBar" />
         =======
         <activity
             android:name=".SocietyInfo"
-            android:label="@string/title_activity_society_info"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".SocietyList"/>
+            android:label="Society Information"
+            android:parentActivityName=".SocietyList"
+            android:theme="@style/AppTheme.NoActionBar" />
         >>>>>>> origin/SocietyBranch
         <activity
             android:name=".PromotionInfo"
-            android:label="@string/title_activity_promotion_info"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".PromotionList"/>
+            android:label="Promotion Information"
+            android:parentActivityName=".PromotionList"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PromotionCreate"
-            android:label="@string/title_activity_promotion_create"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity"/>
+            android:label="Create Promotion"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CreateEvent"
+            android:label="Create Event"
             android:launchMode="singleTop"
             android:noHistory="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".GenerateQR"
+            android:label="Registered Event"
             android:parentActivityName=".EventInfo" />
-        <activity android:name=".CreateSociety" />
+
+        <activity
+            android:name=".CreateSociety"
+            android:label="Create Society" />
         >>>>>>> origin/SocietyBranch
-        <activity android:name=".RegisterActivity" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="Sign Up" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".MyEvent"
-                  android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ShowEventDetail" />
+        <activity
+            android:name=".MyEvent"
+            android:label="My Event"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ShowEventDetail"
+            android:label="My Event Details" />
         <activity
             android:name=".ForgetPassword"
+            android:label="Forget Password"
             android:parentActivityName=".LoginActivity" />
-        <activity android:name=".MyAccount"
-                  android:parentActivityName=".MainActivity"
-                  />
-        <activity android:name=".AboutUs"
-                  android:parentActivityName=".MainActivity"
-                    android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MyAccount"
+            android:label="My Account"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".AboutUs"
+            android:label="About Us"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

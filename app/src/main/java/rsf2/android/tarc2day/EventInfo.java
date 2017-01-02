@@ -375,7 +375,6 @@ public class EventInfo extends AppCompatActivity implements EventDetailFragment.
         }
     }
 
-
     public int dpToPx(int dp) {
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
