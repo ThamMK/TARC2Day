@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/content_promotion_info"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="rsf2.android.tarc2day.PromotionInfo"
+    tools:showIn="@layout/activity_promotion_info"
+    >
+
+<LinearLayout
+    android:id="@+id/content_promotion_info"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="rsf2.android.tarc2day.PromotionInfo"
-    tools:showIn="@layout/activity_promotion_info">
+    >
 
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/promo3"
+        android:layout_marginTop="60dp"
         android:id="@+id/imageViewPromotionInfo"/>
 
     <TextView
@@ -84,7 +91,9 @@
         android:id="@+id/textViewPromotionLocation"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
         android:drawableLeft="@drawable/ic_location"
         android:drawablePadding="10dp"
         android:drawableTint="@color/tarPink"/>
 </LinearLayout>
+</ScrollView>

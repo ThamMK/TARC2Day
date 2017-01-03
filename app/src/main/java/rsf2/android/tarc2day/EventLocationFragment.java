@@ -129,6 +129,7 @@ public class EventLocationFragment extends Fragment {
                 CameraUpdate center=CameraUpdateFactory.newLatLng(location);
                 CameraUpdate zoom=CameraUpdateFactory.zoomTo(20);
                 map.moveCamera(center);
+
                 map.animateCamera(zoom);
 
             }

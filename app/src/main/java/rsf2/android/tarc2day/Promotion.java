@@ -221,7 +221,7 @@ public class Promotion implements Parcelable{
             bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
         }
         else {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, byteArrayOutputStream);
         }
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);

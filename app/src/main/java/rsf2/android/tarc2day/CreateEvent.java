@@ -442,8 +442,6 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         @Override
         protected void onPostExecute(String s) {
 
-            loading.dismiss();
-            Toast.makeText(getApplicationContext(),"Successfully created!",Toast.LENGTH_LONG).show();
 
             //Empty the text fields
             editTextEventName.setText("");
@@ -456,6 +454,10 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
             textViewEndTime.setText("");
             textViewStartTime.setText("");
             eventsImage.setImageResource(R.drawable.fileimage);
+
+            loading.dismiss();
+            Toast.makeText(getApplicationContext(),"Successfully created!",Toast.LENGTH_LONG).show();
+
         }
 
 
